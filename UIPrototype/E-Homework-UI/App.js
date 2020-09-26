@@ -23,6 +23,13 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {LoginScreen} from './Screens/LoginScreen';
 import {TeaHomeScreen} from './Screens/TeaHomeScreen';
 import {RegisterScreen} from './Screens/RegisterScreen';
+import {TeaCoursesScreen} from './Screens/TeaCoursesScreen';
+import {TeaCourseScreen} from './Screens/TeaCourseScreen';
+import {StuCoursesScreen} from './Screens/StuCoursesScreen';
+import {StuCourseScreen} from './Screens/StuCourseScreen';
+import {Search} from './Components/Search';
+import {TeaCourseNavigator} from './Navigators/TeaCourseNavigator';
+import {MainNavigator} from './Navigators/MainNavigator';
 
 const Stack = createStackNavigator();
 
@@ -30,9 +37,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        {/*放在第一个为默认界面，初始应只有login, register, home，其他的界面在home或者相应的界面路由*/}
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
-        <Stack.Screen name="Home" component={TeaHomeScreen} />
+        <Stack.Screen name="Home" component={MainNavigator} />
+
+        {/*<Stack.Screen name="Register" component={RegisterScreen} />*/}
       </Stack.Navigator>
     </NavigationContainer>
   );

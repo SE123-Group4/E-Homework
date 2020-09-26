@@ -1,9 +1,8 @@
 import React from 'react';
-import {Text} from 'react-native';
-import {Button} from 'react-native-elements';
+import {Text, Button} from 'native-base';
 
 export class Login extends React.Component {
   render() {
-    return <Button title="Solid Button" />;
+    return <Text>Login</Text>;
   }
 }

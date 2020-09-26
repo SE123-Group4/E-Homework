@@ -1,7 +1,8 @@
 //login screen
 
 import React from 'react';
-import {Button} from 'react-native-elements';
+import {Button} from 'native-base';
+import {Text} from 'react-native';
 
 export class LoginScreen extends React.Component {
   constructor() {
@@ -11,11 +12,11 @@ export class LoginScreen extends React.Component {
   render() {
     return (
       <Button
-        onPress={() => {
-          this.props.navigation.push('Home');
-        }}
-        title="Login"
-      />
+        full
+        success
+        onPress={() => this.props.navigation.navigate('Home')}>
+        <Text>success</Text>
+      </Button>
     );
   }
 }
