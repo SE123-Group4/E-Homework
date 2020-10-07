@@ -1,5 +1,13 @@
 import React from 'react';
-import {Card, Text} from 'react-native-elements';
+import {StyleSheet} from 'react-native';
+import {Card, Text, CardItem, Body} from 'native-base';
+
+const styles = StyleSheet.create({
+  name: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+});
 
 export class CourseIntroCard extends React.Component {
   constructor() {
@@ -17,11 +25,18 @@ export class CourseIntroCard extends React.Component {
   render() {
     return (
       <Card>
-        <Card.Title>{this.state.CourseDetails.name}</Card.Title>
-        <Card.Divider />
-        <Text>{this.state.CourseDetails.teacher}</Text>
-        <Text>{this.state.CourseDetails.introduction}</Text>
-        <Text>{this.state.CourseDetails.recommendBook}</Text>
+        <CardItem header>
+          <Body>
+            <Text style={styles.name}>{this.state.CourseDetails.name}</Text>
+            <Text note>{this.state.CourseDetails.teacher}</Text>
+          </Body>
+        </CardItem>
+        <CardItem>
+          <Text>{this.state.CourseDetails.introduction}</Text>
+        </CardItem>
+        <CardItem>
+          <Text>Recommend Books: {this.state.CourseDetails.recommendBook}</Text>
+        </CardItem>
       </Card>
     );
   }

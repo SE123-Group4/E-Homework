@@ -6,6 +6,7 @@ import {CourseFuncBtn} from '../Components/CourseFuncBtn';
 import {Search} from '../Components/Search';
 import {HomeworkList} from '../Components/HomeworkList';
 import {ScrollView} from 'react-native';
+import {Container} from 'native-base';
 
 export class TeaCourseScreen extends React.Component {
   constructor() {
@@ -16,10 +17,12 @@ export class TeaCourseScreen extends React.Component {
   render() {
     return (
       <ScrollView>
-        <CourseIntroCard />
-        <CourseFuncBtn />
-        <Search />
-        <HomeworkList />
+        <Container>
+          <CourseIntroCard />
+          <CourseFuncBtn />
+          <Search />
+          <HomeworkList />
+        </Container>
       </ScrollView>
     );
   }
