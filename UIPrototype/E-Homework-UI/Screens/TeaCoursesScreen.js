@@ -1,7 +1,7 @@
 //courses management screen (for teachers)
 
 import React from 'react';
-import {Text, Icon, Button} from 'native-base';
+import {Text, Icon, Button, Container} from 'native-base';
 import {ScrollView, StyleSheet} from 'react-native';
 import {CourseList} from '../Components/CourseList';
 
@@ -14,10 +14,12 @@ export class TeaCoursesScreen extends React.Component {
   render() {
     return (
       <ScrollView>
-        <Button style={styles.AddButton} full rounded info icon>
-          <Icon type="FontAwesome" name="plus" />
-        </Button>
-        <CourseList navigation={this.props.navigation} />
+        <Container>
+          <Button style={styles.AddButton} full rounded info icon>
+            <Icon type="FontAwesome" name="plus" />
+          </Button>
+          <CourseList navigation={this.props.navigation} />
+        </Container>
       </ScrollView>
     );
   }
