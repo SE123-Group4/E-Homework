@@ -11,7 +11,7 @@ export function RegisterScreen_1({navigation}) {
       <View style={styles.container}>
         <View style={styles.container_1}>
           <View style={styles.emailStyle}>
-            <Input placeholder="手机号/邮箱" />
+            <Input  placeholder="手机号/邮箱" />
           </View>
 
           <View style={styles.activationStyle}>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     // 侧轴的对齐方式
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(17,17,17,0.08)',
+    backgroundColor: 'rgba(244,249,249,0.27)',
   },
   container_1: {
     flex: 0.5,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   activationBtnStyle: {
     width: width * 0.3,
     height: 30,
-    backgroundColor: '#5a9683',
+    backgroundColor: 'rgba(76,114,150,0.46)',
     marginTop: 10,
     marginBottom: 20,
     borderRadius: 10,
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   registerBtnStyle: {
     width: width * 0.5,
     height: 50,
-    backgroundColor: '#009658',
+    backgroundColor: '#0093fe',
     marginTop: 60,
     marginBottom: 20,
     borderRadius: 10,

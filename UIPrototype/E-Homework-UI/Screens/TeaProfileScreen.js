@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card, ListItem, Button, Avatar, Text} from 'react-native-elements';
+import {Card, ListItem, Avatar, Text} from 'react-native-elements';
 import {View, Image, Dimensions, StyleSheet} from 'react-native';
 let {width, height} = Dimensions.get('window');
 import {Component} from 'react';
@@ -10,8 +10,10 @@ import {
   CardItem,
   Right,
   Left,
+  Button,
   Badge,
   Thumbnail,
+  Body,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -33,15 +35,56 @@ export function TeaProfileScreen({navigation}) {
         </Card>
         <Card>
           <CardItem style={styles.profileIconStyle}>
-            <Icon name="folder-open" size={30} color="#52C0FE" />
-            <Icon name="star" size={30} color="#52C0FE" />
-            <Icon name="pencil" size={30} color="#52C0FE" />
-            <Icon name="paper-plane" size={30} color="#52C0FE" />
+            <Button vertical transparent>
+              <Icon name="folder-open" size={30} color="#0073e9" />
+              <Text style={{color: 'rgba(138,138,138,0.78)', fontSize: 15}}>
+                文件
+              </Text>
+            </Button>
+            <Button vertical transparent>
+              <Icon name="star" size={30} color="#0073e9" />
+              <Text style={{color: 'rgba(138,138,138,0.78)', fontSize: 15}}>
+                收藏
+              </Text>
+            </Button>
+            <Button vertical transparent>
+              <Icon name="pencil" size={30} color="#0073e9" />
+              <Text style={{color: 'rgba(138,138,138,0.78)', fontSize: 15}}>
+                草稿
+              </Text>
+            </Button>
+            <Button vertical transparent>
+              <Icon name="paper-plane" size={30} color="#0073e9" />
+              <Text style={{color: 'rgba(138,138,138,0.78)', fontSize: 15}}>
+                常见问题
+              </Text>
+            </Button>
           </CardItem>
         </Card>
-
+        <Card>
+          <CardItem>
+            <Left>
+              <Text style={{color: '#0073e9', fontSize: 15}} h5>
+                版本更新
+              </Text>
+            </Left>
+            <Icon name="angle-right" size={20} color="#52C0FE" />
+          </CardItem>
+        </Card>
+        <Card>
+          <CardItem>
+            <Left>
+              <Text style={{color: '#0073e9', fontSize: 15}} h5>
+                联系我们
+              </Text>
+            </Left>
+            <Icon name="angle-right" size={20} color="#52C0FE" />
+          </CardItem>
+        </Card>
         <View style={styles.logoutStyle}>
-          <Button buttonStyle={styles.logoutBtnStyle} title="退出账号" />
+          <Button danger style={styles.logoutBtnStyle} full rounded>
+            <Text style={{color: '#f5f1f0', fontSize: 15}}>退出登录</Text>
+          </Button>
         </View>
       </Container>
     </View>
@@ -68,11 +111,10 @@ const styles = StyleSheet.create({
   },
   logoutBtnStyle: {
     width: width * 0.8,
-    height: 60,
-    backgroundColor: 'rgba(3,94,150,0.08)',
-    marginTop: 30,
-    marginBottom: 20,
-    borderRadius: 20,
+    height: 50,
+    left: 0,
+    top: 20,
+    color: 'rgba(17,17,17,0.08)',
   },
   profileIconStyle: {
     width: width * 0.85,

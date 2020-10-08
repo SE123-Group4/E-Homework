@@ -1,15 +1,11 @@
 //login screen
 
 import React, {useState} from 'react';
-import {Button, Input, Icon} from 'react-native-elements';
-import {
-  View,
-  TextInput,
-  StyleSheet,
-  Dimensions,
-  StatusBar,
-} from 'react-native';
-import {Item, Header, Text} from 'native-base';
+import {Button} from 'react-native-elements';
+import {View, TextInput, StyleSheet, Dimensions, StatusBar} from 'react-native';
+import {Item, Input, Header, Text} from 'native-base';
+import {getBackgroundColor} from 'react-native/Libraries/LogBox/UI/LogBoxStyle';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 let {width, height} = Dimensions.get('window');
 
@@ -20,16 +16,31 @@ export function LoginScreen({navigation}) {
       {/*  <Text>Login</Text>*/}
       {/*</Header>*/}
       <View style={styles.container}>
-        <Input placeholder="手机号/邮箱" />
-
-        <Input placeholder="密码" />
-
+        <Item
+          rounded
+          style={{
+            backgroundColor: '#CCCCCC',
+            height: 60,
+            width: width * 0.9,
+          }}>
+          <Input style={{textAlign: 'center'}} placeholder="手机号/邮箱" />
+        </Item>
+        <Item
+          rounded
+          style={{
+            backgroundColor: '#CCCCCC',
+            height: 60,
+            width: width * 0.9,
+            marginTop: 30,
+          }}>
+          <Input style={{textAlign: 'center'}} placeholder="密码" />
+        </Item>
         <Button
           buttonStyle={styles.loginBtnStyle_1}
           onPress={() => {
             navigation.navigate('Home');
           }}
-          title="登录"
+          icon={<Icon name="share" size={30} color="white" />}
         />
         <View style={styles.settingStyle}>
           <Button buttonStyle={styles.loginBtnStyle_2} title="忘记密码" />
@@ -38,7 +49,7 @@ export function LoginScreen({navigation}) {
             onPress={() => {
               navigation.navigate('Register_1');
             }}
-            title="注册"
+            title="用户注册"
           />
         </View>
       </View>
@@ -51,7 +62,7 @@ const styles = StyleSheet.create({
     // 侧轴的对齐方式
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(17,17,17,0.08)',
+    backgroundColor: 'rgba(244,249,249,0.27)',
   },
   textInputStyle: {
     width: width * 0.8,
@@ -61,12 +72,12 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   loginBtnStyle_1: {
-    width: width * 0.9,
-    height: 50,
-    backgroundColor: '#009658',
+    width: width * 0.2,
+    height: 80,
+    backgroundColor: '#0093fe',
     marginTop: 60,
     marginBottom: 20,
-    borderRadius: 10,
+    borderRadius: 100,
   },
   loginBtnStyle_2: {
     width: width * 0.4,
@@ -78,10 +89,12 @@ const styles = StyleSheet.create({
   },
   settingStyle: {
     width: width * 0.85,
-    height: 40,
+    height: 10,
+    marginTop: 80,
+    marginBottom: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   titleStyle: {
     fontSize: 40,
