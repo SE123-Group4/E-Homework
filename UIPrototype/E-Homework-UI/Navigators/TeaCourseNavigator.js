@@ -13,8 +13,16 @@ export class TeaCourseNavigator extends React.Component {
   render() {
     return (
       <Stack.Navigator initialRouteName="TeaCourses">
-        <Stack.Screen name="TeaCourses" component={TeaCoursesScreen} />
-        <Stack.Screen name="TeaCourse" component={TeaCourseScreen} />
+        <Stack.Screen
+          name="TeaCourses"
+          component={TeaCoursesScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="TeaCourse"
+          component={TeaCourseScreen}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     );
   }
