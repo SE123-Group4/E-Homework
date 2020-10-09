@@ -1,13 +1,12 @@
 //home screen (for teacher)
 
 import React from 'react';
-import {Container, Text, Icon, Header, Content} from 'native-base';
+import {Container, Text, Left,Right,Content,Card,CardItem,Button,Col, Row, Grid,Icon} from 'native-base';
 import {createStackNavigator} from '@react-navigation/stack';
-
-import {TeaCoursesScreen} from './TeaCoursesScreen';
-import {TeaProfileScreen} from './TeaProfileScreen';
+import { Avatar} from 'react-native-elements';
 import {ScrollView, View} from 'react-native';
-import {HomeworkList} from '../Components/HomeworkList';
+import {SearchFilter} from '../Components/SearchFilter';
+import {TeaHomeworkList} from '../Components/TeaHomeworkList';
 
 const Stack = createStackNavigator();
 
@@ -16,14 +15,41 @@ export class TeaHomeScreen extends React.Component {
     super();
     this.state = {
       selectedTab: 'Home',
+      month:new Date().getMonth(),
+      date:new Date().getDate(),
+      name:'五条悟',
+      class:'大三(4)班'
     };
   }
-
   render() {
+    const {month}=this.state;
+    const {date}=this.state;
     return (
       <ScrollView>
         <Container>
-          <Text>Home</Text>
+          <Content>
+            <Card style={{marginLeft:10,marginRight:10,marginTop:10}}>
+              <CardItem style={{backgroundColor:'#0093fe',height:120}}>
+                <Left>
+                  <Avatar
+                      size="large"
+                      rounded
+                      icon={{name: 'plus', color: '#0093fe', type: 'font-awesome'}}
+                      overlayContainerStyle={{backgroundColor: 'white'}}
+                      onPress={() => console.log("Works!")}
+                      activeOpacity={0.7}
+                      containerStyle={{marginTop: 6,marginLeft:25}}
+                  />
+                </Left>
+                <Right>
+                  <Text style={{fontSize:30,color:'white',fontWeight:"bold"}}>{this.state.name}</Text>
+                  <Text style={{fontSize:20,color:'white'}}>{this.state.class}</Text>
+                </Right>
+              </CardItem>
+            </Card>
+            <SearchFilter/>
+            <TeaHomeworkList/>
+          </Content>
         </Container>
       </ScrollView>
     );

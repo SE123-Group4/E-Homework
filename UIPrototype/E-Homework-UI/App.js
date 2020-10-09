@@ -30,6 +30,7 @@ import {StuCourseScreen} from './Screens/StuCourseScreen';
 import {Search} from './Components/Search';
 import {TeaCourseNavigator} from './Navigators/TeaCourseNavigator';
 import {MainNavigator} from './Navigators/MainNavigator';
+import {AssignHwScreen} from './Screens/AssignHwScreen';
 
 const Stack = createStackNavigator();
 

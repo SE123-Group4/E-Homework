@@ -1,8 +1,7 @@
 //the component of homework list which can be used by home screen and course screen
 
 import React from 'react';
-import {Text} from 'react-native';
-import {Card, CardItem, Container, Left, Right, Icon} from 'native-base';
+import {Card, CardItem, Container, Left, Right, Icon,Button,Text} from 'native-base';
 
 export class HomeworkList extends React.Component {
   constructor() {
@@ -24,17 +23,22 @@ export class HomeworkList extends React.Component {
         <Card>
           <CardItem header>
             <Left>
-              <Text>{item.title}</Text>
+              <Icon name='book' style={{size:20,color:'#1FA0FC'}}/>
+              <Text style={{fontSize:20,fontWeight:"bold"}}> {item.title}</Text>
             </Left>
             <Right>
-              <Text>发布时间：{item.post}</Text>
+              <Text style={{color:'gray'}}>发布时间：{item.post}</Text>
             </Right>
           </CardItem>
           <CardItem>
-            <Left>
-              <Text>已提交</Text>
-              <Text>{item.state}</Text>
+            <Left style={{marginLeft:8}}>
+              <Button rounded warning>
+                <Text>未完成</Text>
+              </Button>
             </Left>
+            <Right>
+                <Text style={{color:'#1FA0FC'}}>截止时间：{item.ddl}</Text>
+            </Right>
           </CardItem>
         </Card>
       );
