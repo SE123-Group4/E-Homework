@@ -26,7 +26,7 @@ export class MainNavigator extends React.Component {
       <TabNavigator>
         <TabNavigatorItem
           renderIcon={() => <Icon type="MaterialIcons" name="home" />}
-          title="Home"
+          title="主页"
           selected={this.state.selectedTab === 'Home'}
           onPress={() => {
             this.setState({selectedTab: 'Home'});
@@ -35,7 +35,7 @@ export class MainNavigator extends React.Component {
         </TabNavigatorItem>
         <TabNavigatorItem
           renderIcon={() => <Icon type="MaterialIcons" name="bookmarks" />}
-          title="Courses"
+          title="课程"
           selected={this.state.selectedTab === 'Courses'}
           onPress={() => {
             this.setState({selectedTab: 'Courses'});
@@ -44,7 +44,7 @@ export class MainNavigator extends React.Component {
         </TabNavigatorItem>
         <TabNavigatorItem
           renderIcon={() => <Icon type="MaterialIcons" name="account-circle" />}
-          title="Profile"
+          title="我的"
           selected={this.state.selectedTab === 'Profile'}
           onPress={() => {
             this.setState({selectedTab: 'Profile'});

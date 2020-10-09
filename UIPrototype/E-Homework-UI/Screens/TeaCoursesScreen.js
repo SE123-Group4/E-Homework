@@ -15,7 +15,7 @@ export class TeaCoursesScreen extends React.Component {
     return (
       <ScrollView>
         <Container>
-          <Button style={styles.AddButton} full rounded info icon>
+          <Button style={styles.AddButton} full rounded>
             <Icon type="FontAwesome" name="plus" />
           </Button>
           <CourseList navigation={this.props.navigation} />
@@ -31,5 +31,6 @@ const styles = StyleSheet.create({
     height: 60,
     left: 13,
     top: 10,
+    backgroundColor: '#0093fe',
   },
 });

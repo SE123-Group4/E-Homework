@@ -12,6 +12,7 @@ import {
   Content,
   Icon,
   Button,
+  Segment,
 } from 'native-base';
 import {ButtonGroup} from 'react-native-elements';
 //import Divide from 'react-native-divide';
@@ -23,28 +24,28 @@ export class CourseList extends React.Component {
       selectedIndex: 0,
       courses: [
         {
-          name: 'course 1',
+          name: '课程 1',
           id: 1,
           introduction: '这是简介1',
           time: '2020-9-26',
           students: 100,
         },
         {
-          name: 'course 2',
+          name: '课程 2',
           id: 2,
           introduction: '这是简介2',
           time: '2020-9-26',
           students: 100,
         },
         {
-          name: 'course 3',
+          name: '课程 3',
           id: 3,
           introduction: '这是简介3',
           time: '2020-9-26',
           students: 100,
         },
         {
-          name: 'course 4',
+          name: '课程 4',
           id: 4,
           introduction: '这是简介4',
           time: '2020-9-26',
@@ -84,7 +85,7 @@ export class CourseList extends React.Component {
               <Text>{item.time}</Text>
             </Left>
             <Right>
-              <Icon type="FontAwesome" name="user-o" />
+              <Icon name="user-o" />
               <Text>{item.students}</Text>
             </Right>
           </CardItem>
@@ -103,6 +104,7 @@ export class CourseList extends React.Component {
         onPress={this.updateIndex}
         selectedIndex={selectedIndex}
         containerStyle={styles.ButtonGroup}
+        selectedButtonStyle={styles.button}
       />
     );
   };
@@ -121,6 +123,9 @@ const styles = StyleSheet.create({
   ButtonGroup: {
     height: 25,
     top: 20,
+  },
+  button: {
+    backgroundColor: '#0093fe',
   },
   CardList: {
     top: 20,

@@ -46,8 +46,11 @@ export default function App() {
           component={LoginScreen}
           options={{headerShown: false}}
         />
-        <Stack.Screen name="Home" component={MainNavigator} />
-
+        <Stack.Screen
+          name="Home"
+          component={MainNavigator}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="Register_1"
           component={RegisterScreen_1}
