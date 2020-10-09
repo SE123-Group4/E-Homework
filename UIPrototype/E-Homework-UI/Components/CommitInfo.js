@@ -40,22 +40,28 @@ export class CommitInfo extends React.Component {
         <CardItem>
           <Button
             icon
-            bordered
-            style={styles.button}
+            transparent
+            vertical
+            style={styles.Button}
             onPress={() => {
               console.log('留言');
             }}>
-            <Icon type="FontAwesome" name="comment" />
+            <Icon
+              type="FontAwesome"
+              name="comment"
+              style={{color: '#0093fe'}}
+            />
             <Text>留言</Text>
           </Button>
           <Button
             icon
-            bordered
-            style={styles.button}
+            transparent
+            vertical
+            style={styles.Button}
             onPress={() => {
-              console.log('修改答案');
+              console.log('修改');
             }}>
-            <Icon type="FontAwesome" name="adjust" />
+            <Icon type="FontAwesome" name="adjust" style={{color: '#0093fe'}} />
             <Text>修改</Text>
           </Button>
         </CardItem>
@@ -66,32 +72,39 @@ export class CommitInfo extends React.Component {
         <CardItem>
           <Button
             icon
-            bordered
-            style={styles.button}
+            transparent
+            vertical
+            style={styles.Button}
             onPress={() => {
               console.log('留言');
             }}>
-            <Icon type="FontAwesome" name="comment" />
+            <Icon
+              type="FontAwesome"
+              name="comment"
+              style={{color: '#0093fe'}}
+            />
             <Text>留言</Text>
           </Button>
           <Button
             icon
-            bordered
-            style={styles.button}
+            transparent
+            vertical
+            style={styles.Button}
             onPress={() => {
               console.log('评分');
             }}>
-            <Icon type="FontAwesome" name="check" />
+            <Icon type="FontAwesome" name="check" style={{color: '#0093fe'}} />
             <Text>评分</Text>
           </Button>
           <Button
             icon
-            bordered
-            style={styles.button}
+            transparent
+            vertical
+            style={styles.Button}
             onPress={() => {
               console.log('批改');
             }}>
-            <Icon type="FontAwesome" name="adjust" />
+            <Icon type="FontAwesome" name="adjust" style={{color: '#0093fe'}} />
             <Text>批改</Text>
           </Button>
         </CardItem>
@@ -108,7 +121,7 @@ export class CommitInfo extends React.Component {
             <Text style={styles.FootNoteGray}>于{this.state.time}提交</Text>
           </Body>
           <Right>
-            <Text style={styles.Header}>{this.state.grade}</Text>
+            <Text style={styles.Grade}>{this.state.grade}</Text>
           </Right>
         </CardItem>
         <CardItem>
@@ -122,7 +135,7 @@ export class CommitInfo extends React.Component {
             console.log('答题卡');
           }}>
           <Left>
-            <Icon type="FontAwesome" name="book" />
+            <Icon type="FontAwesome" name="book" style={{color: '#0093fe'}} />
             <Body>
               <Text style={styles.Body}>答题卡</Text>
               <Text style={styles.FootNoteGray}>点击查看答题结果</Text>
@@ -143,7 +156,7 @@ export class CommitInfo extends React.Component {
 const styles = StyleSheet.create({
   Header: {
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 18,
   },
   Body: {
     fontWeight: 'normal',
@@ -154,7 +167,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'gray',
   },
-  button: {
-    marginLeft: 15,
+  Button: {
+    marginRight: 15,
+  },
+  Grade: {
+    fontWeight: 'bold',
+    fontSize: 24,
+    color: '#0093fe',
   },
 });
