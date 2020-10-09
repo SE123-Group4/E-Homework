@@ -65,6 +65,7 @@ export class CourseList extends React.Component {
       return (
         <Card>
           <CardItem header>
+            <Icon type="FontAwesome" name="bookmark" style={{color:'#0093fe'}}/>
             <Text style={styles.CardHeader}>{item.name}</Text>
           </CardItem>
           <CardItem
@@ -85,7 +86,7 @@ export class CourseList extends React.Component {
               <Text>{item.time}</Text>
             </Left>
             <Right>
-              <Icon name="user-o" />
+              <Icon type="FontAwesome" name="user-o" />
               <Text>{item.students}</Text>
             </Right>
           </CardItem>

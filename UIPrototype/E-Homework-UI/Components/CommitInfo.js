@@ -51,7 +51,7 @@ export class CommitInfo extends React.Component {
               name="comment"
               style={{color: '#0093fe'}}
             />
-            <Text>留言</Text>
+            <Text style={{color: 'gray'}}>留言</Text>
           </Button>
           <Button
             icon
@@ -62,7 +62,7 @@ export class CommitInfo extends React.Component {
               console.log('修改');
             }}>
             <Icon type="FontAwesome" name="adjust" style={{color: '#0093fe'}} />
-            <Text>修改</Text>
+            <Text style={{color: 'gray'}}>修改</Text>
           </Button>
         </CardItem>
       );
@@ -83,7 +83,7 @@ export class CommitInfo extends React.Component {
               name="comment"
               style={{color: '#0093fe'}}
             />
-            <Text>留言</Text>
+            <Text style={{color: 'gray'}}>留言</Text>
           </Button>
           <Button
             icon
@@ -94,7 +94,7 @@ export class CommitInfo extends React.Component {
               console.log('评分');
             }}>
             <Icon type="FontAwesome" name="check" style={{color: '#0093fe'}} />
-            <Text>评分</Text>
+            <Text style={{color: 'gray'}}>评分</Text>
           </Button>
           <Button
             icon
@@ -105,7 +105,7 @@ export class CommitInfo extends React.Component {
               console.log('批改');
             }}>
             <Icon type="FontAwesome" name="adjust" style={{color: '#0093fe'}} />
-            <Text>批改</Text>
+            <Text style={{color: 'gray'}}>批改</Text>
           </Button>
         </CardItem>
       );

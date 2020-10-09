@@ -4,9 +4,9 @@ import React from 'react';
 import {CourseIntroCard} from '../Components/CourseIntroCard';
 import {CourseFuncBtn} from '../Components/CourseFuncBtn';
 import {Search} from '../Components/Search';
-import {HomeworkList} from '../Components/HomeworkList';
 import {ScrollView} from 'react-native';
 import {Container} from 'native-base';
+import {TeaHomeworkList} from '../Components/TeaHomeworkList';
 
 export class TeaCourseScreen extends React.Component {
   constructor() {
@@ -21,7 +21,7 @@ export class TeaCourseScreen extends React.Component {
           <CourseIntroCard />
           <CourseFuncBtn />
           <Search />
-          <HomeworkList />
+          <TeaHomeworkList />
         </Container>
       </ScrollView>
     );

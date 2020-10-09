@@ -33,6 +33,9 @@ import {TeaCourseNavigator} from './Navigators/TeaCourseNavigator';
 import {TeaHWScreen} from './Screens/TeaHWScreen';
 import {StuHWScreen} from './Screens/StuHWScreen';
 import {MainNavigator} from './Navigators/MainNavigator';
+import {AssignHwScreen} from './Screens/AssignHwScreen';
+import {StuHomeScreen} from './Screens/StuHomeScreen';
+import {StuProfileScreen} from './Screens/StuProfileScreen';
 
 const Stack = createStackNavigator();
 
@@ -60,6 +63,11 @@ export default function App() {
           name="Register_2"
           component={RegisterScreen_2}
           options={{headerShown: false}}
+        />
+        <Stack.Screen
+            name="AssignHw"
+            component={AssignHwScreen}
+            options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>
