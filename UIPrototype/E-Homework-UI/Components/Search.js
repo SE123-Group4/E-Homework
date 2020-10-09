@@ -1,18 +1,29 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {Container, Header, Icon, Item, Button, Text, Input} from 'native-base';
+import {SearchBar} from 'react-native-elements';
 
 export class Search extends React.Component {
   constructor() {
     super();
+    this.state = {
+      search: '',
+    };
   }
-
+  updateSearch = (search) => {
+    this.setState({search:search});
+  };
   render() {
+    const { search } = this.state;
     return (
-      <Item rounded>
-        <Icon type="FontAwesome" name="search" style={styles.icon} />
-        <Input placeholder="搜索" />
-      </Item>
+        <SearchBar
+            placeholder="搜索"
+            onChangeText={this.updateSearch}
+            value={search}
+            lightTheme
+            containerStyle={{backgroundColor:'white'}}
+            round
+        />
     );
   }
 }

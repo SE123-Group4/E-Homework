@@ -27,7 +27,7 @@ export class StuHomeScreen extends React.Component {
             <ScrollView>
                 <Container>
                     <Content>
-                        <Card style={{marginLeft:16,marginRight:16,marginTop:16}}>
+                        <Card style={{marginLeft:10,marginRight:10,marginTop:8}}>
                             <CardItem style={{backgroundColor:'#1FA0FC',height:120}}>
                                 <Left>
                                     <Button iconLeft rounded style={{backgroundColor:'white'}}>

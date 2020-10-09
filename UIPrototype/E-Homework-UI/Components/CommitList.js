@@ -1,7 +1,7 @@
 import React from 'react';
 import {CommitInfo} from '../Components/CommitInfo';
 import {Search} from '../Components/Search';
-import {ScrollView, View, StyleSheet, Text} from 'react-native';
+import {ScrollView, View, StyleSheet} from 'react-native';
 import {
   Card,
   CardItem,
@@ -11,6 +11,7 @@ import {
   Right,
   Tab,
   Tabs,
+  Text
 } from 'native-base';
 
 export class CommitList extends React.Component {
@@ -76,8 +77,11 @@ export class CommitList extends React.Component {
           <Card>
             <View>{this.renderUnCommit()}</View>
           </Card>
-          <Button style={styles.Button}>
-            <Text style={styles.ButtonText}>一键提醒</Text>
+          <Button iconLeft rounded transparent>
+            <Icon type="FontAwesome"
+                  name="phone"
+                  style={{color: '#0093fe'}}/>
+            <Text style={{fontSize: 18,color:'black'}}>一键提醒</Text>
           </Button>
         </Tab>
       </Tabs>

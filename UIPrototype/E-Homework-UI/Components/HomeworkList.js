@@ -8,13 +8,38 @@ export class HomeworkList extends React.Component {
     super();
     this.state = {
       homework: [
-        {title: '作业 1', post: '2020-09-28', ddl: '2020-10-10', state: 0},
-        {title: '作业 2', post: '2020-09-28', ddl: '2020-10-10', state: 0},
+        {title: '作业 1', post: '2020-09-28', ddl: '2020-10-10', state: 1},
+        {title: '作业 2', post: '2020-09-28', ddl: '2020-10-10', state: 2},
         {title: '作业 3', post: '2020-09-28', ddl: '2020-10-10', state: 0},
         {title: '作业 4', post: '2020-09-28', ddl: '2020-10-10', state: 0},
         {title: '作业 5', post: '2020-09-28', ddl: '2020-10-10', state: 0},
       ],
     };
+  }
+
+
+  getState=(state)=>{
+    if (state===0){
+      return(
+          <Button rounded light>
+            <Text style={{color:'white'}}>未提交</Text>
+          </Button>
+      )
+    }
+    if (state===1){
+      return(
+          <Button rounded success>
+            <Text>已提交</Text>
+          </Button>
+      )
+    }
+    if (state===2){
+      return(
+          <Button rounded warning>
+            <Text>补交</Text>
+          </Button>
+      )
+    }
   }
 
   renderHomework = () => {
@@ -32,9 +57,7 @@ export class HomeworkList extends React.Component {
           </CardItem>
           <CardItem>
             <Left style={{marginLeft:8}}>
-              <Button rounded warning>
-                <Text>未完成</Text>
-              </Button>
+              {this.getState(item.state)}
             </Left>
             <Right>
                 <Text style={{color:'#1FA0FC'}}>截止时间：{item.ddl}</Text>
@@ -44,7 +67,6 @@ export class HomeworkList extends React.Component {
       );
     });
   };
-
   render() {
     return (
       <Container>

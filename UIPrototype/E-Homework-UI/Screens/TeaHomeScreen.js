@@ -15,15 +15,14 @@ export class TeaHomeScreen extends React.Component {
     super();
     this.state = {
       selectedTab: 'Home',
-      month:new Date().getMonth(),
-      date:new Date().getDate(),
       name:'五条悟',
       class:'大三(4)班'
     };
   }
+  _onPressButton = ()=> {
+    this.props.navigation.navigate('AssignHw');
+  };
   render() {
-    const {month}=this.state;
-    const {date}=this.state;
     return (
       <ScrollView>
         <Container>
@@ -36,7 +35,8 @@ export class TeaHomeScreen extends React.Component {
                       rounded
                       icon={{name: 'plus', color: '#0093fe', type: 'font-awesome'}}
                       overlayContainerStyle={{backgroundColor: 'white'}}
-                      onPress={() => console.log("Works!")}
+                      onPress={() => {this._onPressButton()
+                      }}
                       activeOpacity={0.7}
                       containerStyle={{marginTop: 6,marginLeft:25}}
                   />

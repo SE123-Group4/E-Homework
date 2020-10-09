@@ -36,26 +36,26 @@ export function TeaProfileScreen({navigation}) {
         <Card>
           <CardItem style={styles.profileIconStyle}>
             <Button vertical transparent>
-              <Icon name="folder-open" size={30} color="#0073e9" />
-              <Text style={{color: 'rgba(138,138,138,0.78)', fontSize: 15}}>
+              <Icon name="folder-open" size={30} style={{color:'#0093fe'}} />
+              <Text style={{color: 'gray', fontSize: 15}}>
                 文件
               </Text>
             </Button>
             <Button vertical transparent>
-              <Icon name="star" size={30} color="#0073e9" />
-              <Text style={{color: 'rgba(138,138,138,0.78)', fontSize: 15}}>
+              <Icon name="star" size={30} style={{color:'#0093fe'}} />
+              <Text style={{color: 'gray', fontSize: 15}}>
                 收藏
               </Text>
             </Button>
             <Button vertical transparent>
-              <Icon name="pencil" size={30} color="#0073e9" />
-              <Text style={{color: 'rgba(138,138,138,0.78)', fontSize: 15}}>
+              <Icon name="pencil" size={30} style={{color:'#0093fe'}} />
+              <Text style={{color: 'gray', fontSize: 15}}>
                 草稿
               </Text>
             </Button>
             <Button vertical transparent>
-              <Icon name="paper-plane" size={30} color="#0073e9" />
-              <Text style={{color: 'rgba(138,138,138,0.78)', fontSize: 15}}>
+              <Icon name="paper-plane" size={30} style={{color:'#0093fe'}}/>
+              <Text style={{color: 'gray', fontSize: 15}}>
                 常见问题
               </Text>
             </Button>

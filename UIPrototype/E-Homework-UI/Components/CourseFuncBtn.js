@@ -24,7 +24,7 @@ export class CourseFuncBtn extends React.Component {
             }}>
             <Icon
               type="FontAwesome"
-              name="folder-o"
+              name="folder"
               style={styles.buttonIcon}
             />
             <Text style={styles.text}>文件管理</Text>

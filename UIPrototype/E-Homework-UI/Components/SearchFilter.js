@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 import {Left,Right, Col, Icon, Grid,Picker,Radio,Form,DatePicker,Text} from 'native-base';
 import {SearchBar,Overlay} from 'react-native-elements';
 import {View} from 'react-native';
+import {Search} from './Search';
 
 export class SearchFilter extends React.Component {
     constructor() {
         super();
         this.state = {
-            search: '',
             visible:false,
             selected1: undefined,
             selected2: undefined,
@@ -15,9 +15,6 @@ export class SearchFilter extends React.Component {
         };
         this.setDate = this.setDate.bind(this);
     }
-    updateSearch = (search) => {
-        this.setState({search:search});
-    };
     onValueChange1(value: string) {
         this.setState({
             selected1: value
@@ -32,19 +29,9 @@ export class SearchFilter extends React.Component {
         this.setState({ chosenDate: newDate });
     };
     render() {
-        const { search } = this.state;
-
-
         return (
             <View>
-                <SearchBar
-                        placeholder="Search..."
-                        onChangeText={this.updateSearch}
-                        value={search}
-                        lightTheme
-                        containerStyle={{backgroundColor:'white'}}
-                        round
-                />
+                <Search/>
                 <Grid>
                     <Col>
                         <Form>
@@ -89,7 +76,7 @@ export class SearchFilter extends React.Component {
                         modalTransparent={false}
                         animationType={"fade"}
                         androidMode={"default"}
-                        placeHolderText="Select date"
+                        placeHolderText="选择日期"
                         textStyle={{ color: "#0093fe" }}
                         placeHolderTextStyle={{ color: "#d3d3d3" }}
                         onDateChange={this.setDate}
