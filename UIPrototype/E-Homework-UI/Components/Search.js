@@ -1,5 +1,5 @@
 import React from 'react';
-import {SearchBar} from 'react-native-elements';
+import {StyleSheet} from 'react-native';
 import {Container, Header, Icon, Item, Button, Text, Input} from 'native-base';
 
 export class Search extends React.Component {
@@ -9,12 +9,16 @@ export class Search extends React.Component {
 
   render() {
     return (
-
-        <Item>
-          <Icon type="FontAwesome" name="search" />
-          <Input placeholder="Search" />
-        </Item>
-
+      <Item rounded>
+        <Icon type="FontAwesome" name="search" style={styles.icon} />
+        <Input placeholder="搜索" />
+      </Item>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  icon: {
+    color: '#0093fe',
+  },
+});

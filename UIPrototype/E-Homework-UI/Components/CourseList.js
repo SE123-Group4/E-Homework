@@ -12,6 +12,7 @@ import {
   Content,
   Icon,
   Button,
+    Segment
 } from 'native-base';
 import {ButtonGroup} from 'react-native-elements';
 //import Divide from 'react-native-divide';
@@ -102,7 +103,7 @@ export class CourseList extends React.Component {
         buttons={buttons}
         onPress={this.updateIndex}
         selectedIndex={selectedIndex}
-        containerStyle={styles.ButtonGroup}
+        containerStyle={styles.ButtonGroup} selectedButtonStyle={styles.button}
       />
     );
   };
@@ -121,6 +122,9 @@ const styles = StyleSheet.create({
   ButtonGroup: {
     height: 25,
     top: 20,
+  },
+  button: {
+    backgroundColor: '#0093fe',
   },
   CardList: {
     top: 20,

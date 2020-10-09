@@ -17,7 +17,7 @@ export class CourseIntroCard extends React.Component {
         name: '课程 1',
         teacher: '老师 1',
         introduction: '这是课程 1 的简介。',
-        recommendBook: 'csapp',
+        recommendBook: '参考书籍 1',
       },
     };
   }
@@ -35,7 +35,7 @@ export class CourseIntroCard extends React.Component {
           <Text>{this.state.CourseDetails.introduction}</Text>
         </CardItem>
         <CardItem>
-          <Text>Recommend Books: {this.state.CourseDetails.recommendBook}</Text>
+          <Text>参考书籍: {this.state.CourseDetails.recommendBook}</Text>
         </CardItem>
       </Card>
     );
