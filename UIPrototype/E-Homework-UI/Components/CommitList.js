@@ -42,11 +42,15 @@ export class CommitList extends React.Component {
           <Right>
             <Button
               icon
-              bordered
+              transparent
               onPress={() => {
                 console.log('打电话');
               }}>
-              <Icon type="FontAwesome" name="phone" />
+              <Icon
+                type="FontAwesome"
+                name="phone"
+                style={{color: '#0093fe'}}
+              />
             </Button>
           </Right>
         </CardItem>
@@ -57,13 +61,23 @@ export class CommitList extends React.Component {
   render() {
     return (
       <Tabs>
-        <Tab heading="已提交">{this.renderCommit()}</Tab>
-        <Tab heading="未提交">
+        <Tab
+          tabStyle={{backgroundColor: '#0093fe'}}
+          textStyle={{color: 'white'}}
+          activeTabStyle={{backgroundColor: '#0093fe'}}
+          heading="已提交">
+          {this.renderCommit()}
+        </Tab>
+        <Tab
+          tabStyle={{backgroundColor: '#0093fe'}}
+          textStyle={{color: 'white'}}
+          activeTabStyle={{backgroundColor: '#0093fe'}}
+          heading="未提交">
           <Card>
             <View>{this.renderUnCommit()}</View>
           </Card>
-          <Button bordered block>
-            <Text style={styles.Button}>一键提醒</Text>
+          <Button style={styles.Button}>
+            <Text style={styles.ButtonText}>一键提醒</Text>
           </Button>
         </Tab>
       </Tabs>
@@ -74,10 +88,15 @@ export class CommitList extends React.Component {
 const styles = StyleSheet.create({
   Header: {
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 18,
   },
   Button: {
+    backgroundColor: '#0093fe',
+    width: '40%',
+  },
+  ButtonText: {
+    color: 'white',
     fontWeight: 'normal',
-    fontSize: 20,
+    fontSize: 18,
   },
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text} from 'react-native';
-import {Card, CardItem, Left, Right, Body, Icon} from 'native-base';
+import {Card, CardItem, Left, Right, Body, Icon, Button} from 'native-base';
 
 export class HomeworkInfo extends React.Component {
   constructor(props) {
@@ -41,7 +41,7 @@ export class HomeworkInfo extends React.Component {
             console.log('答题卡');
           }}>
           <Left>
-            <Icon type="FontAwesome" name="book" />
+            <Icon type="FontAwesome" name="book" style={{color: '#0093fe'}} />
             <Body>
               <Text style={styles.Body}>答题卡</Text>
               <Text style={styles.FootNoteGray}>点击查看答题结果</Text>
@@ -60,7 +60,9 @@ export class HomeworkInfo extends React.Component {
             <Text style={styles.Body}>{this.state.comment}</Text>
           </Body>
           <Right>
-            <Text style={styles.FootNoteGray}>整体点评</Text>
+            <Button bordered small info>
+              <Text style={styles.FootNoteBlue}>整体点评</Text>
+            </Button>
           </Right>
         </CardItem>
       </Card>
@@ -71,11 +73,11 @@ export class HomeworkInfo extends React.Component {
 const styles = StyleSheet.create({
   Header: {
     fontWeight: 'bold',
-    fontSize: 24,
+    fontSize: 22,
   },
   SmallHeader: {
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 18,
   },
   Body: {
     fontWeight: 'normal',
@@ -90,5 +92,10 @@ const styles = StyleSheet.create({
     fontWeight: '100',
     fontSize: 15,
     color: 'red',
+  },
+  FootNoteBlue: {
+    fontWeight: '100',
+    fontSize: 17,
+    color: '#0093fe',
   },
 });
