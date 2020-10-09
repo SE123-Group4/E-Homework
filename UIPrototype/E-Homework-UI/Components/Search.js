@@ -9,16 +9,12 @@ export class Search extends React.Component {
 
   render() {
     return (
-      <Header searchBar>
+
         <Item>
-          <Icon name="ios-search" />
+          <Icon type="FontAwesome" name="search" />
           <Input placeholder="Search" />
-          <Icon name="ios-people" />
         </Item>
-        <Button transparent>
-          <Text>Search</Text>
-        </Button>
-      </Header>
+
     );
   }
 }

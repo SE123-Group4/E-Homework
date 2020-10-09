@@ -6,7 +6,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import {TeaCoursesScreen} from './TeaCoursesScreen';
 import {TeaProfileScreen} from './TeaProfileScreen';
-import {View} from 'react-native';
+import {ScrollView, View} from 'react-native';
+import {HomeworkList} from '../Components/HomeworkList';
 
 const Stack = createStackNavigator();
 
@@ -20,12 +21,11 @@ export class TeaHomeScreen extends React.Component {
 
   render() {
     return (
-      <Container>
-        {/*<Header />*/}
-        <Content>
+      <ScrollView>
+        <Container>
           <Text>Home</Text>
-        </Content>
-      </Container>
+        </Container>
+      </ScrollView>
     );
   }
 }

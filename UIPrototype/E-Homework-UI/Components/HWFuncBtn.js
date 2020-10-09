@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {Icon, Button, Text, CardItem, Card} from 'native-base';
 
-export class CourseFuncBtn extends React.Component {
+export class HWFuncBtn extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -21,13 +21,10 @@ export class CourseFuncBtn extends React.Component {
             dark
             style={styles.button}
             onPress={() => {
-              console.log('文件管理');
+              console.log('整体点评');
             }}>
-            <Icon
-              type="FontAwesome"
-              name="folder-o"
-              style={styles.buttonIcon}
-            />
+            <Icon type="FontAwesome" name="comment" style={styles.buttonIcon} />
+            <Text>整体点评</Text>
           </Button>
           <Button
             icon
@@ -36,9 +33,10 @@ export class CourseFuncBtn extends React.Component {
             dark
             style={styles.button}
             onPress={() => {
-              console.log('文件管理');
+              console.log('批量评价');
             }}>
-            <Icon type="FontAwesome" name="users" style={styles.buttonIcon} />
+            <Icon type="FontAwesome" name="server" style={styles.buttonIcon} />
+            <Text>批量评价</Text>
           </Button>
           <Button
             icon
@@ -47,9 +45,10 @@ export class CourseFuncBtn extends React.Component {
             dark
             style={styles.button}
             onPress={() => {
-              console.log('文件管理');
+              console.log('修改作业');
             }}>
-            <Icon type="FontAwesome" name="check" style={styles.buttonIcon} />
+            <Icon type="FontAwesome" name="adjust" style={styles.buttonIcon} />
+            <Text>修改作业</Text>
           </Button>
           <Button
             icon
@@ -58,13 +57,10 @@ export class CourseFuncBtn extends React.Component {
             dark
             style={styles.button}
             onPress={() => {
-              console.log('文件管理');
+              console.log('删除作业');
             }}>
-            <Icon
-              type="FontAwesome"
-              name="user-plus"
-              style={styles.buttonIcon}
-            />
+            <Icon type="FontAwesome" name="trash" style={styles.buttonIcon} />
+            <Text>删除作业</Text>
           </Button>
         </CardItem>
       </Card>
@@ -77,7 +73,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   button: {
-    marginLeft: 15,
+    marginLeft: 0,
   },
   buttonIcon: {
     fontSize: 40,
