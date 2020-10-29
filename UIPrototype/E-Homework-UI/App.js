@@ -65,9 +65,9 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-            name="AssignHw"
-            component={AssignHwScreen}
-            options={{headerShown: false}}
+          name="AssignHw"
+          component={AssignHwScreen}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>
