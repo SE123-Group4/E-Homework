@@ -1,0 +1,30 @@
+server:
+  port: 8802
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: homework
+          uri: lb://homework
+          predicates:
+            - Path=/**
+        - id: register
+          uri: lb://register
+          predicates:
+            - Path=/**
+        - id: auth
+          uri: lb://auth
+          predicates:
+            - Path=/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8801/eureka/
+

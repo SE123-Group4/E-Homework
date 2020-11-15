@@ -1,0 +1,9 @@
+server:
+  port: 8803
+spring:
+  application:
+    name: homework
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8801/eureka/

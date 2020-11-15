@@ -28,7 +28,7 @@ CREATE TABLE users(
 CREATE TABLE userRole(
     ID              int PRIMARY KEY auto_increment,
     role            enum('STUDENT', 'TEACHER', 'ADMINISTRATOR'),
-    userID          VARCHAR(20) REFERENCES users (ID) ON DELETE CASCADE,
+    userID          int REFERENCES users (ID) ON DELETE CASCADE,
     roleID          VARCHAR(20)
 );
 

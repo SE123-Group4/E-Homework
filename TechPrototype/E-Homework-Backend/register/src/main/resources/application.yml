@@ -1,0 +1,10 @@
+server:
+  port: 8805
+spring:
+  application:
+    name: register
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8801/eureka/
+
