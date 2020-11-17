@@ -32,9 +32,9 @@ export class TeaHomeScreen extends React.Component {
       class: '大三(4)班',
     };
   }
-  _onPressButton = () => {
+  /*_onPressButton = () => {
     this.props.navigation.navigate('AssignHw');
-  };
+  };*/
   render() {
     return (
       <ScrollView>
@@ -53,7 +53,7 @@ export class TeaHomeScreen extends React.Component {
                     }}
                     overlayContainerStyle={{backgroundColor: 'white'}}
                     onPress={() => {
-                      this._onPressButton();
+                      this.props.navigation.navigate('AssignHw');
                     }}
                     activeOpacity={0.7}
                     containerStyle={{marginTop: 6, marginLeft: 25}}

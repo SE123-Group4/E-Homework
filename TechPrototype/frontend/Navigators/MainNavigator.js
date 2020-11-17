@@ -11,12 +11,13 @@ import TabBar from 'react-native-tab-navigator/TabBar';
 import TabBarBottom from 'react-navigation';
 import TabNavigatorItem from 'react-native-tab-navigator/TabNavigatorItem';
 import {TeaCoursesScreen} from '../Screens/TeaCoursesScreen';
+import {TeaHomeScreen} from '../Screens/TeaHomeScreen';
 
 const Stack = createStackNavigator();
 
 export class MainNavigator extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       selectedTab: 'Home',
     };
@@ -32,7 +33,7 @@ export class MainNavigator extends React.Component {
           onPress={() => {
             this.setState({selectedTab: 'Home'});
           }}>
-          <TeaHomeNavigator />
+          <TeaHomeScreen navigation={this.props.navigation} />
         </TabNavigatorItem>
         <TabNavigatorItem
           renderIcon={() => <Icon type="MaterialIcons" name="bookmarks" />}
@@ -50,7 +51,7 @@ export class MainNavigator extends React.Component {
           onPress={() => {
             this.setState({selectedTab: 'Profile'});
           }}>
-          <TeaProfileScreen />
+          <TeaProfileScreen navigation={this.props.navigation} />
         </TabNavigatorItem>
       </TabNavigator>
     );

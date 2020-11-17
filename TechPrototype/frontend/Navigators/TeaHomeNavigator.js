@@ -1,3 +1,4 @@
+////导航方式改了，该文件不再使用
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {TeaHomeScreen} from '../Screens/TeaHomeScreen';

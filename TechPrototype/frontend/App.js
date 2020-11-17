@@ -71,11 +71,11 @@ export default function App() {
           component={RegisterChoose}
           options={{headerShown: false}}
         />
-        {/*<Stack.Screen
+        <Stack.Screen
           name="AssignHw"
           component={AssignHwScreen}
           options={{headerShown: false}}
-        />*/}
+        />
         <Stack.Screen
           name="WrongCollect"
           component={WrongCollectScreen}
