@@ -1,8 +1,10 @@
 package com.example.auth.Config;
 
-import com.example.auth.ServiceImpl.UserServiceDetailImpl;
+import com.example.auth.ServiceImpl.EhwUserDetailService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,16 +14,18 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+@Order(2)
 @EnableWebSecurity
 public class EhwSecurityConfigure extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private EhwUserDetailService userServiceDetail;
+
     @Override
     @Bean
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
     }
-
-    @Autowired
-    private UserServiceDetailImpl userServiceDetail;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -40,17 +44,20 @@ public class EhwSecurityConfigure extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.requestMatchers()
-                .antMatchers("/auth/**")
+                .antMatchers("/oauth/**")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/actuator/**").permitAll()
-                .antMatchers("/auth/**").authenticated()
+                .antMatchers("/oauth/**").authenticated()
                 .and()
                 .csrf().disable();
+
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
+        //auth.authenticationProvider(authenticationProvider());
+        auth.userDetailsService(userServiceDetail);
     }
+
 }

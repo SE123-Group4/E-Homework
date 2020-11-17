@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "user", schema = "homework")
+@Table(name = "users", schema = "homework")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,5 +20,5 @@ public class User {
     private String email;
     private String phone;
     private String password;
-    private State state;
+    private String state;
 }
