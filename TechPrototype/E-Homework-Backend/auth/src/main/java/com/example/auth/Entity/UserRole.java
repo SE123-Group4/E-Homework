@@ -1,6 +1,9 @@
 package com.example.auth.Entity;
 
 import com.example.auth.Constant.Role;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -8,11 +11,17 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "userrole", schema = "homework")
-public class UserRole {
+@JsonIgnoreProperties(value = {"handler","hibernateLazyInitializer","fieldHandler"})
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "ID")
+public class UserRole{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
+
+    @Enumerated(EnumType.STRING)
     private Role role;
+
     private int roleID;
     private int userID;
 }

@@ -14,7 +14,7 @@ public class UserRoleDaoImpl implements UserRoleDao {
     private UserRoleRepository userRoleRepository;
 
     @Override
-    public Optional<UserRole> findByID(Integer ID) {
-        return userRoleRepository.findByID(ID);
+    public Optional<UserRole> findByUserID(Integer userID) {
+        return userRoleRepository.findByUserID(userID);
     }
 }

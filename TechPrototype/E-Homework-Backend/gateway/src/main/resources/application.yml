@@ -22,9 +22,13 @@ spring:
           uri: lb://auth
           predicates:
             - Path=/**
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          jwk-set-uri: http://localhost:8804/oauth/check_token
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8801/eureka/
-
