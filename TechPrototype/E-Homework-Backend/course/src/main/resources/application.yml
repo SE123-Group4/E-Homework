@@ -1,0 +1,17 @@
+server:
+  port: 8806
+
+spring:
+  application:
+    name: course
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8801/eureka/
+
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:8802/auth/user
+      id: ${spring.application.name}

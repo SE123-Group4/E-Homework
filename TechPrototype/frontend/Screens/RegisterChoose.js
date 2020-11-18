@@ -2,64 +2,35 @@ import React from 'react';
 import {Button} from 'react-native-elements';
 import {Alert, Dimensions, StyleSheet, View} from 'react-native';
 import {Item, Input, Text} from 'native-base';
-import Icon from 'react-native-vector-icons/FontAwesome';
 let {width, height} = Dimensions.get('window');
-import {apiUrl} from '../urlconfig';
-const userInfo_URL = apiUrl + '/userInfo';
 
 export class RegisterChoose extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      account: this.state.account,
-      identity: null,
+      account: this.props.route.params.account,
+      role: null,
     };
   }
+  componentDidMount() {
+    console.log(this.props);
+  }
+
   _clickTeacherBtn = () => {
-    fetch(userInfo_URL, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        account: this.state.account,
-        indentiy: 0,
-      }),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((responseData) => {
-        console.log(responseData);
-        this.navigation.navigate('TeaHome');
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    //this.setState({role: 'ROLE_TEACHER'});
+    this.props.navigation.navigate('Register_2', {
+      account: this.props.route.params.account,
+      role: 1,
+    });
   };
+
   _clickStudentBtn = () => {
-    fetch(userInfo_URL, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        identity: 1,
-      }),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((responseData) => {
-        console.log(responseData);
-        this.navigation.navigate('StuHome');
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    this.props.navigation.navigate('Register_2', {
+      account: this.props.route.params.account,
+      role: 0,
+    });
   };
+
   render() {
     return (
       <View style={{flex: 1}}>

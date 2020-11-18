@@ -1,7 +1,6 @@
 import {getRequest} from '../Util/Ajax';
-
-const USER_URL = 'http://localhost:8802/auth/user';
+import * as url from '../Constant/Url';
 
 export const getUser = (callback) => {
-  getRequest(USER_URL, callback);
+  getRequest(url.AUTH_URL + 'user', callback);
 };

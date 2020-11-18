@@ -9,11 +9,6 @@ import {
   Content,
   Card,
   CardItem,
-  Button,
-  Col,
-  Row,
-  Grid,
-  Icon,
 } from 'native-base';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Avatar} from 'react-native-elements';
