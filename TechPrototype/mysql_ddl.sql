@@ -24,34 +24,13 @@ CREATE TABLE users(
     password        VARCHAR(20) NOT NULL,
     state           int
 );
-
+-- role:student:1,teacher:2,administer:3
 CREATE TABLE userRole(
     ID              int PRIMARY KEY auto_increment,
     role            int,
     userID          int REFERENCES users (ID) ON DELETE CASCADE,
-    roleID          int
-);
-
--- stuNumber为学号
-CREATE TABLE student(
-    ID              int PRIMARY KEY auto_increment,
-    schoolID        int REFERENCES school (ID) ON DELETE CASCADE,
-    stuNumber       VARCHAR(20) NOT NULL,
-    name            VARCHAR(50),
-    class           VARCHAR(50)
-);
-
--- teaNumber为工号
-CREATE TABLE teacher(
-    ID              int PRIMARY KEY auto_increment,
-    schoolID        int REFERENCES school (ID) ON DELETE CASCADE,
-    teanumber       VARCHAR(20) NOT NULL,
-    name            VARCHAR(50)
-);
-
-CREATE TABLE administrator(
-    ID              int PRIMARY KEY auto_increment,
-    name            VARCHAR(50)
+    roleID          int,
+    FOREIGN KEY (userID) REFERENCES users (ID) ON DELETE CASCADE
 );
 
 CREATE TABLE school(
@@ -59,97 +38,134 @@ CREATE TABLE school(
     name            VARCHAR(50) NOT NULL
 );
 
--- 状态为：审核中、未开始、进行中、已结课、审核未通过
+-- stuNumber为学号
+CREATE TABLE student(
+    ID              int PRIMARY KEY auto_increment,
+    schoolID        int,
+    stuNumber       VARCHAR(20) NOT NULL,
+    name            VARCHAR(50),
+    class           VARCHAR(50),
+    FOREIGN KEY (schoolID) REFERENCES school (ID) ON DELETE CASCADE
+);
+
+-- teaNumber为工号
+CREATE TABLE teacher(
+    ID              int PRIMARY KEY auto_increment,
+    schoolID        int,
+    teaNumber       VARCHAR(20) NOT NULL,
+    name            VARCHAR(50),
+    FOREIGN KEY (schoolID) REFERENCES school (ID) ON DELETE CASCADE
+);
+
+CREATE TABLE administrator(
+    ID              int PRIMARY KEY auto_increment,
+    name            VARCHAR(50)
+);
+
+-- 状态为：审核中:1、未开始:2、进行中:3、已结课:4、审核未通过:5
 CREATE TABLE course(
     ID              int PRIMARY KEY auto_increment,
-    teacher         int REFERENCES userRole (ID) ON DELETE CASCADE,
+    teacher         int,
     introduction    VARCHAR(255),
     name            VARCHAR(50),
     book            VARCHAR(255),
     startTime       DATETIME,
     endTime         DATETIME,
     state           int,
-    takes			int
+    takes			int,
+    FOREIGN KEY (teacher) REFERENCES teacher (ID) ON DELETE CASCADE
 );
 
 CREATE TABLE takes(
-    student         int REFERENCES userRole (ID) ON DELETE CASCADE,
-    courseID        int REFERENCES course (ID) ON DELETE CASCADE,
-    PRIMARY KEY (student, courseID)
+    student         int,
+    courseID        int,
+    PRIMARY KEY (student, courseID),
+    FOREIGN KEY (student) REFERENCES student (ID) ON DELETE CASCADE,
+    FOREIGN KEY (courseID) REFERENCES course (ID) ON DELETE CASCADE
 );
 
 CREATE TABLE coursegroup(
     ID              int PRIMARY KEY auto_increment,
-    courseID        int REFERENCES course (ID) ON DELETE CASCADE,
-    name            VARCHAR(50)
+    courseID        int,
+    name            VARCHAR(50),
+    FOREIGN KEY (courseID) REFERENCES course (ID) ON DELETE CASCADE
 );
 
 CREATE TABLE groupMember(
-    groupID         int REFERENCES coursegroupteacher (ID) ON DELETE CASCADE,
-    member          int REFERENCES userRole (ID) ON DELETE CASCADE,
-    PRIMARY KEY (groupID, member)
+    groupID         int,
+    member          int,
+    PRIMARY KEY (groupID, member),
+    FOREIGN KEY (groupID) REFERENCES groups (ID) ON DELETE CASCADE,
+    FOREIGN KEY (member) REFERENCES student (ID) ON DELETE CASCADE
 );
 
--- resultAfter为答案成绩在提交后公布或截止时间后公布
--- 状态为草稿、已发布、已废弃
+-- resultAfter为答案成绩在提交后公布:1或截止时间后公布:2
+-- 状态为草稿:1、已发布:2、已废弃:3
 CREATE TABLE homework(
     ID              int PRIMARY KEY auto_increment,
     title           VARCHAR(50),
     assignTime      DATETIME,
     deadline        DATETIME,
-    courseID        int REFERENCES course (ID) ON DELETE CASCADE,
+    courseID        int,
     totals          int,
     isDelayed       TINYINT,
     isRepeated      TINYINT,
     isTimed         TINYINT,
     isGrouped       TINYINT,
     resultAfter     int,
-    state           int
+    state           int,
+    FOREIGN KEY (courseID) REFERENCES course (ID) ON DELETE CASCADE
 );
 
 -- 作业-对象表中状态与handson中状态重复，且状态适合放在handson中，可在handson中查询获得状态
 CREATE TABLE homeworkAssign(
     ID              int PRIMARY KEY auto_increment,
-    homeworkID      int REFERENCES homework (ID) ON DELETE CASCADE,
+    homeworkID      int,
     submitter       int NOT NULL,
-    type            enum('INDIVIDUAL', 'GROUP')
+    type            enum('INDIVIDUAL', 'GROUP'),
     -- state           enum('SUBMITTED', 'UNSUBMITTED', 'LATE'),
+    FOREIGN KEY (homeworkID) REFERENCES homework (ID) ON DELETE CASCADE
 );
 
 -- questionID是mongodb的question主键
 CREATE TABLE homeworkQuestion(
-    homeworkID      int REFERENCES homework (ID) ON DELETE CASCADE,
+    homeworkID      int,
     questionID      int NOT NULL,
-    PRIMARY KEY (homeworkID, questionID)
+    PRIMARY KEY (homeworkID, questionID),
+    FOREIGN KEY (homeworkID) REFERENCES homework (ID) ON DELETE CASCADE
+);
+
+-- 状态为：已提交、迟交（补交）、已批改
+CREATE TABLE handson(
+    ID              int,
+    totalScore      int,
+    submitTime      DATETIME,
+    state           enum('SUBMITTED', 'LATE', 'CORRECTED'),
+    FOREIGN KEY (ID) REFERENCES homeworkAssign (ID) ON DELETE CASCADE
 );
 
 -- content, comment都是mongodb富文本ID，questionID是mongodb的question主键
 CREATE TABLE answer(
     ID              int PRIMARY KEY auto_increment,
-    handsonID       int REFERENCES handson (ID) ON DELETE CASCADE,
+    handsonID       int,
     questionID      int NOT NULL,
     content         int NOT NULL,
     comment         int,
-    score           int
-);
-
--- 状态为：已提交、迟交（补交）、已批改
-CREATE TABLE handson(
-    ID              int REFERENCES homeworkAssign (ID) ON DELETE CASCADE,
-    totalScore      int,
-    submitTime      DATETIME,
-    state           int
+    score           int,
+    FOREIGN KEY (handsonID) REFERENCES handson (ID) ON DELETE CASCADE
 );
 
 -- fileID为mongodb中file的主键
 CREATE TABLE personalFile(
     fileID          int NOT NULL,
-    user            int REFERENCES userRole (ID) ON DELETE CASCADE,
-    PRIMARY KEY (fileID, user)
+    user            int,
+    PRIMARY KEY (fileID, user),
+    FOREIGN KEY (user) REFERENCES userRole (ID) ON DELETE CASCADE
 );
 
 CREATE TABLE courseFile(
     fileID          int NOT NULL,
-    courseID        int REFERENCES course (ID) ON DELETE CASCADE,
-    PRIMARY KEY (fileID, courseID)
+    courseID        int,
+    PRIMARY KEY (fileID, courseID),
+    FOREIGN KEY (courseID) REFERENCES course (ID) ON DELETE CASCADE
 );

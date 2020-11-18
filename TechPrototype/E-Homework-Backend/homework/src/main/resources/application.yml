@@ -1,0 +1,22 @@
+server:
+  port: 8803
+
+spring:
+  application:
+    name: homework
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8801/eureka/
+
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:8802/auth/user
+      id: ${spring.application.name}
+#    client:
+#      client-id: ehomeworkapp
+#      client-secret: ehomeworkapp
+#      user-authorization-uri: http://localhost:8802/auth/oauth/authorize
+#      access-token-uri: http://localhost:8802/auth/oauth/token
