@@ -15,7 +15,7 @@ import {TeaHomeScreen} from '../Screens/TeaHomeScreen';
 
 const Stack = createStackNavigator();
 
-export class MainNavigator extends React.Component {
+export class TeaMainNavigator extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

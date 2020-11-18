@@ -2,36 +2,100 @@
 
 import React from 'react';
 import {Button, Input} from 'react-native-elements';
-import {Dimensions, StyleSheet, View, Text} from 'react-native';
+import {Dimensions, StyleSheet, View, Text, Alert} from 'react-native';
+import {apiUrl} from '../urlconfig';
 let {width, height} = Dimensions.get('window');
+const getCode_URL = apiUrl + '/getCode';
 
-export function RegisterScreen_1({navigation}) {
-  return (
-    <View style={{flex: 1}}>
-      <View style={styles.container}>
-        <View style={styles.container_1}>
-          <View style={styles.emailStyle}>
-            <Input placeholder="手机号/邮箱" />
-          </View>
+export class RegisterScreen_1 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      account: '',
+      front_code: null,
+      back_code: null,
+    };
+  }
+  _clickGetCodeBtn = () => {
+    if (this.state.account === '' || this.state.front_code === '') {
+      Alert.alert('账号或验证码不能为空');
+      return;
+    }
+    fetch(getCode_URL, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        account: this.state.account,
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseData) => {
+        console.log(responseData);
+        this.setState({back_code: responseData.back_code});
+        Alert.alert('获取验证码成功');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  _clickNextBtn = () => {
+    if (this.state.front_code == this.state.back_code) {
+      this.navigation.navigate('Register_2');
+    } else {
+      Alert.alert('验证码错误');
+    }
+  };
+  render() {
+    return (
+      <View style={{flex: 1}}>
+        <View style={styles.container}>
+          <View style={styles.container_1}>
+            <View style={styles.emailStyle}>
+              <Input
+                onChangeText={(text) => {
+                  this.setState({
+                    account: text,
+                  });
+                }}
+                value={this.state.account}
+                placeholder="手机号/邮箱"
+              />
+            </View>
 
-          <View style={styles.activationStyle}>
-            <Input style={{alignItems: 'flex-start'}} placeholder="验证码" />
-            <Button
-              buttonStyle={styles.activationBtnStyle}
-              title="获取验证码"
-            />
+            <View style={styles.activationStyle}>
+              <Input
+                style={{alignItems: 'flex-start'}}
+                onChangeText={(text) => {
+                  this.setState({
+                    front_code: text,
+                  });
+                }}
+                value={this.state.front_code}
+                placeholder="验证码"
+              />
+              <Button
+                buttonStyle={styles.activationBtnStyle}
+                onPress={() => this._clickGetCodeBtn()}
+                title="获取验证码"
+              />
+            </View>
           </View>
+          <Button
+            buttonStyle={styles.registerBtnStyle}
+            /*onPress={() => {
+              this.navigation.navigate('Register_2')*/
+            onPress={() => this._clickNextBtn()}
+            title="下一步"
+          />
         </View>
-        <Button
-          buttonStyle={styles.registerBtnStyle}
-          onPress={() => {
-            navigation.navigate('Register_2');
-          }}
-          title="下一步"
-        />
       </View>
-    </View>
-  );
+    );
+  }
 }
 const styles = StyleSheet.create({
   container: {

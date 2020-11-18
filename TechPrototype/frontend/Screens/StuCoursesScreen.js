@@ -3,7 +3,7 @@
 import React from 'react';
 import {Text, Icon, Button, Container} from 'native-base';
 import {ScrollView, StyleSheet} from 'react-native';
-import {CourseList} from '../Components/CourseList';
+import {StuCourseList} from '../Components/StuCourseList';
 
 export class StuCoursesScreen extends React.Component {
   constructor() {
@@ -15,7 +15,7 @@ export class StuCoursesScreen extends React.Component {
     return (
       <ScrollView>
         <Container>
-          <CourseList navigation={this.props.navigation} />
+          <StuCourseList navigation={this.props.navigation} />
         </Container>
       </ScrollView>
     );

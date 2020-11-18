@@ -17,7 +17,7 @@ import {
 import {ButtonGroup} from 'react-native-elements';
 //import Divide from 'react-native-divide';
 
-export class CourseList extends React.Component {
+export class StuCourseList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -76,7 +76,7 @@ export class CourseList extends React.Component {
             button
             onPress={() => {
               console.log('sd');
-              this.props.navigation.navigate('TeaCourse');
+              this.props.navigation.navigate('StuCourse');
             }}>
             <Text>{item.introduction}</Text>
           </CardItem>
@@ -84,7 +84,7 @@ export class CourseList extends React.Component {
             footer
             button
             onPress={() => {
-              this.props.navigation.navigate('TeaCourse');
+              this.props.navigation.navigate('StuCourse');
             }}>
             <Left>
               <Text>{item.time}</Text>

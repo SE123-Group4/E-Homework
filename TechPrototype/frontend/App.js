@@ -33,7 +33,8 @@ import {Search} from './Components/Search';
 import {TeaCourseNavigator} from './Navigators/TeaCourseNavigator';
 import {TeaHWScreen} from './Screens/TeaHWScreen';
 import {StuHWScreen} from './Screens/StuHWScreen';
-import {MainNavigator} from './Navigators/MainNavigator';
+import {TeaMainNavigator} from './Navigators/TeaMainNavigator';
+import {StuMainNavigator} from './Navigators/StuMainNavigator';
 import {AssignHwScreen} from './Screens/AssignHwScreen';
 import {StuHomeScreen} from './Screens/StuHomeScreen';
 import {StuProfileScreen} from './Screens/StuProfileScreen';
@@ -52,8 +53,13 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Home"
-          component={MainNavigator}
+          name="TeaHome"
+          component={TeaMainNavigator}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="StuHome"
+          component={StuMainNavigator}
           options={{headerShown: false}}
         />
         <Stack.Screen
