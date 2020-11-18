@@ -1,16 +1,18 @@
-server:
-  port: 8805
-
 spring:
+  mail:
+    host: smtp.qq.com #发送邮件服务器
+    username: 738761580@qq.com #发送邮件的邮箱地址
+    password:  cakyclvmloyqbcdb #客户端授权码，不是邮箱密码，这个在qq邮箱设置里面自动生成的
+    properties.mail.smtp.port: 465 #端口号465或587
+    properties.mail.smtp.starttls.enable: true
+    properties.mail.smtp.starttls.required: true
+    properties.mail.smtp.ssl.enable: true
+    default-encoding: utf-8
   application:
     name: register
-#  datasource:
-#    username: root
-#    password: 2568930409fz
-#    url: jdbc:mysql://localhost:3306/homework?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#  jpa:
-#    database: mysql
+
+server:
+  port: 8803
 
 eureka:
   client:
@@ -20,5 +22,5 @@ eureka:
 security:
   oauth2:
     resource:
-      id: ${spring.application.name}
       user-info-uri: http://localhost:8802/auth/user
+      id: ${spring.application.name}

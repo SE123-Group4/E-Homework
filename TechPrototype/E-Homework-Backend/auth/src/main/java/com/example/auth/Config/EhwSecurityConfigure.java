@@ -50,7 +50,8 @@ public class EhwSecurityConfigure extends WebSecurityConfigurerAdapter {
                 .antMatchers("/actuator/**").permitAll()
                 .antMatchers("/oauth/**").authenticated()
                 .and()
-                .csrf().disable();
+                .csrf().disable()
+                .cors();
 
     }
 

@@ -1,16 +1,19 @@
-import {AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as url from '../Constant/Url';
 
-const AUTH_URL =
-  'http://localhost:8802/auth/oauth/token?client_id=ehomeworkapp&client_secret=ehomeworkapp';
+const TOKEN_URL =
+  url.AUTH_URL +
+  'oauth/token?grant_type=password&client_id=ehomeworkapp&client_secret=ehomeworkapp';
 
 export const loginAjax = (username, password, callback) => {
-  fetch(AUTH_URL + '&username=' + username + '&password=' + password, {
+  fetch(TOKEN_URL + '&username=' + username + '&password=' + password, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
   })
     .then((response) => {
+      console.log(response);
       return response.json();
     })
     .then((data) => {
@@ -22,30 +25,55 @@ export const loginAjax = (username, password, callback) => {
     });
 };
 
-export const getRequest = (url, data, callback) => {
-  var token = '';
+export const getRequest = (request_url, callback) => {
   const _retrieveData = async () => {
     try {
-      token = await AsyncStorage.getItem('token');
+      var token = await AsyncStorage.getItem('token');
+      fetch(request_url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((resData) => {
+          console.log(resData);
+          callback(resData);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } catch (e) {}
   };
   _retrieveData();
+};
 
-  fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    },
-  })
-    .then((response) => {
-      return response.json();
-    })
-    .then((resData) => {
-      console.log(resData);
-      callback(resData);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+export const postRequest = (request_url, data, callback) => {
+  const _retrieveData = async () => {
+    try {
+      var token = await AsyncStorage.getItem('token');
+      fetch(request_url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((resData) => {
+          console.log(resData);
+          callback(resData);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (e) {}
+  };
+  _retrieveData();
 };

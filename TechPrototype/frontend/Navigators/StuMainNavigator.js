@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {createStackNavigator} from '@react-navigation/stack';
-import {TeaHomeNavigator} from './TeaHomeNavigator';
 import {TeaCourseNavigator} from './TeaCourseNavigator';
 import {TeaProfileScreen} from '../Screens/TeaProfileScreen';
 import {StuProfileScreen} from '../Screens/StuProfileScreen';

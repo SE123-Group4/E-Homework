@@ -4,6 +4,7 @@ import React from 'react';
 import {Button, Input} from 'react-native-elements';
 import {Dimensions, StyleSheet, View, Text, Alert} from 'react-native';
 import {apiUrl} from '../urlconfig';
+import {getAuthCode} from '../Service/RegisterService';
 let {width, height} = Dimensions.get('window');
 const getCode_URL = apiUrl + '/getCode';
 
@@ -12,44 +13,42 @@ export class RegisterScreen_1 extends React.Component {
     super(props);
     this.state = {
       account: '',
+      check_account: '',
       front_code: null,
       back_code: null,
     };
   }
+
   _clickGetCodeBtn = () => {
-    if (this.state.account === '' || this.state.front_code === '') {
+    if (this.state.account === '') {
       Alert.alert('账号或验证码不能为空');
       return;
     }
-    fetch(getCode_URL, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        account: this.state.account,
-      }),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((responseData) => {
-        console.log(responseData);
-        this.setState({back_code: responseData.back_code});
-        Alert.alert('获取验证码成功');
-      })
-      .catch((error) => {
-        console.error(error);
+    const getCodeCallback = (data) => {
+      this.setState({
+        back_code: data.back_code,
+        check_account: this.state.account,
       });
+      Alert.alert('获取验证码成功');
+    };
+    //getAuthCode(this.state.account, getCodeCallback);
   };
+
   _clickNextBtn = () => {
-    if (this.state.front_code == this.state.back_code) {
-      this.navigation.navigate('Register_2');
+    if (
+      //this.state.front_code === this.state.back_code &&
+      this.state.account != null &&
+      this.state.front_code != null
+      //this.state.account === this.state.check_account
+    ) {
+      this.props.navigation.navigate('RegisterChoose', {
+        account: this.state.account,
+      });
     } else {
       Alert.alert('验证码错误');
     }
   };
+
   render() {
     return (
       <View style={{flex: 1}}>

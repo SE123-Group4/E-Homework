@@ -1,16 +1,11 @@
 import React from 'react';
 
 import {createStackNavigator} from '@react-navigation/stack';
-import {TeaHomeNavigator} from './TeaHomeNavigator';
 import {TeaCourseNavigator} from './TeaCourseNavigator';
 import {TeaProfileScreen} from '../Screens/TeaProfileScreen';
-import {StuProfileScreen} from '../Screens/StuProfileScreen';
 import {Container, Header, Content, Text, Icon} from 'native-base';
 import TabNavigator from 'react-native-tab-navigator';
-import TabBar from 'react-native-tab-navigator/TabBar';
-import TabBarBottom from 'react-navigation';
 import TabNavigatorItem from 'react-native-tab-navigator/TabNavigatorItem';
-import {TeaCoursesScreen} from '../Screens/TeaCoursesScreen';
 import {TeaHomeScreen} from '../Screens/TeaHomeScreen';
 
 const Stack = createStackNavigator();
