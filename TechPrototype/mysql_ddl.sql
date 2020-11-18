@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS userRole;
 DROP TABLE IF EXISTS school;
 DROP TABLE IF EXISTS course;
 DROP TABLE IF EXISTS takes;
-DROP TABLE IF EXISTS groups;
+DROP TABLE IF EXISTS coursegroup;
 DROP TABLE IF EXISTS groupMember;
 DROP TABLE IF EXISTS homework;
 DROP TABLE IF EXISTS homeworkAssign;
@@ -22,14 +22,14 @@ CREATE TABLE users(
     email           VARCHAR(20),
     phone           VARCHAR(20),
     password        VARCHAR(20) NOT NULL,
-    state           enum('INACTIVATED', 'NORMAL', 'FORBIDDEN')
+    state           int
 );
-
+-- role:student:1,teacher:2,administer:3
 CREATE TABLE userRole(
     ID              int PRIMARY KEY auto_increment,
-    role            enum('STUDENT', 'TEACHER', 'ADMINISTRATOR'),
-    userID          int,
-    roleID          VARCHAR(20),
+    role            int,
+    userID          int REFERENCES users (ID) ON DELETE CASCADE,
+    roleID          int,
     FOREIGN KEY (userID) REFERENCES users (ID) ON DELETE CASCADE
 );
 
@@ -62,7 +62,7 @@ CREATE TABLE administrator(
     name            VARCHAR(50)
 );
 
--- 状态为：审核中、未开始、进行中、已结课、审核未通过
+-- 状态为：审核中:1、未开始:2、进行中:3、已结课:4、审核未通过:5
 CREATE TABLE course(
     ID              int PRIMARY KEY auto_increment,
     teacher         int,
@@ -71,19 +71,20 @@ CREATE TABLE course(
     book            VARCHAR(255),
     startTime       DATETIME,
     endTime         DATETIME,
-    state           enum('UNDERREVIEW', 'NOTSTARTED', 'UNDERWAY', 'FINISHED', 'NOTPASS'),
-    FOREIGN KEY (teacher) REFERENCES userRole (ID) ON DELETE CASCADE
+    state           int,
+    takes			int,
+    FOREIGN KEY (teacher) REFERENCES teacher (ID) ON DELETE CASCADE
 );
 
 CREATE TABLE takes(
     student         int,
     courseID        int,
     PRIMARY KEY (student, courseID),
-    FOREIGN KEY (student) REFERENCES userRole (ID) ON DELETE CASCADE,
+    FOREIGN KEY (student) REFERENCES student (ID) ON DELETE CASCADE,
     FOREIGN KEY (courseID) REFERENCES course (ID) ON DELETE CASCADE
 );
 
-CREATE TABLE groups(
+CREATE TABLE coursegroup(
     ID              int PRIMARY KEY auto_increment,
     courseID        int,
     name            VARCHAR(50),
@@ -95,11 +96,11 @@ CREATE TABLE groupMember(
     member          int,
     PRIMARY KEY (groupID, member),
     FOREIGN KEY (groupID) REFERENCES groups (ID) ON DELETE CASCADE,
-    FOREIGN KEY (member) REFERENCES userRole (ID) ON DELETE CASCADE
+    FOREIGN KEY (member) REFERENCES student (ID) ON DELETE CASCADE
 );
 
--- resultAfter为答案成绩在提交后公布或截止时间后公布
--- 状态为草稿、已发布、已废弃
+-- resultAfter为答案成绩在提交后公布:1或截止时间后公布:2
+-- 状态为草稿:1、已发布:2、已废弃:3
 CREATE TABLE homework(
     ID              int PRIMARY KEY auto_increment,
     title           VARCHAR(50),
@@ -111,8 +112,8 @@ CREATE TABLE homework(
     isRepeated      TINYINT,
     isTimed         TINYINT,
     isGrouped       TINYINT,
-    resultAfter     enum('SUBMIT', 'DEADLINE'),
-    state           enum('DRAFT', 'ASSIGNED', 'ABORTED'),
+    resultAfter     int,
+    state           int,
     FOREIGN KEY (courseID) REFERENCES course (ID) ON DELETE CASCADE
 );
 
