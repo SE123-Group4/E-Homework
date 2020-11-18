@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS userRole;
 DROP TABLE IF EXISTS school;
 DROP TABLE IF EXISTS course;
 DROP TABLE IF EXISTS takes;
-DROP TABLE IF EXISTS groups;
+DROP TABLE IF EXISTS coursegroup;
 DROP TABLE IF EXISTS groupMember;
 DROP TABLE IF EXISTS homework;
 DROP TABLE IF EXISTS homeworkAssign;
@@ -22,14 +22,14 @@ CREATE TABLE users(
     email           VARCHAR(20),
     phone           VARCHAR(20),
     password        VARCHAR(20) NOT NULL,
-    state           enum('INACTIVATED', 'NORMAL', 'FORBIDDEN')
+    state           int
 );
 
 CREATE TABLE userRole(
     ID              int PRIMARY KEY auto_increment,
-    role            enum('STUDENT', 'TEACHER', 'ADMINISTRATOR'),
-    userID          VARCHAR(20) REFERENCES users (ID) ON DELETE CASCADE,
-    roleID          VARCHAR(20)
+    role            int,
+    userID          int REFERENCES users (ID) ON DELETE CASCADE,
+    roleID          int
 );
 
 -- stuNumber为学号
@@ -45,7 +45,7 @@ CREATE TABLE student(
 CREATE TABLE teacher(
     ID              int PRIMARY KEY auto_increment,
     schoolID        int REFERENCES school (ID) ON DELETE CASCADE,
-    teaNumber       VARCHAR(20) NOT NULL,
+    teanumber       VARCHAR(20) NOT NULL,
     name            VARCHAR(50)
 );
 
@@ -68,7 +68,8 @@ CREATE TABLE course(
     book            VARCHAR(255),
     startTime       DATETIME,
     endTime         DATETIME,
-    state           enum('UNDERREVIEW', 'NOTSTARTED', 'UNDERWAY', 'FINISHED', 'NOTPASS')
+    state           int,
+    takes			int
 );
 
 CREATE TABLE takes(
@@ -77,14 +78,14 @@ CREATE TABLE takes(
     PRIMARY KEY (student, courseID)
 );
 
-CREATE TABLE groups(
+CREATE TABLE coursegroup(
     ID              int PRIMARY KEY auto_increment,
     courseID        int REFERENCES course (ID) ON DELETE CASCADE,
     name            VARCHAR(50)
 );
 
 CREATE TABLE groupMember(
-    groupID         int REFERENCES groups (ID) ON DELETE CASCADE,
+    groupID         int REFERENCES coursegroupteacher (ID) ON DELETE CASCADE,
     member          int REFERENCES userRole (ID) ON DELETE CASCADE,
     PRIMARY KEY (groupID, member)
 );
@@ -102,8 +103,8 @@ CREATE TABLE homework(
     isRepeated      TINYINT,
     isTimed         TINYINT,
     isGrouped       TINYINT,
-    resultAfter     enum('SUBMIT', 'DEADLINE'),
-    state           enum('DRAFT', 'ASSIGNED', 'ABORTED')
+    resultAfter     int,
+    state           int
 );
 
 -- 作业-对象表中状态与handson中状态重复，且状态适合放在handson中，可在handson中查询获得状态
@@ -137,7 +138,7 @@ CREATE TABLE handson(
     ID              int REFERENCES homeworkAssign (ID) ON DELETE CASCADE,
     totalScore      int,
     submitTime      DATETIME,
-    state           enum('SUBMITTED', 'LATE', 'CORRECTED')
+    state           int
 );
 
 -- fileID为mongodb中file的主键
