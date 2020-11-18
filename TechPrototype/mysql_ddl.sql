@@ -29,7 +29,7 @@ CREATE TABLE userRole(
     ID              int PRIMARY KEY auto_increment,
     role            enum('STUDENT', 'TEACHER', 'ADMINISTRATOR'),
     userID          int,
-    roleID          VARCHAR(20),
+    roleID          int,
     FOREIGN KEY (userID) REFERENCES users (ID) ON DELETE CASCADE
 );
 
