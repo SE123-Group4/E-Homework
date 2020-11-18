@@ -3,7 +3,7 @@
 import React from 'react';
 import {Text, Icon, Button, Container} from 'native-base';
 import {ScrollView, StyleSheet} from 'react-native';
-import {CourseList} from '../Components/CourseList';
+import {TeaCourseList} from '../Components/TeaCourseList';
 
 export class TeaCoursesScreen extends React.Component {
   constructor() {
@@ -18,7 +18,7 @@ export class TeaCoursesScreen extends React.Component {
           <Button style={styles.AddButton} full rounded>
             <Icon type="FontAwesome" name="plus" />
           </Button>
-          <CourseList navigation={this.props.navigation} />
+          <TeaCourseList navigation={this.props.navigation} />
         </Container>
       </ScrollView>
     );

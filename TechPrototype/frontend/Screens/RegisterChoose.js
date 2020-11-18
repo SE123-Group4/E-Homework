@@ -1,52 +1,95 @@
 import React from 'react';
 import {Button} from 'react-native-elements';
-import {Dimensions, StyleSheet, View} from 'react-native';
+import {Alert, Dimensions, StyleSheet, View} from 'react-native';
 import {Item, Input, Text} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 let {width, height} = Dimensions.get('window');
+import {apiUrl} from '../urlconfig';
+const userInfo_URL = apiUrl + '/userInfo';
 
-export function RegisterChoose({navigation}) {
-  return (
-    <View style={{flex: 1}}>
-      <View style={styles.container}>
-        <Text
-          style={{fontSize: 30, height: 150, marginTop: 20, color: 'black'}}>
-          身份选择
-        </Text>
-        <View style={styles.ChooseStyle}>
-          <Button
-            buttonStyle={styles.chooseBtnStyle}
-            onPress={() => {
-              navigation.navigate('Home');
-            }}
-            title={'我是老师'}
-          />
-          <Button
-            buttonStyle={styles.chooseBtnStyle}
-            onPress={() => {
-              navigation.navigate('Home');
-            }}
-            title={'我是学生'}
-          />
+export class RegisterChoose extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      account: this.state.account,
+      identity: null,
+    };
+  }
+  _clickTeacherBtn = () => {
+    fetch(userInfo_URL, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        account: this.state.account,
+        indentiy: 0,
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseData) => {
+        console.log(responseData);
+        this.navigation.navigate('TeaHome');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  _clickStudentBtn = () => {
+    fetch(userInfo_URL, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        identity: 1,
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((responseData) => {
+        console.log(responseData);
+        this.navigation.navigate('StuHome');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+  render() {
+    return (
+      <View style={{flex: 1}}>
+        <View style={styles.container}>
+          <Text
+            style={{fontSize: 30, height: 150, marginTop: 20, color: 'black'}}>
+            身份选择
+          </Text>
+          <View style={styles.ChooseStyle}>
+            <Button
+              buttonStyle={styles.chooseBtnStyle}
+              onPress={() => {
+                /*this.navigation.navigate('TeaHome');*/
+                this._clickTeacherBtn();
+              }}
+              title={'我是老师'}
+            />
+            <Button
+              buttonStyle={styles.chooseBtnStyle}
+              onPress={() => {
+                /*this.navigation.navigate('StuHome');*/
+                this._clickStudentBtn();
+              }}
+              title={'我是学生'}
+            />
+          </View>
         </View>
-
-        {/*<Button
-          buttonStyle={styles.registerBtnStyle}
-          onPress={() => {
-            navigation.navigate('Home');
-          }}
-          title="我是老师"
-        />
-        <Button
-          buttonStyle={styles.registerBtnStyle}
-          onPress={() => {
-            navigation.navigate('Home');
-          }}
-          title="我是学生"
-        />*/}
       </View>
-    </View>
-  );
+    );
+  }
 }
 const styles = StyleSheet.create({
   container: {

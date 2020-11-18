@@ -1,0 +1,17 @@
+package org.cloudhomeworkplatform.cphregister.Repository;
+
+import org.cloudhomeworkplatform.cphregister.Entity.Userrole;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
+
+public interface UserroleRepository extends JpaRepository<Userrole,Integer> {
+    @Transactional
+    @Modifying
+    @Query(value="insert into userrole(role,userID,roleID) values (?,?,?)",nativeQuery=true)
+    int insertUserRole(int role,int uID,int rID);
+
+    @Query("from Userrole where role=:role and roleID=:roleID")
+    Userrole getByRoleAndRoleID(int role,int roleID);
+}
