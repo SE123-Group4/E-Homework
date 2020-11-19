@@ -4,7 +4,7 @@ import {Dimensions, StyleSheet, View, Text, Alert} from 'react-native';
 import {Item, Input, Form, Container, Picker, Content} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 let {width, height} = Dimensions.get('window');
-import {getSchoolList, postUserInfo} from '../Service/RegisterService';
+import {getSchoolList, register} from '../Service/RegisterService';
 
 export class RegisterScreen_2 extends React.Component {
   constructor(props) {
@@ -14,10 +14,10 @@ export class RegisterScreen_2 extends React.Component {
       name: null,
       school: '',
       school_list: [
-        {ID: 1, name: '北京大学'},
-        {ID: 2, name: '清华大学'},
-        {ID: 3, name: '上海交通大学'},
-        {ID: 4, name: '复旦大学'},
+        {id: 1, name: '北京大学'},
+        {id: 2, name: '清华大学'},
+        {id: 3, name: '上海交通大学'},
+        {id: 4, name: '复旦大学'},
       ],
       user_number: null,
       password: null,
@@ -26,9 +26,9 @@ export class RegisterScreen_2 extends React.Component {
   componentDidMount() {
     console.log(this.props);
     const callback = (data) => {
-      this.setState({school_list: data.school_list});
+      this.setState({school_list: data});
     };
-    //getSchoolList(callback);
+    getSchoolList(callback);
   }
 
   _clickNextBtn = () => {
@@ -38,9 +38,10 @@ export class RegisterScreen_2 extends React.Component {
     }
     const callback = (data) => {
       if (data.status === 200) {
+        Alert.alert(data.msg);
         this.props.navigation.navigate('Login');
       } else {
-        Alert.alert('注册失败');
+        Alert.alert(data.msg);
       }
     };
     console.log(
@@ -51,16 +52,16 @@ export class RegisterScreen_2 extends React.Component {
       this.state.password,
       this.props.route.params.role,
     );
-    this.props.navigation.navigate('Login');
-    // postUserInfo(
-    //   this.props.account,
-    //   this.state.name,
-    //   this.state.school,
-    //   this.state.user_number,
-    //   this.state.password,
-    //   this.props.role,
-    //   callback,
-    // );
+
+    register(
+      this.props.route.params.account,
+      this.state.name,
+      this.state.school,
+      this.state.user_number,
+      this.state.password,
+      this.props.route.params.role,
+      callback,
+    );
   };
 
   onValueChange2(value) {
@@ -106,7 +107,7 @@ export class RegisterScreen_2 extends React.Component {
                 onValueChange={this.onValueChange2.bind(this)}>
                 <Picker.Item label="选择学校" value="key0" />
                 {this.state.school_list.map((item, index) => {
-                  return <Picker.Item label={item.name} value={item.ID} />;
+                  return <Picker.Item label={item.name} value={item.id} />;
                 })}
               </Picker>
             </Item>
@@ -116,7 +117,7 @@ export class RegisterScreen_2 extends React.Component {
                 //style={{textAlign: 'center'}}
                 onChangeText={(text) => {
                   this.setState({
-                    userNumber: text,
+                    user_number: text,
                   });
                 }}
                 value={this.state.user_number}

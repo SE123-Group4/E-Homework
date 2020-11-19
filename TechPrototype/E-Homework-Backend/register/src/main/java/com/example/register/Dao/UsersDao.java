@@ -2,14 +2,18 @@ package com.example.register.Dao;
 
 import com.example.register.Entity.Users;
 
-public interface UsersDao {
-    Users getByEmail(String email);
+import java.util.Optional;
 
-    Users getByPhone(String phone);
+public interface UsersDao {
+    Optional<Users> getByEmail(String email);
+
+    Optional<Users> getByPhone(String phone);
 
     int insertUserByPhone(String phone,String pwd);
 
-    int insertUserByEmail(String email,String pwd);
+    void insertUserByEmail(String email, String pwd);
+
+    void updateState(int ID, String state);
 
     int setEmail(String e,int ID);
 

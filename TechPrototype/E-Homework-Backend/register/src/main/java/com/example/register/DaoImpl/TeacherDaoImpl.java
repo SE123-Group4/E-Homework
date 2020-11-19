@@ -6,14 +6,16 @@ import com.example.register.Repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class TeacherDaoImpl implements TeacherDao {
     @Autowired
     private TeacherRepository teacherRepository;
 
     @Override
-    public Teacher getByNameAndSchoolIDAndTeaNumber(String name, int sID, String tNum){
-        return teacherRepository.getByNameAndSchoolIDAndTeaNumber(name, sID, tNum);
+    public Optional<Teacher> getByNameAndSchoolIDAndTeaNumber(String name, int sID, String tNum){
+        return teacherRepository.findByNameAndSchoolIDAndTeaNumber(name, sID, tNum);
     }
 
     @Override

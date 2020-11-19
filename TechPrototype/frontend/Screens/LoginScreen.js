@@ -38,8 +38,10 @@ export class LoginScreen extends React.Component {
       let _storeUser = async () => {
         try {
           var auth = data.authorities[0].authority;
-          console.log(auth);
-          await AsyncStorage.setItem('user', auth);
+          var userroleID = data.principal.userroleID;
+          console.log(auth, userroleID);
+          await AsyncStorage.setItem('auth', auth);
+          await AsyncStorage.setItem('userroleID', userroleID.toString());
           this._onLoginSuccess(auth);
         } catch (e) {}
       };

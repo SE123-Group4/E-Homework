@@ -36,7 +36,7 @@ public class Course {
     private String book;
 
     @Basic
-    @Column(name = "starTtime")
+    @Column(name = "startTime")
     private String startTime;
 
     @Basic

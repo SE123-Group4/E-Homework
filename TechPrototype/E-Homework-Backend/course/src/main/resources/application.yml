@@ -4,6 +4,10 @@ server:
 spring:
   application:
     name: course
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
 eureka:
   client:
