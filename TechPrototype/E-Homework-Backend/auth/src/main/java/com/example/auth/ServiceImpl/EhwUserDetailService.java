@@ -35,10 +35,15 @@ public class EhwUserDetailService implements UserDetailsService {
         if(user.isEmpty()){
             throw new UsernameNotFoundException("not exist user");
         }
-        System.out.println(user.get().getID());
+        System.out.println(user.get().getPassword());
         System.out.println(user.get().getState());
-        Role role = userRoleDao.findByUserID(user.get().getID()).get().getRole();
+        Optional<UserRole> userRole = userRoleDao.findByUserID(user.get().getID());
+        System.out.println(userRole);
+        int roleID = userRole.get().getID();
+        Role role = userRole.get().getRole();
         System.out.println(role);
-        return  new EhwUserDetail(user.get(), role);
+        EhwUserDetail e =  new EhwUserDetail(user.get(), role, roleID);
+        System.out.println(e);
+        return e;
     }
 }

@@ -6,9 +6,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 public interface UsersRepository extends JpaRepository<Users,Integer> {
     @Query("from Users where email =:email")
     Users getByEmail(String email);
+
+    Optional<Users> findByEmail(String email);
+    Optional<Users> findByPhone(String phone);
 
     @Query("from Users where phone =:phone")
     Users getByPhone(String phone);
@@ -22,6 +27,11 @@ public interface UsersRepository extends JpaRepository<Users,Integer> {
     @Modifying
     @Query(value="insert into users(email, password, state) values (?,?,1)",nativeQuery=true)
     int insertUserByEmail(String email,String pwd);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update Users set state=:state where ID=:ID")
+    void updateState(int ID, String state);
 
     @Transactional
     @Modifying

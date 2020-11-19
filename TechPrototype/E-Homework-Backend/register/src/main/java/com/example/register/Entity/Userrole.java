@@ -13,7 +13,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name ="userrole",schema = "homework")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "ID")
+        property = "id")
 public class Userrole {
     @Id
     @GeneratedValue(strategy = IDENTITY)

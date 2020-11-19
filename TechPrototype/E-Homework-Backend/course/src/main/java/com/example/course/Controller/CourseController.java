@@ -6,6 +6,7 @@ import com.example.course.ReturnInfo.ReturnCourseList;
 import com.example.course.ReturnInfo.ReturnMsg;
 import com.example.course.Service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +22,15 @@ public class CourseController {
     @Autowired
     private CourseService courseService;
 
-    @RequestMapping(path = "/teachercourses")
+    @RequestMapping(path = "/teacher_courses")
+    @PreAuthorize("hasAnyAuthority('ROLE_TEACHER')")
     public List<Course> getCoursesByTeacherId(@RequestBody Map<String,Integer> params){
         int id= params.get("id");
         return courseService.getCoursesByTeacherId(id);
     }
 
-    @RequestMapping(path = "/studentcourses")
+    @RequestMapping(path = "/student_courses")
+    @PreAuthorize("hasAnyAuthority('ROLE_STUDENT')")
     public List<Course> getCoursesByStudentId(@RequestBody Map<String,Integer> params){
         int id= params.get("id");
         return courseService.getCoursesByStudentId(id);
@@ -39,7 +42,7 @@ public class CourseController {
         return courseService.getCourseById(id);
     }
 
-    @RequestMapping(path = "/addCourse")
+    @RequestMapping(path = "/add_course")
     public ReturnMsg addCourse(@RequestBody Map<String,String> params){
         int teacher = Integer.parseInt(params.get("teacher"));
         String introduction=params.get("introduction");

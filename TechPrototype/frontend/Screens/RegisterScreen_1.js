@@ -3,10 +3,8 @@
 import React from 'react';
 import {Button, Input} from 'react-native-elements';
 import {Dimensions, StyleSheet, View, Text, Alert} from 'react-native';
-import {apiUrl} from '../urlconfig';
-import {getAuthCode} from '../Service/RegisterService';
+import {getMailCode} from '../Service/RegisterService';
 let {width, height} = Dimensions.get('window');
-const getCode_URL = apiUrl + '/getCode';
 
 export class RegisterScreen_1 extends React.Component {
   constructor(props) {
@@ -26,20 +24,24 @@ export class RegisterScreen_1 extends React.Component {
     }
     const getCodeCallback = (data) => {
       this.setState({
-        back_code: data.back_code,
+        back_code: data.toString(),
         check_account: this.state.account,
       });
       Alert.alert('获取验证码成功');
     };
-    //getAuthCode(this.state.account, getCodeCallback);
+    getMailCode(this.state.account, getCodeCallback);
   };
 
   _clickNextBtn = () => {
+    console.log(
+      this.state.front_code,
+      this.state.back_code,
+      this.state.account,
+      this.state.check_account,
+    );
     if (
-      //this.state.front_code === this.state.back_code &&
-      this.state.account != null &&
-      this.state.front_code != null
-      //this.state.account === this.state.check_account
+      this.state.front_code === this.state.back_code &&
+      this.state.account === this.state.check_account
     ) {
       this.props.navigation.navigate('RegisterChoose', {
         account: this.state.account,

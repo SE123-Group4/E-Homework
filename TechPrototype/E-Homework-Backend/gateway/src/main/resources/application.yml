@@ -1,5 +1,6 @@
 server:
   port: 8802
+
 spring:
   application:
     name: gateway
@@ -22,13 +23,13 @@ spring:
           uri: lb://auth
           predicates:
             - Path=/**
-#  security:
-#    oauth2:
-#      resourceserver:
-#        jwt:
-#          jwk-set-uri: http://localhost:8804/oauth/check_token
-
+        - id: course
+          uri: lb://course
+          predicates:
+            - Path=/**
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8801/eureka/
+#  instance:
+#    ip-address: 127.0.0.1

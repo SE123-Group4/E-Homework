@@ -5,10 +5,7 @@ import com.example.register.ReturnInfo.ReturnMessage;
 import com.example.register.Service.IMailService;
 import com.example.register.Service.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -21,12 +18,12 @@ public class RegisterController {
     @Autowired
     private RegisterService registerService;
 
-    @RequestMapping(path = "/schools")
+    @GetMapping(path = "/school_list")
     public List<School> getSchools(){
         return registerService.getSchools();
     }
 
-    @RequestMapping(path = "/mail")
+    @RequestMapping(path = "/mail_code")
     public int sendMail(@RequestBody Map<String,String> params){
         String account=params.get("account");
         return iMailService.sendSimpleMail(account);
@@ -34,12 +31,13 @@ public class RegisterController {
 
     @RequestMapping(path = "/register")
     public ReturnMessage register(@RequestBody Map<String,String> params){
+        System.out.println(params);
         String account=params.get("account");
         String pwd=params.get("password");
         String name=params.get("name");
         int school=Integer.parseInt(params.get("school"));
-        String uNUM=params.get("userNumber");
-        int identity=Integer.parseInt(params.get("identity"));
+        String uNUM=params.get("user_number");
+        int identity=Integer.parseInt(params.get("role"));
         return registerService.register(account,pwd,name,school,uNUM,identity);
     }
 

@@ -1,22 +1,31 @@
 package com.example.auth.Entity;
 
 import com.example.auth.Constant.Role;
+import com.example.auth.Dao.UserRoleDao;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Optional;
 
+@Data
 public class EhwUserDetail implements UserDetails {
     private final int ID;
     private final String username;
     private final String password;
     private final String state;
+    private final int userroleID;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public EhwUserDetail(User user, Role role) {
+    public EhwUserDetail(User user, Role role, int roleID) {
         ID = user.getID();
+        userroleID = roleID;
         username = user.getEmail();
         password = user.getPassword();
         state = user.getState();
@@ -33,6 +42,8 @@ public class EhwUserDetail implements UserDetails {
         //return new ArrayList<>();
         return authorities;
     }
+
+
 
     @Override
     public String getPassword() {
@@ -70,6 +81,7 @@ public class EhwUserDetail implements UserDetails {
                 "username=" + username +
                 ", password='" + password + '\'' +
                 ", ID='" + ID + '\'' +
+                ", userroleID=" + userroleID + '\'' +
                 ", authorities=" + authorities +
                 '}';
     }

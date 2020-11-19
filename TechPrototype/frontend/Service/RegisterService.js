@@ -2,16 +2,16 @@ import * as url from '../Constant/Url';
 import {getRequest, postRequest} from '../Util/Ajax';
 
 // 获取验证码
-export const getAuthCode = (account, callback) => {
+export const getMailCode = (account, callback) => {
   var data = {account: account};
-  postRequest(url.REGISTER_URL + 'auth_code', data, callback);
+  postRequest(url.REGISTER_URL + 'mail_code', data, callback);
 };
 
 export const getSchoolList = (callback) => {
   getRequest(url.REGISTER_URL + 'school_list', callback);
 };
 
-export const postUserInfo = (
+export const register = (
   account,
   name,
   school,
@@ -28,5 +28,6 @@ export const postUserInfo = (
     password: password,
     role: role,
   };
-  postRequest(url.REGISTER_URL + 'user_info', data, callback);
+  console.log(data);
+  postRequest(url.REGISTER_URL + 'register', data, callback);
 };

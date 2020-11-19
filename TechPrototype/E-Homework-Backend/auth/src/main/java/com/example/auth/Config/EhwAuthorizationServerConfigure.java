@@ -1,24 +1,27 @@
 package com.example.auth.Config;
 
+import com.example.auth.Entity.EhwUserDetail;
 import com.example.auth.ServiceImpl.EhwUserDetailService;
-import com.example.auth.Util.EhwWebResponseExceptionTranslator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.DefaultUserAuthenticationConverter;
-import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
@@ -30,8 +33,8 @@ public class EhwAuthorizationServerConfigure extends AuthorizationServerConfigur
     @Autowired
     private EhwUserDetailService ehwUserDetailService;
 
-    @Autowired
-    private EhwWebResponseExceptionTranslator ehwWebResponseExceptionTranslator;
+//    @Autowired
+//    private EhwWebResponseExceptionTranslator ehwWebResponseExceptionTranslator;
 
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -59,11 +62,13 @@ public class EhwAuthorizationServerConfigure extends AuthorizationServerConfigur
         tokenServices.setTokenStore(endpoints.getTokenStore());
         tokenServices.setSupportRefreshToken(true);
         tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
-        tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
+        //tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
+        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+        tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), jwtAccessTokenConverter()));
         tokenServices.setAccessTokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(15)); // 15 days
-        endpoints.tokenServices(tokenServices);
+        endpoints.tokenServices(tokenServices).tokenEnhancer(tokenEnhancerChain);
 
-        endpoints.exceptionTranslator(ehwWebResponseExceptionTranslator);
+        //endpoints.exceptionTranslator(ehwWebResponseExceptionTranslator);
     }
 
     @Override
@@ -92,5 +97,35 @@ public class EhwAuthorizationServerConfigure extends AuthorizationServerConfigur
         jwtAccessTokenConverter.setSigningKey(signingKey);
 
         return jwtAccessTokenConverter;
+    }
+
+    @Bean
+    public TokenEnhancer tokenEnhancer() {
+        return (accessToken, authentication) -> {
+            final Map<String, Object> additionalInfo = new HashMap<>();
+            String license = "your license";
+//            boolean enable = true;//是否设置token过期 建议配置文件获取值
+//            int expires = 120;//Token过期期时间：分钟 建议配置文件获取值
+//            //配置Token超期时间：分钟
+//            if(enable){
+//                Date expires = DateUtil.offset(new Date(), DateField.MINUTE, expires);
+//                ((DefaultOAuth2AccessToken) accessToken).setExpiration(expires);
+//            }
+            //additionalInfo 中设置业务信息 如userId等
+            additionalInfo.put("license", license);
+            Authentication auth = authentication.getUserAuthentication();
+            if(auth != null){
+                EhwUserDetail user = (EhwUserDetail) auth.getPrincipal();
+                if (user != null) {
+                    additionalInfo.put("ID", user.getID());
+                    additionalInfo.put("state", user.getState());
+                    //additionalInfo.put("msg","success");
+                    additionalInfo.put("userroleID",user.getUserroleID());
+                }
+            }
+
+            ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
+            return accessToken;
+        };
     }
 }
