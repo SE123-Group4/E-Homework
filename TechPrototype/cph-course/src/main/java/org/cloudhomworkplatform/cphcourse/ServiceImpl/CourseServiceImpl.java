@@ -1,6 +1,7 @@
 package org.cloudhomworkplatform.cphcourse.ServiceImpl;
 
 import org.cloudhomworkplatform.cphcourse.Dao.CourseDao;
+import org.cloudhomworkplatform.cphcourse.Dao.StudentDao;
 import org.cloudhomworkplatform.cphcourse.Dao.TakesDao;
 import org.cloudhomworkplatform.cphcourse.Dao.TeacherDao;
 import org.cloudhomworkplatform.cphcourse.Entity.Course;
@@ -30,6 +31,9 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private TeacherDao teacherDao;
+
+    @Autowired
+    private StudentDao studentDao;
 
     @Override
     public List<Course> getCoursesByStudentId(int id){
@@ -72,6 +76,17 @@ public class CourseServiceImpl implements CourseService {
         else {
             returnMsg.setMsg(Msg0);
         }
+        return returnMsg;
+    }
+
+    @Override
+    public ReturnMsg insertTakes(int schoolID,List<String> students,int courseID){
+        ReturnMsg returnMsg=new ReturnMsg();
+        for (String student : students) {
+            Integer sID = studentDao.getByStuNumberAndSchoolID(student, schoolID);
+            takesDao.insertTakes(sID, courseID);
+        }
+        returnMsg.setMsg(Msg1);
         return returnMsg;
     }
 }
