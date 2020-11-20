@@ -16,7 +16,7 @@ export class StuCourseScreen extends React.Component {
       <Container>
         <Content>
           <CourseIntroCard courseID={this.props.route.params.courseID} />
-          <CourseFuncBtn />
+          {/*<CourseFuncBtn />*/}
           <Search />
           <StuHomeworkList
             navigation={this.props.navigation}

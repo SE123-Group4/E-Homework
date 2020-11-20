@@ -64,17 +64,20 @@ public class RegisterServiceImpl implements RegisterService {
         Optional<Users> users = usersDao.getByEmail(account);
         System.out.println("users");
         System.out.println(users);
-        if (users.isPresent()) {
+        if (users.isPresent() && users.get().getState().equals("NORMAL")) {
             returnMessage.setStatus(402);
             returnMessage.setMsg(registerMsg2);
             return returnMessage;
         }
-        else {
+        else if (users.isEmpty()){
             System.out.println('1');
             usersDao.insertUserByEmail(account, pwd);
             System.out.println('2');
             users = usersDao.getByEmail(account);
         }
+//        else if (users.get().getState().equals("INACTIVATED")) {
+//            usersDao.updateState(users.get().getID(), "NORMAL");
+//        }
 
         //假设注册者为学生
         if (identity==0){

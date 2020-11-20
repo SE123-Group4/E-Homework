@@ -34,6 +34,11 @@ public class UsersDaoImpl implements UsersDao {
     }
 
     @Override
+    public void updateUserByEmail(String email, String pwd) {
+
+    }
+
+    @Override
     public void updateState(int ID, String state) {
         usersRepository.updateState(ID, state);
     }
