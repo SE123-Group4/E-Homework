@@ -1,7 +1,7 @@
 //students courses screen
 
 import React from 'react';
-import {Text, Icon, Button, Container} from 'native-base';
+import {Text, Icon, Button, Container, Content} from 'native-base';
 import {ScrollView, StyleSheet} from 'react-native';
 import {StuCourseList} from '../Components/StuCourseList';
 
@@ -13,11 +13,11 @@ export class StuCoursesScreen extends React.Component {
 
   render() {
     return (
-      <ScrollView>
-        <Container>
+      <Container>
+        <Content>
           <StuCourseList navigation={this.props.navigation} />
-        </Container>
-      </ScrollView>
+        </Content>
+      </Container>
     );
   }
 }

@@ -1,8 +1,7 @@
 //list of courses cards
 
 import React from 'react';
-//import {Card, Text} from 'native-base';
-import {ScrollView, View, StyleSheet, Text} from 'react-native';
+import {ScrollView, View, StyleSheet} from 'react-native';
 import {
   Card,
   CardItem,
@@ -11,10 +10,13 @@ import {
   Body,
   Content,
   Icon,
+  Text,
   Button,
   Segment,
 } from 'native-base';
 import {ButtonGroup} from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getStuCourses, getTeaCourses} from '../Service/CourseService';
 //import Divide from 'react-native-divide';
 
 export class StuCourseList extends React.Component {
@@ -27,29 +29,29 @@ export class StuCourseList extends React.Component {
           name: '课程 1',
           id: 1,
           introduction: '这是简介1',
-          time: '2020-9-26',
-          students: 100,
+          startTime: '2020-9-26',
+          takes: 100,
         },
         {
           name: '课程 2',
           id: 2,
           introduction: '这是简介2',
-          time: '2020-9-26',
-          students: 100,
+          startTime: '2020-9-26',
+          takes: 100,
         },
         {
           name: '课程 3',
           id: 3,
           introduction: '这是简介3',
-          time: '2020-9-26',
-          students: 100,
+          startTime: '2020-9-26',
+          takes: 100,
         },
         {
           name: '课程 4',
           id: 4,
           introduction: '这是简介4',
-          time: '2020-9-26',
-          students: 100,
+          startTime: '2020-9-26',
+          takes: 100,
         },
       ],
     };
@@ -60,8 +62,23 @@ export class StuCourseList extends React.Component {
     this.setState({selectedIndex});
   };
 
+  componentDidMount() {
+    const callback = (data) => {
+      this.setState({courses: data});
+    };
+    const _loadCourses = async () => {
+      try {
+        var roleID = JSON.parse(await AsyncStorage.getItem('userInfo')).id;
+        console.log(roleID);
+        getStuCourses(roleID, callback);
+      } catch (e) {}
+    };
+    _loadCourses();
+  }
+
   renderCourses = () => {
-    return this.state.courses.map((item) => {
+    //console.log(this.state.courses.length === 0)
+    if (this.state.courses.length === 0) {
       return (
         <Card>
           <CardItem header>
@@ -70,33 +87,50 @@ export class StuCourseList extends React.Component {
               name="bookmark"
               style={{color: '#0093fe'}}
             />
-            <Text style={styles.CardHeader}>{item.name}</Text>
-          </CardItem>
-          <CardItem
-            button
-            onPress={() => {
-              console.log('sd');
-              this.props.navigation.navigate('StuCourse');
-            }}>
-            <Text>{item.introduction}</Text>
-          </CardItem>
-          <CardItem
-            footer
-            button
-            onPress={() => {
-              this.props.navigation.navigate('StuCourse');
-            }}>
-            <Left>
-              <Text>{item.time}</Text>
-            </Left>
-            <Right>
-              <Icon type="FontAwesome" name="user-o" />
-              <Text>{item.students}</Text>
-            </Right>
+            <Text style={styles.CardHeader}>暂无课程</Text>
           </CardItem>
         </Card>
       );
-    });
+    } else {
+      return this.state.courses.map((item, index) => {
+        return (
+          <Card>
+            <CardItem header>
+              <Icon
+                type="FontAwesome"
+                name="bookmark"
+                style={{color: '#0093fe'}}
+              />
+              <Text style={styles.CardHeader}>{item.name}</Text>
+            </CardItem>
+            <CardItem
+              button
+              onPress={() => {
+                console.log('sd');
+                this.props.navigation.navigate('StuCourse', {
+                  courseID: item.id,
+                });
+              }}>
+              <Text>{item.introduction}</Text>
+            </CardItem>
+            <CardItem
+              footer
+              button
+              onPress={() => {
+                this.props.navigation.navigate('StuCourse');
+              }}>
+              <Left>
+                <Text>{item.startTime}</Text>
+              </Left>
+              <Right>
+                <Icon type="FontAwesome" name="user-o" />
+                <Text>{item.takes}</Text>
+              </Right>
+            </CardItem>
+          </Card>
+        );
+      });
+    }
   };
 
   renderButtons = () => {

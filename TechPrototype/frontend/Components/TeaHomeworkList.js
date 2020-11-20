@@ -57,7 +57,7 @@ export class TeaHomeworkList extends React.Component {
   }
 
   renderHomework = () => {
-    return this.state.homework.map((item) => {
+    return this.state.homework.map((item, index) => {
       return (
         <Card>
           <CardItem header>
@@ -72,7 +72,11 @@ export class TeaHomeworkList extends React.Component {
               <Text style={{color: 'gray'}}>发布时间：{item.post}</Text>
             </Right>
           </CardItem>
-          <CardItem>
+          <CardItem
+            button
+            onPress={() => {
+              this.props.navigation.navigate('TeaHW');
+            }}>
             <Left>
               <Text style={{fontSize: 17}}>已完成：{item.finished}</Text>
             </Left>
@@ -102,7 +106,7 @@ export class TeaHomeworkList extends React.Component {
             onPress={() => {
               console.log('more');
             }}>
-            <Icon type="FontAwesome" name="angle-double-right" />
+            <Icon fontSize={20} type="FontAwesome" name="angle-double-right" />
             <Text>更多</Text>
           </CardItem>
         </Card>

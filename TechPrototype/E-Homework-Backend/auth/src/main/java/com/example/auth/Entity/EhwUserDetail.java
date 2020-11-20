@@ -20,20 +20,22 @@ public class EhwUserDetail implements UserDetails {
     private final String username;
     private final String password;
     private final String state;
-    private final int userroleID;
+    private final int roleID;
+    private final Object role;
     private final Collection<? extends GrantedAuthority> authorities;
 
-    public EhwUserDetail(User user, Role role, int roleID) {
+    public EhwUserDetail(User user, Role r, int rID, Object role) {
         ID = user.getID();
-        userroleID = roleID;
+        roleID = rID;
         username = user.getEmail();
         password = user.getPassword();
         state = user.getState();
+        this.role = role;
         //        switch (type) {
 //            case EMAIL: username = user.getEmail();break;
 //            case PHONE: username = user.getPhone();break;
 //        }
-        authorities = AuthorityUtils.createAuthorityList(role.toString());
+        authorities = AuthorityUtils.createAuthorityList(r.toString());
     }
 
     @Override
@@ -81,8 +83,9 @@ public class EhwUserDetail implements UserDetails {
                 "username=" + username +
                 ", password='" + password + '\'' +
                 ", ID='" + ID + '\'' +
-                ", userroleID=" + userroleID + '\'' +
+                ", roleID=" + roleID + '\'' +
                 ", authorities=" + authorities +
+                ", role=" + role + '\'' +
                 '}';
     }
 }

@@ -11,6 +11,7 @@ export class CourseFuncBtn extends React.Component {
   }
 
   render() {
+    console.log('btn', this.props);
     return (
       <Card>
         <CardItem style={styles.buttonCard}>
@@ -53,7 +54,8 @@ export class CourseFuncBtn extends React.Component {
             vertical
             style={styles.button}
             onPress={() => {
-              console.log('文件管理');
+              console.log('add');
+              this.props.navigation.navigate('ImportStu');
             }}>
             <Icon
               type="FontAwesome"

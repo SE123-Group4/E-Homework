@@ -16,14 +16,12 @@ export class TeaCourseScreen extends React.Component {
 
   render() {
     return (
-      <ScrollView>
-        <Container>
-          <CourseIntroCard />
-          <CourseFuncBtn />
-          <Search />
-          <TeaHomeworkList />
-        </Container>
-      </ScrollView>
+      <Container>
+        <CourseIntroCard courseID={this.props.route.params.courseID} />
+        <CourseFuncBtn navigation={this.props.navigation} />
+        <Search />
+        <TeaHomeworkList courseID={this.props.route.params.courseID} />
+      </Container>
     );
   }
 }

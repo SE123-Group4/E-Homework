@@ -1,15 +1,14 @@
-// file management screen
 import React from 'react';
 import {Button, Input} from 'react-native-elements';
 import {Dimensions, StyleSheet, View, Text} from 'react-native';
 let {width, height} = Dimensions.get('window');
 
-export class FileScreen extends React.Component {
+export class QuestionScreen extends React.Component {
   render() {
     return (
       <View style={{flex: 1}}>
         <View style={styles.container}>
-          <Button buttonStyle={styles.BtnStyle} title="文件" />
+          <Button buttonStyle={styles.BtnStyle} title="常见问题" />
         </View>
       </View>
     );

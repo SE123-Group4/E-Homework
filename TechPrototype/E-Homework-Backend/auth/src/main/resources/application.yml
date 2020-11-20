@@ -15,5 +15,9 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
       database: mysql
+      hibernate:
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
   main:
     allow-bean-definition-overriding: true

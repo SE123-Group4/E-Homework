@@ -64,7 +64,7 @@ public class RegisterServiceImpl implements RegisterService {
         Optional<Users> users = usersDao.getByEmail(account);
         System.out.println("users");
         System.out.println(users);
-        if (users.isPresent() && users.get().getState().equals("NORMAL")) {
+        if (users.isPresent()) {
             returnMessage.setStatus(402);
             returnMessage.setMsg(registerMsg2);
             return returnMessage;

@@ -13,14 +13,18 @@ export class TeaCoursesScreen extends React.Component {
 
   render() {
     return (
-      <ScrollView>
-        <Container>
-          <Button style={styles.AddButton} full rounded>
-            <Icon type="FontAwesome" name="plus" />
-          </Button>
-          <TeaCourseList navigation={this.props.navigation} />
-        </Container>
-      </ScrollView>
+      <Container>
+        <Button
+          style={styles.AddButton}
+          full
+          rounded
+          onPress={() => {
+            this.props.navigation.navigate('AddCourse');
+          }}>
+          <Icon type="FontAwesome" name="plus" />
+        </Button>
+        <TeaCourseList navigation={this.props.navigation} />
+      </Container>
     );
   }
 }

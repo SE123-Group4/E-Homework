@@ -26,6 +26,7 @@ public class CourseController {
     @PreAuthorize("hasAnyAuthority('ROLE_TEACHER')")
     public List<Course> getCoursesByTeacherId(@RequestBody Map<String,Integer> params){
         int id= params.get("id");
+        System.out.println(id);
         return courseService.getCoursesByTeacherId(id);
     }
 
@@ -33,17 +34,20 @@ public class CourseController {
     @PreAuthorize("hasAnyAuthority('ROLE_STUDENT')")
     public List<Course> getCoursesByStudentId(@RequestBody Map<String,Integer> params){
         int id= params.get("id");
+        System.out.println(id);
         return courseService.getCoursesByStudentId(id);
     }
 
     @RequestMapping(path = "/course")
     public ReturnCourse getCourseById(@RequestBody Map<String,Integer> params){
         int id= params.get("id");
+        System.out.println(id);
         return courseService.getCourseById(id);
     }
 
     @RequestMapping(path = "/add_course")
     public ReturnMsg addCourse(@RequestBody Map<String,String> params){
+        System.out.println(params);
         int teacher = Integer.parseInt(params.get("teacher"));
         String introduction=params.get("introduction");
         String name=params.get("name");
