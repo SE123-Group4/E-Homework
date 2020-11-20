@@ -13,6 +13,8 @@ public interface UsersDao {
 
     void insertUserByEmail(String email, String pwd);
 
+    void updateUserByEmail(String email, String pwd);
+
     void updateState(int ID, String state);
 
     int setEmail(String e,int ID);

@@ -28,6 +28,11 @@ public interface UsersRepository extends JpaRepository<Users,Integer> {
     @Query(value="insert into users(email, password, state) values (?,?,1)",nativeQuery=true)
     int insertUserByEmail(String email,String pwd);
 
+//    @Transactional
+//    @Modifying
+//    @Query(value="update Users ")
+//    void updateUserByEmail(String email, String pwd);
+
     @Transactional
     @Modifying
     @Query(value = "update Users set state=:state where ID=:ID")
