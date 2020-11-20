@@ -43,6 +43,7 @@ import {StarScreen} from './Screens/StarScreen';
 import {WrongCollectScreen} from './Screens/WrongCollectScreen';
 import {DraftScreen} from './Screens/DraftScreen';
 import {QuestionScreen} from './Screens/QuestionScreen';
+import {AnswerScreen} from './Screens/AnswerScreen';
 
 const Stack = createStackNavigator();
 
@@ -114,6 +115,16 @@ export default function App() {
         <Stack.Screen
           name="TeaHW"
           component={TeaHWScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="StuHW"
+          component={StuHWScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AnswerHW"
+          component={AnswerScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

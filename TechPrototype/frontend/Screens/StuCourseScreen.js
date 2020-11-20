@@ -1,9 +1,9 @@
 import React from 'react';
-import {ScrollView} from 'react-native';
+import {Container, Content} from 'native-base';
 import {CourseIntroCard} from '../Components/CourseIntroCard';
 import {CourseFuncBtn} from '../Components/CourseFuncBtn';
 import {Search} from '../Components/Search';
-import {HomeworkList} from '../Components/HomeworkList';
+import {StuHomeworkList} from '../Components/StuHomeworkList';
 
 export class StuCourseScreen extends React.Component {
   constructor() {
@@ -13,12 +13,17 @@ export class StuCourseScreen extends React.Component {
   render() {
     console.log(this.props);
     return (
-      <ScrollView>
-        <CourseIntroCard courseID={this.props.route.params.courseID} />
-        <CourseFuncBtn />
-        <Search />
-        <HomeworkList courseID={this.props.route.params.courseID} />
-      </ScrollView>
+      <Container>
+        <Content>
+          <CourseIntroCard courseID={this.props.route.params.courseID} />
+          <CourseFuncBtn />
+          <Search />
+          <StuHomeworkList
+            navigation={this.props.navigation}
+            courseID={this.props.route.params.courseID}
+          />
+        </Content>
+      </Container>
     );
   }
 }

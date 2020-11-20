@@ -12,14 +12,14 @@ import {
   Text,
 } from 'native-base';
 
-export class HomeworkList extends React.Component {
+export class StuHomeworkList extends React.Component {
   constructor() {
     super();
     this.state = {
       homework: [
         {title: '作业 1', post: '2020-09-28', ddl: '2020-10-10', state: 1},
-        {title: '作业 2', post: '2020-09-28', ddl: '2020-10-10', state: 2},
-        {title: '作业 3', post: '2020-09-28', ddl: '2020-10-10', state: 0},
+        {title: '作业 2', post: '2020-09-28', ddl: '2020-10-10', state: 0},
+        {title: '作业 3', post: '2020-09-28', ddl: '2020-10-10', state: 2},
         {title: '作业 4', post: '2020-09-28', ddl: '2020-10-10', state: 0},
         {title: '作业 5', post: '2020-09-28', ddl: '2020-10-10', state: 0},
       ],
@@ -51,6 +51,7 @@ export class HomeworkList extends React.Component {
   };
 
   renderHomework = () => {
+    console.log(this.props.navigation);
     return this.state.homework.map((item, index) => {
       return (
         <Card>
@@ -66,7 +67,15 @@ export class HomeworkList extends React.Component {
               <Text style={{color: 'gray'}}>发布时间：{item.post}</Text>
             </Right>
           </CardItem>
-          <CardItem>
+          <CardItem
+            button
+            onPress={() => {
+              if (item.state !== 0) {
+                this.props.navigation.navigate('StuHW');
+              } else {
+                this.props.navigation.navigate('AnswerHW');
+              }
+            }}>
             <Left style={{marginLeft: 8}}>{this.getState(item.state)}</Left>
             <Right>
               <Text style={{color: '#1FA0FC'}}>截止时间：{item.ddl}</Text>

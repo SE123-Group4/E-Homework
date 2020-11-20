@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {Button} from 'react-native-elements';
-import {View, StyleSheet, Dimensions, Alert} from 'react-native';
+import {View, StyleSheet, Dimensions, Alert, TextInput} from 'react-native';
 import {Item, Input, Form, Label, Container, Content} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -87,10 +87,12 @@ export class LoginScreen extends React.Component {
               backgroundColor: '#CCCCCC',
               height: 60,
               width: width * 0.9,
+              justifyContent: 'center',
             }}>
-            <Input
+            <TextInput
+              keyboardType={'email-address'}
               textContentType="emailAddress"
-              style={{textAlign: 'center'}}
+              style={{textAlign: 'center', fontSize: 20}}
               onChangeText={(text) => {
                 this.setState({
                   account: text,
@@ -106,10 +108,12 @@ export class LoginScreen extends React.Component {
               height: 60,
               width: width * 0.9,
               marginTop: 30,
+              justifyContent: 'center',
             }}>
-            <Input
+            <TextInput
+              secureTextEntry={true}
               textContentType="password"
-              style={{textAlign: 'center'}}
+              style={{textAlign: 'center', fontSize: 20}}
               onChangeText={(text) => {
                 this.setState({
                   password: text,

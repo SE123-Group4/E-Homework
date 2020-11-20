@@ -18,7 +18,7 @@ import {
 import {createStackNavigator} from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ScrollView, View} from 'react-native';
-import {HomeworkList} from '../Components/HomeworkList';
+import {StuHomeworkList} from '../Components/StuHomeworkList';
 import {SearchFilter} from '../Components/SearchFilter';
 
 const Stack = createStackNavigator();
@@ -58,35 +58,33 @@ export class StuHomeScreen extends React.Component {
     const {month} = this.state;
     const {date} = this.state;
     return (
-      <ScrollView>
-        <Container>
-          <Content>
-            <Card style={{marginLeft: 10, marginRight: 10, marginTop: 8}}>
-              <CardItem style={{backgroundColor: '#1FA0FC', height: 120}}>
-                <Left>
-                  <Button iconLeft rounded style={{backgroundColor: 'white'}}>
-                    <Icon name="calendar" style={{color: '#0786E0'}} />
-                    <Text style={{fontSize: 30, color: '#0786E0'}}>
-                      {month}月{date}日
-                    </Text>
-                  </Button>
-                </Left>
-                <Right>
-                  <Text
-                    style={{fontSize: 30, color: 'white', fontWeight: 'bold'}}>
-                    {this.state.userInfo.name}
+      <Container>
+        <Content>
+          <Card style={{marginLeft: 10, marginRight: 10, marginTop: 8}}>
+            <CardItem style={{backgroundColor: '#1FA0FC', height: 120}}>
+              <Left>
+                <Button iconLeft rounded style={{backgroundColor: 'white'}}>
+                  <Icon name="calendar" style={{color: '#0786E0'}} />
+                  <Text style={{fontSize: 30, color: '#0786E0'}}>
+                    {month}月{date}日
                   </Text>
-                  <Text style={{fontSize: 20, color: 'white'}}>
-                    {this.state.userInfo.classname}
-                  </Text>
-                </Right>
-              </CardItem>
-            </Card>
-            <SearchFilter />
-            <HomeworkList />
-          </Content>
-        </Container>
-      </ScrollView>
+                </Button>
+              </Left>
+              <Right>
+                <Text
+                  style={{fontSize: 30, color: 'white', fontWeight: 'bold'}}>
+                  {this.state.userInfo.name}
+                </Text>
+                <Text style={{fontSize: 20, color: 'white'}}>
+                  {this.state.userInfo.classname}
+                </Text>
+              </Right>
+            </CardItem>
+          </Card>
+          <SearchFilter />
+          <StuHomeworkList navigation={this.props.navigation} />
+        </Content>
+      </Container>
     );
   }
 }

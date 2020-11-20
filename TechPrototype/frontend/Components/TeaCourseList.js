@@ -77,7 +77,7 @@ export class TeaCourseList extends React.Component {
   }
 
   renderCourses = () => {
-    return this.state.courses.map((item, index) => {
+    if (this.state.courses.length === 0) {
       return (
         <Card>
           <CardItem header>
@@ -86,33 +86,52 @@ export class TeaCourseList extends React.Component {
               name="bookmark"
               style={{color: '#0093fe'}}
             />
-            <Text style={styles.CardHeader}>{item.name}</Text>
-          </CardItem>
-          <CardItem
-            button
-            onPress={() => {
-              console.log('sd');
-              this.props.navigation.navigate('TeaCourse', {courseID: item.id});
-            }}>
-            <Text>{item.introduction}</Text>
-          </CardItem>
-          <CardItem
-            footer
-            button
-            onPress={() => {
-              this.props.navigation.navigate('TeaCourse', {courseID: item.id});
-            }}>
-            <Left>
-              <Text>{item.startTime}</Text>
-            </Left>
-            <Right>
-              <Icon type="FontAwesome" name="user-o" />
-              <Text>{item.takes}</Text>
-            </Right>
+            <Text style={styles.CardHeader}>暂无课程</Text>
           </CardItem>
         </Card>
       );
-    });
+    } else {
+      return this.state.courses.map((item, index) => {
+        return (
+          <Card>
+            <CardItem header>
+              <Icon
+                type="FontAwesome"
+                name="bookmark"
+                style={{color: '#0093fe'}}
+              />
+              <Text style={styles.CardHeader}>{item.name}</Text>
+            </CardItem>
+            <CardItem
+              button
+              onPress={() => {
+                console.log('sd');
+                this.props.navigation.navigate('TeaCourse', {
+                  courseID: item.id,
+                });
+              }}>
+              <Text>{item.introduction}</Text>
+            </CardItem>
+            <CardItem
+              footer
+              button
+              onPress={() => {
+                this.props.navigation.navigate('TeaCourse', {
+                  courseID: item.id,
+                });
+              }}>
+              <Left>
+                <Text>{item.startTime}</Text>
+              </Left>
+              <Right>
+                <Icon type="FontAwesome" name="user-o" />
+                <Text>{item.takes}</Text>
+              </Right>
+            </CardItem>
+          </Card>
+        );
+      });
+    }
   };
 
   renderButtons = () => {

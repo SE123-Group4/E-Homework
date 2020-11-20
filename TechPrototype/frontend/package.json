@@ -36,6 +36,7 @@
     "eslint": "^7.9.0",
     "jest": "^26.4.2",
     "metro-react-native-babel-preset": "^0.63.0",
+    "react-native-fs": "^2.16.6",
     "react-navigation": "^4.4.1",
     "react-navigation-material-bottom-tabs": "^2.3.3",
     "react-navigation-tabs": "^2.10.1",
