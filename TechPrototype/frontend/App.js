@@ -38,7 +38,11 @@ import {StuMainNavigator} from './Navigators/StuMainNavigator';
 import {AssignHwScreen} from './Screens/AssignHwScreen';
 import {StuHomeScreen} from './Screens/StuHomeScreen';
 import {StuProfileScreen} from './Screens/StuProfileScreen';
+import {FileScreen} from './Screens/FileScreen';
+import {StarScreen} from './Screens/StarScreen';
 import {WrongCollectScreen} from './Screens/WrongCollectScreen';
+import {DraftScreen} from './Screens/DraftScreen';
+import {QuestionScreen} from './Screens/QuestionScreen';
 
 const Stack = createStackNavigator();
 
@@ -83,8 +87,33 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name="File"
+          component={FileScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Star"
+          component={StarScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Draft"
+          component={DraftScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="WrongCollect"
           component={WrongCollectScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Question"
+          component={QuestionScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="TeaHW"
+          component={TeaHWScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

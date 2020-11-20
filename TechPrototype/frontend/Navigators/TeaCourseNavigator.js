@@ -2,6 +2,8 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {TeaCoursesScreen} from '../Screens/TeaCoursesScreen';
 import {TeaCourseScreen} from '../Screens/TeaCourseScreen';
+import {AddCourseScreen} from '../Screens/AddCourseScreen';
+import {ImportStuScreen} from '../Screens/ImportStuScreen';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +23,16 @@ export class TeaCourseNavigator extends React.Component {
         <Stack.Screen
           name="TeaCourse"
           component={TeaCourseScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AddCourse"
+          component={AddCourseScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ImportStu"
+          component={ImportStuScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

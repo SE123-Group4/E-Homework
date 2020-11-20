@@ -25,6 +25,7 @@ export class StuMainNavigator extends React.Component {
   }
 
   render() {
+      console.log(this.props)
     return (
       <TabNavigator>
         <TabNavigatorItem
@@ -34,7 +35,10 @@ export class StuMainNavigator extends React.Component {
           onPress={() => {
             this.setState({selectedTab: 'Home'});
           }}>
-          <StuHomeScreen navigation={this.props.navigation} />
+          <StuHomeScreen
+            navigation={this.props.navigation}
+            //userInfo={this.props.navigation.route.params.userInfo}
+          />
         </TabNavigatorItem>
         <TabNavigatorItem
           renderIcon={() => <Icon type="MaterialIcons" name="bookmarks" />}

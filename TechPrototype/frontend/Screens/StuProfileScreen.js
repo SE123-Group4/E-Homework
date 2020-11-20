@@ -35,19 +35,39 @@ export function StuProfileScreen({navigation}) {
         </Card>
         <Card>
           <CardItem style={styles.profileIconStyle}>
-            <Button vertical transparent>
+            <Button
+              vertical
+              transparent
+              onPress={() => {
+                navigation.navigate('File');
+              }}>
               <Icon name="folder-open" size={30} color="#0093fe" />
               <Text style={{color: 'gray', fontSize: 15}}>文件</Text>
             </Button>
-            <Button vertical transparent>
+            <Button
+              vertical
+              transparent
+              onPress={() => {
+                navigation.navigate('Star');
+              }}>
               <Icon name="star" size={30} color="#0093fe" />
               <Text style={{color: 'gray', fontSize: 15}}>收藏</Text>
             </Button>
-            <Button vertical transparent>
+            <Button
+              vertical
+              transparent
+              onPress={() => {
+                navigation.navigate('WrongCollect');
+              }}>
               <Icon name="graduation-cap" size={30} color="#0093fe" />
               <Text style={{color: 'gray', fontSize: 15}}>错题集</Text>
             </Button>
-            <Button vertical transparent>
+            <Button
+              vertical
+              transparent
+              onPress={() => {
+                navigation.navigate('Question');
+              }}>
               <Icon name="paper-plane" size={30} color="#0093fe" />
               <Text style={{color: 'gray', fontSize: 15}}>常见问题</Text>
             </Button>

@@ -51,7 +51,7 @@ export class HomeworkList extends React.Component {
   };
 
   renderHomework = () => {
-    return this.state.homework.map((item) => {
+    return this.state.homework.map((item, index) => {
       return (
         <Card>
           <CardItem header>

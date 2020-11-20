@@ -1,6 +1,8 @@
 package com.example.auth.ServiceImpl;
 
 import com.example.auth.Constant.Role;
+import com.example.auth.Dao.StudentDao;
+import com.example.auth.Dao.TeacherDao;
 import com.example.auth.Dao.UserDao;
 import com.example.auth.Dao.UserRoleDao;
 import com.example.auth.Entity.EhwUserDetail;
@@ -25,6 +27,12 @@ public class EhwUserDetailService implements UserDetailsService {
     @Autowired
     private UserRoleDao userRoleDao;
 
+    @Autowired
+    private StudentDao studentDao;
+
+    @Autowired
+    private TeacherDao teacherDao;
+
     @SneakyThrows
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -39,10 +47,21 @@ public class EhwUserDetailService implements UserDetailsService {
         System.out.println(user.get().getState());
         Optional<UserRole> userRole = userRoleDao.findByUserID(user.get().getID());
         System.out.println(userRole);
-        int roleID = userRole.get().getID();
-        Role role = userRole.get().getRole();
-        System.out.println(role);
-        EhwUserDetail e =  new EhwUserDetail(user.get(), role, roleID);
+        int roleID = userRole.get().getRoleID();
+        Role r = userRole.get().getRole();
+        Object role = new Object();
+        switch (r) {
+            case ROLE_STUDENT: {
+                role = studentDao.findByID(roleID).get();
+                break;
+            }
+            case ROLE_TEACHER: {
+                role = teacherDao.findByID(roleID).get();
+                break;
+            }
+        }
+        System.out.println(r);
+        EhwUserDetail e =  new EhwUserDetail(user.get(), r, roleID, role);
         System.out.println(e);
         return e;
     }

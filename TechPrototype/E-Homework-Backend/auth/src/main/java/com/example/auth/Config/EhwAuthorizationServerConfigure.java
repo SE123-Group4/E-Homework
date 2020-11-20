@@ -120,7 +120,7 @@ public class EhwAuthorizationServerConfigure extends AuthorizationServerConfigur
                     additionalInfo.put("ID", user.getID());
                     additionalInfo.put("state", user.getState());
                     //additionalInfo.put("msg","success");
-                    additionalInfo.put("userroleID",user.getUserroleID());
+                    additionalInfo.put("roleID",user.getRoleID());
                 }
             }
 

@@ -11,12 +11,13 @@ export class StuCourseScreen extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <ScrollView>
-        <CourseIntroCard />
+        <CourseIntroCard courseID={this.props.route.params.courseID} />
         <CourseFuncBtn />
         <Search />
-        <HomeworkList />
+        <HomeworkList courseID={this.props.route.params.courseID} />
       </ScrollView>
     );
   }

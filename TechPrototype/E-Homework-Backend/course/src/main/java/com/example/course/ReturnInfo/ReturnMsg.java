@@ -4,5 +4,6 @@ import lombok.Data;
 
 @Data
 public class ReturnMsg {
+    int status;
     String msg;
 }

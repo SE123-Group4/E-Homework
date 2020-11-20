@@ -15,6 +15,8 @@ import {
   Segment,
 } from 'native-base';
 import {ButtonGroup} from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {getTeaCourses} from '../Service/CourseService';
 //import Divide from 'react-native-divide';
 
 export class TeaCourseList extends React.Component {
@@ -27,29 +29,29 @@ export class TeaCourseList extends React.Component {
           name: '课程 1',
           id: 1,
           introduction: '这是简介1',
-          time: '2020-9-26',
-          students: 100,
+          startTime: '2020-9-26',
+          takes: 100,
         },
         {
           name: '课程 2',
           id: 2,
           introduction: '这是简介2',
-          time: '2020-9-26',
-          students: 100,
+          startTime: '2020-9-26',
+          takes: 100,
         },
         {
           name: '课程 3',
           id: 3,
           introduction: '这是简介3',
-          time: '2020-9-26',
-          students: 100,
+          startTime: '2020-9-26',
+          takes: 100,
         },
         {
           name: '课程 4',
           id: 4,
           introduction: '这是简介4',
-          time: '2020-9-26',
-          students: 100,
+          startTime: '2020-9-26',
+          takes: 100,
         },
       ],
     };
@@ -60,8 +62,22 @@ export class TeaCourseList extends React.Component {
     this.setState({selectedIndex});
   };
 
+  componentDidMount() {
+    const callback = (data) => {
+      this.setState({courses: data});
+    };
+    const _loadCourses = async () => {
+      try {
+        var roleID = JSON.parse(await AsyncStorage.getItem('userInfo')).id;
+        console.log(roleID);
+        getTeaCourses(roleID, callback);
+      } catch (e) {}
+    };
+    _loadCourses();
+  }
+
   renderCourses = () => {
-    return this.state.courses.map((item) => {
+    return this.state.courses.map((item, index) => {
       return (
         <Card>
           <CardItem header>
@@ -76,7 +92,7 @@ export class TeaCourseList extends React.Component {
             button
             onPress={() => {
               console.log('sd');
-              this.props.navigation.navigate('TeaCourse');
+              this.props.navigation.navigate('TeaCourse', {courseID: item.id});
             }}>
             <Text>{item.introduction}</Text>
           </CardItem>
@@ -84,14 +100,14 @@ export class TeaCourseList extends React.Component {
             footer
             button
             onPress={() => {
-              this.props.navigation.navigate('TeaCourse');
+              this.props.navigation.navigate('TeaCourse', {courseID: item.id});
             }}>
             <Left>
-              <Text>{item.time}</Text>
+              <Text>{item.startTime}</Text>
             </Left>
             <Right>
               <Icon type="FontAwesome" name="user-o" />
-              <Text>{item.students}</Text>
+              <Text>{item.takes}</Text>
             </Right>
           </CardItem>
         </Card>
@@ -115,6 +131,7 @@ export class TeaCourseList extends React.Component {
   };
 
   render() {
+    console.log('list', this.props);
     return (
       <View>
         {this.renderButtons()}

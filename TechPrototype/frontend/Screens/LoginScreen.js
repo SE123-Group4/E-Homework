@@ -19,11 +19,11 @@ export class LoginScreen extends React.Component {
       token: '',
     };
   }
-  _onLoginSuccess = (auth) => {
+  _onLoginSuccess = (auth, role) => {
     if (auth === 'ROLE_TEACHER') {
-      this.props.navigation.navigate('TeaHome');
+      this.props.navigation.navigate('TeaHome', {userInfo: role});
     } else if (auth === 'ROLE_STUDENT') {
-      this.props.navigation.navigate('StuHome');
+      this.props.navigation.navigate('StuHome', {userInfo: role});
     }
   };
   _clickLoginBtn = () => {
@@ -38,11 +38,18 @@ export class LoginScreen extends React.Component {
       let _storeUser = async () => {
         try {
           var auth = data.authorities[0].authority;
-          var userroleID = data.principal.userroleID;
-          console.log(auth, userroleID);
+          var role = data.principal.role;
+          console.log(auth, role);
+          // var keys = [
+          //   ['auth', auth],
+          //   ['userInfo', role.toString()],
+          //   ['roleID', role.ID.toString()],
+          // ];
+          // await AsyncStorage.multiSet(keys);
           await AsyncStorage.setItem('auth', auth);
-          await AsyncStorage.setItem('userroleID', userroleID.toString());
-          this._onLoginSuccess(auth);
+          await AsyncStorage.setItem('roleID', role.id.toString());
+          await AsyncStorage.setItem('userInfo', JSON.stringify(role));
+          this._onLoginSuccess(auth, role);
         } catch (e) {}
       };
       _storeUser();

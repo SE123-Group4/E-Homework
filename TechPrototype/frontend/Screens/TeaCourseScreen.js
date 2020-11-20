@@ -18,10 +18,10 @@ export class TeaCourseScreen extends React.Component {
     return (
       <ScrollView>
         <Container>
-          <CourseIntroCard />
-          <CourseFuncBtn />
+          <CourseIntroCard courseID={this.props.route.params.courseID} />
+          <CourseFuncBtn navigation={this.props.navigation} />
           <Search />
-          <TeaHomeworkList />
+          <TeaHomeworkList courseID={this.props.route.params.courseID} />
         </Container>
       </ScrollView>
     );

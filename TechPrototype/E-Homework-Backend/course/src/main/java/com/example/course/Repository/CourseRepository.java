@@ -18,7 +18,7 @@ public interface CourseRepository extends JpaRepository<Course,Integer> {
 
     @Transactional
     @Modifying
-    @Query(value="insert into course(teacher,introduction,name,book,startTime,endTime,state) values (?,?,?,?,?,?,?)",nativeQuery=true)
+    @Query(value="insert into course(teacher,introduction,name,book,startTime,endTime,state, takes) values (?,?,?,?,?,?,?, 0)",nativeQuery=true)
     int insertCourse(int teacher,String introduction,String name,String book,Timestamp startTime,Timestamp endTime,int state);
 
     @Transactional

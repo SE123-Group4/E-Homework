@@ -67,9 +67,11 @@ public class CourseServiceImpl implements CourseService {
         int ret=courseDao.insertCourse(teacher, introduction, name, book, startTime, endTime, state);
         ReturnMsg returnMsg = new ReturnMsg();
         if (ret==1){
+            returnMsg.setStatus(200);
             returnMsg.setMsg(Msg1);
         }
         else {
+            returnMsg.setStatus(400);
             returnMsg.setMsg(Msg0);
         }
         return returnMsg;

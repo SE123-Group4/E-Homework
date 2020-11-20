@@ -11,6 +11,7 @@ import {
   CardItem,
 } from 'native-base';
 import {createStackNavigator} from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Avatar} from 'react-native-elements';
 import {ScrollView, View} from 'react-native';
 import {SearchFilter} from '../Components/SearchFilter';
@@ -23,13 +24,26 @@ export class TeaHomeScreen extends React.Component {
     super();
     this.state = {
       selectedTab: 'Home',
-      name: '五条悟',
-      class: '大三(4)班',
+      userInfo: {
+        name: '五条悟',
+        teaNumber: '大三(4)班',
+      },
     };
   }
   /*_onPressButton = () => {
     this.props.navigation.navigate('AssignHw');
   };*/
+
+  componentDidMount() {
+    let _loadUserInfo = async () => {
+      try {
+        var userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'));
+        this.setState({userInfo: userInfo});
+      } catch (e) {}
+    };
+    _loadUserInfo();
+  }
+
   render() {
     return (
       <ScrollView>
@@ -57,16 +71,16 @@ export class TeaHomeScreen extends React.Component {
                 <Right>
                   <Text
                     style={{fontSize: 30, color: 'white', fontWeight: 'bold'}}>
-                    {this.state.name}
+                    {this.state.userInfo.name}
                   </Text>
                   <Text style={{fontSize: 20, color: 'white'}}>
-                    {this.state.class}
+                    {this.state.userInfo.teaNumber}
                   </Text>
                 </Right>
               </CardItem>
             </Card>
             <SearchFilter />
-            <TeaHomeworkList />
+            <TeaHomeworkList navigation={this.props.navigation} />
           </Content>
         </Container>
       </ScrollView>

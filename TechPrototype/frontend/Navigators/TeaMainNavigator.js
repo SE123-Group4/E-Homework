@@ -28,7 +28,10 @@ export class TeaMainNavigator extends React.Component {
           onPress={() => {
             this.setState({selectedTab: 'Home'});
           }}>
-          <TeaHomeScreen navigation={this.props.navigation} />
+          <TeaHomeScreen
+            navigation={this.props.navigation}
+            //userInfo={this.props.navigation.route.params.userInfo}
+          />
         </TabNavigatorItem>
         <TabNavigatorItem
           renderIcon={() => <Icon type="MaterialIcons" name="bookmarks" />}

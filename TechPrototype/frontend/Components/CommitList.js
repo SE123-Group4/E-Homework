@@ -34,7 +34,7 @@ export class CommitList extends React.Component {
   };
 
   renderUnCommit = () => {
-    return this.state.unCommit.map((item) => {
+    return this.state.unCommit.map((item, index) => {
       return (
         <CardItem>
           <Body>
