@@ -23,6 +23,7 @@ public class Student {
     private int schoolID;
 
     @Basic
+    @Column(name = "stunumber")
     private String stuNumber;
 
     @Basic
