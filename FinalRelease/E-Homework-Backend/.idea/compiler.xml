@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="gateway" />
+        <module name="homework" />
+        <module name="E-Homework-Backend" />
+        <module name="auth" />
+        <module name="eureka" />
+        <module name="course" />
+        <module name="register" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="eureka-server" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="auth" options="-parameters" />
+      <module name="course" options="-parameters" />
+      <module name="eureka" options="-parameters" />
+      <module name="eureka-server" options="-parameters" />
+      <module name="gateway" options="-parameters" />
+      <module name="homework" options="-parameters" />
+      <module name="register" options="-parameters" />
+    </option>
+  </component>
+</project>
