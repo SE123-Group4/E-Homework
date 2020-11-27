@@ -25,7 +25,7 @@ import {
 } from 'native-base';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {RichText} from '../Components/RichText';
+import {RichText} from '../../Components/RichText';
 
 export class AssignHwScreen extends React.Component {
   static propTypes = {

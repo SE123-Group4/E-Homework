@@ -18,8 +18,8 @@ import {
 import {createStackNavigator} from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {ScrollView, View} from 'react-native';
-import {StuHomeworkList} from '../Components/StuHomeworkList';
-import {SearchFilter} from '../Components/SearchFilter';
+import {StuHomeworkList} from '../../Components/StuHomeworkList';
+import {SearchFilter} from '../../Components/SearchFilter';
 
 const Stack = createStackNavigator();
 
