@@ -3,7 +3,7 @@
 import React from 'react';
 import {Text, Icon, Button, Container} from 'native-base';
 import {ScrollView, StyleSheet} from 'react-native';
-import {TeaCourseList} from '../Components/TeaCourseList';
+import {TeaCourseList} from '../../Components/TeaCourseList';
 
 export class TeaCoursesScreen extends React.Component {
   constructor() {

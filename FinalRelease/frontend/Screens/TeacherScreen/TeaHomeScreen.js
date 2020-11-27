@@ -14,8 +14,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Avatar} from 'react-native-elements';
 import {ScrollView, View} from 'react-native';
-import {SearchFilter} from '../Components/SearchFilter';
-import {TeaHomeworkList} from '../Components/TeaHomeworkList';
+import {SearchFilter} from '../../Components/SearchFilter';
+import {TeaHomeworkList} from '../../Components/TeaHomeworkList';
 
 const Stack = createStackNavigator();
 

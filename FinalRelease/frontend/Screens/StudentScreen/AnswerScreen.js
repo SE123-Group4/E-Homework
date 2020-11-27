@@ -12,11 +12,11 @@ import {
     Content,
   Text,
 } from 'native-base';
-import SimpleChoiceQuestion from '../Components/SimpleChoiceQuestion';
-import ChoiceQuestion from '../Components/ChoiceQuestion';
-import TruthOrFalseQuestion from '../Components/TruthOrFalseQuestion';
-import SubjectiveQuestion from '../Components/SubjectiveQuestion';
-import FillInBlankQuestion from '../Components/FillInBlankQuestion';
+import SimpleChoiceQuestion from '../../Components/Question/SimpleChoiceQuestion';
+import ChoiceQuestion from '../../Components/Question/ChoiceQuestion';
+import TruthOrFalseQuestion from '../../Components/Question/TruthOrFalseQuestion';
+import SubjectiveQuestion from '../../Components/Question/SubjectiveQuestion';
+import FillInBlankQuestion from '../../Components/Question/FillInBlankQuestion';
 import {ScrollView} from 'react-native';
 
 export class AnswerScreen extends React.Component {
