@@ -3,7 +3,7 @@
 import React from 'react';
 import {Text, Icon, Button, Container, Content} from 'native-base';
 import {ScrollView, StyleSheet} from 'react-native';
-import {StuCourseList} from '../Components/StuCourseList';
+import {StuCourseList} from '../../Components/StuCourseList';
 
 export class StuCoursesScreen extends React.Component {
   constructor() {

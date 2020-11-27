@@ -1,6 +1,6 @@
 import React from 'react';
-import {HomeworkInfo} from '../Components/HomeworkInfo';
-import {CommitInfo} from '../Components/CommitInfo';
+import {HomeworkInfo} from '../../Components/HomeworkInfo';
+import {CommitInfo} from '../../Components/CommitInfo';
 import {ScrollView} from 'react-native';
 
 export class StuHWScreen extends React.Component {

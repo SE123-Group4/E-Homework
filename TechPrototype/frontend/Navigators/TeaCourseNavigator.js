@@ -1,9 +1,9 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {TeaCoursesScreen} from '../Screens/TeaCoursesScreen';
-import {TeaCourseScreen} from '../Screens/TeaCourseScreen';
-import {AddCourseScreen} from '../Screens/AddCourseScreen';
-import {ImportStuScreen} from '../Screens/ImportStuScreen';
+import {TeaCoursesScreen} from '../Screens/TeacherScreen/TeaCoursesScreen';
+import {TeaCourseScreen} from '../Screens/TeacherScreen/TeaCourseScreen';
+import {AddCourseScreen} from '../Screens/TeacherScreen/AddCourseScreen';
+import {ImportStuScreen} from '../Screens/TeacherScreen/ImportStuScreen';
 
 const Stack = createStackNavigator();
 
