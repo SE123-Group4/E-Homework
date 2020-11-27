@@ -19,8 +19,8 @@ import {
   DatePicker,
   CardItem,
 } from 'native-base';
-import {addCourse} from '../Service/CourseService';
-import {dateFormat} from '../Util/DateUtil';
+import {addCourse} from '../../Service/CourseService';
+import {dateFormat} from '../../Util/DateUtil';
 
 export class AddCourseScreen extends React.Component {
   constructor() {
