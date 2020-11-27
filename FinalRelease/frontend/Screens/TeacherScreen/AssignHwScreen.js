@@ -22,7 +22,9 @@ import {
   Switch,
   DatePicker,
   Picker,
+  Spinner,
 } from 'native-base';
+import {Overlay} from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {RichText} from '../../Components/RichText';
@@ -86,11 +88,53 @@ export class AssignHwScreen extends React.Component {
       ifCheckBoxShow: false,
       ifDeadlineTimePickerShow: false,
       ifAssignTimePickerShow: false,
-      ifRichTextShow: false,
       isDetailed: false, //是否编辑详情
+      ifSpinnerShow: false,
+      ifRichTextShow: false,
       richText: {text: '', fileList: []},
     };
   }
+  post = () => {
+    let hwInfo = {
+      ID: this.state.ID,
+      state: this.state.state,
+      title: this.state.title,
+      courseID: this.state.courseId,
+      submitIdList: this.state.submitIdList,
+      totals: this.state.totals,
+      isDelayed: this.state.isDelayed,
+      isRepeated: this.state.isRepeated,
+      isTimed: this.state.isTimed,
+      isGrouped: this.state.isGrouped,
+      resultAfter: this.state.resultAfter,
+      deadlineDate: this.state.deadlineDate.toLocaleDateString(),
+      deadlineTime: this.state.deadlineTime.toLocaleTimeString(),
+      assignDate: this.state.assignDate.toLocaleDateString(),
+      assignTime: this.state.assignTime.toLocaleTimeString(),
+      qInfoList: this.state.questionList.map((item) => {
+        let question = JSON.parse(JSON.stringify(item));
+        switch (question.type) {
+          case 'MULTIPLE_CHOICE':
+            question.refAnswer.sort();
+            question.refAnswer = {
+              text: question.refAnswer.join(),
+              fileList: [],
+            };
+            break;
+          case 'SUBJECTIVE':
+            break;
+          default:
+            question.refAnswer = {
+              text: '' + question.refAnswer,
+              fileList: [],
+            };
+            break;
+        }
+        return question;
+      }),
+    };
+    console.log(hwInfo);
+  };
   render() {
     return (
       <ScrollView>
@@ -104,6 +148,9 @@ export class AssignHwScreen extends React.Component {
             this.setState({richText: value});
           }}
         />
+        <Overlay isVisible={this.state.ifSpinnerShow}>
+          <Spinner color="#0093fe" />
+        </Overlay>
         <Container style={{height: 'auto'}}>
           <Header
             style={{
@@ -239,7 +286,7 @@ export class AssignHwScreen extends React.Component {
                               {item.type === 'SUBJECTIVE' ? '主观题' : ''}
                             </Text>
                           </Button>
-                          <Item style={{width: '20%'}}>
+                          <Item style={{width: '40%'}}>
                             <Input
                               placeholder="请输入分值"
                               placeholderTextColor="gray"
@@ -476,7 +523,7 @@ export class AssignHwScreen extends React.Component {
                                   thisQuestion.type === 'ONE_CHOICE' &&
                                   thisQuestion.refAnswer === thisOption.option
                                 ) {
-                                  thisQuestion.refAnswer = undefined;
+                                  thisQuestion.refAnswer = '';
                                 }
                                 questionList.splice(index, 1, thisQuestion);
                                 this.setState({
@@ -1173,7 +1220,9 @@ export class AssignHwScreen extends React.Component {
                 style={{
                   backgroundColor: '#0093fe',
                 }}
-                onPress={() => {}}>
+                onPress={() => {
+                  this.post();
+                }}>
                 <Text
                   style={{
                     fontSize: 20,
