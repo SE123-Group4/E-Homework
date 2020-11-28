@@ -3,7 +3,6 @@ package org.cloudhomworkplatform.cphcourse.Entity;
 import lombok.Data;
 import org.cloudhomworkplatform.cphcourse.EmbeddedId.GroupmemberId;
 
-import javax.persistence.Basic;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;

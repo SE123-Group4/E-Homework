@@ -17,4 +17,6 @@ public interface CourseService {
     ReturnMsg insertCourse(int teacher, String introduction, String name, String book, Timestamp startTime, Timestamp endTime, int state);
 
     ReturnMsg insertTakes(int schoolID,List<String> students,int courseID);
+
+    ReturnMsg insertGroup(int courseID,String name,List<Integer> members);
 }
