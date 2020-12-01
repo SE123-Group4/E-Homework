@@ -10,7 +10,7 @@ import {
   Body,
 } from 'native-base';
 import {Dimensions, StyleSheet} from 'react-native';
-const {width} = Dimensions.get();
+const {width} = Dimensions.get('window');
 
 export class ChoiceAnswer extends React.Component {
   constructor() {
@@ -52,16 +52,26 @@ export class ChoiceAnswer extends React.Component {
   // }
 
   check = (option) => {
-    return this.props.answer.stuAnswer.contains(option);
+    var flag = false;
+    for (var i = 0; i < this.props.answer.stuAnswer.length; i++) {
+      console.log(this.props.answer.stuAnswer[i].option, option);
+      if (this.props.answer.stuAnswer[i].option === option) {
+        flag = true;
+      }
+    }
+    return flag;
+    //return this.props.answer.stuAnswer.contains(option);
   };
 
   renderChoices = () => {
-    return this.props.answer.options.map((item) => {
+    return this.props.answer.question.options.map((item) => {
       return (
         <ListItem>
           <CheckBox checked={this.check(item.option)} />
           <Body>
-            <Text>{item.content.content}</Text>
+            <Text>
+              {item.option}. {item.content.content}
+            </Text>
           </Body>
         </ListItem>
       );
@@ -80,7 +90,7 @@ export class ChoiceAnswer extends React.Component {
         <CardItem header bordered>
           <Text>{this.props.answer.question.stem.content}</Text>
         </CardItem>
-        <CardItem>{this.renderChoices()}</CardItem>
+        {this.renderChoices()}
         <CardItem footer>
           <Left>{this.renderRefAnswer}</Left>
           <Right>

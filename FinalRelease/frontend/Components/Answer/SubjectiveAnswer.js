@@ -1,7 +1,7 @@
 import React from 'react';
 import {CardItem, Card, ListItem, Text, Label, Textarea} from 'native-base';
 import {Dimensions, StyleSheet} from 'react-native';
-const {width} = Dimensions.get();
+const {width} = Dimensions.get('window');
 
 export class SubjectiveAnswer extends React.Component {
   constructor() {

@@ -119,13 +119,12 @@ export class CorrectHwScreen extends React.Component {
     return (
       <Container>
         <Content>
-          <Text>批改作业</Text>
-          {/*<Card>*/}
-          {/*  <CardItem header bordered>*/}
-          {/*    <Text>批改作业</Text>*/}
-          {/*  </CardItem>*/}
-          {/*</Card>*/}
-          {/*{this.renderAnswers}*/}
+          <Card>
+            <CardItem header bordered>
+              <Text>批改作业</Text>
+            </CardItem>
+          </Card>
+          {this.renderAnswers()}
         </Content>
       </Container>
     );

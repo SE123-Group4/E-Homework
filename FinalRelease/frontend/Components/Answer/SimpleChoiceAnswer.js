@@ -39,17 +39,24 @@ export class SimpleChoiceAnswer extends React.Component {
     };
   }
 
+  componentDidMount() {
+    console.log(this.props.answer.question.options);
+  }
+
   check = (option) => {
     return option === this.props.answer.stuAnswer.option;
   };
 
   renderChoices = () => {
-    return this.props.answer.options.map((item) => {
+    return this.props.answer.question.options.map((item) => {
+      console.log(item);
       return (
         <ListItem>
           <CheckBox checked={this.check(item.option)} />
           <Body>
-            <Text>{item.content.content}</Text>
+            <Text>
+              {item.option}. {item.content.content}
+            </Text>
           </Body>
         </ListItem>
       );
@@ -59,18 +66,20 @@ export class SimpleChoiceAnswer extends React.Component {
   render() {
     return (
       <Card style={styles.card}>
+        <CardItem>
+          <Text>csdvdfv</Text>
+        </CardItem>
         <CardItem header bordered>
           <Text>{this.props.answer.question.stem.content}</Text>
         </CardItem>
-        <CardItem>{this.renderChoices()}</CardItem>
+        {this.renderChoices()}
         <CardItem footer>
           <Left>
-            <Text>{this.props.answer.refAnswer}</Text>
+            <Text>{this.props.answer.refAnswer.option}</Text>
           </Left>
           <Right>
             <Text>
-              {this.props.answer.stuScore}/
-              {this.props.answer.totalScore}
+              {this.props.answer.stuScore}/{this.props.answer.totalScore}
             </Text>
           </Right>
         </CardItem>
