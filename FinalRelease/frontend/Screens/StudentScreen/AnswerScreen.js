@@ -9,7 +9,7 @@ import {
   Right,
   Icon,
   Button,
-    Content,
+  Content,
   Text,
 } from 'native-base';
 import SimpleChoiceQuestion from '../../Components/Question/SimpleChoiceQuestion';
@@ -70,13 +70,9 @@ export class AnswerScreen extends React.Component {
   };
   render() {
     return (
-
-        <Container>
-          <Content>
-            {this.renderQuestion()}
-          </Content>
-
-        </Container>
+      <Container>
+        <Content>{this.renderQuestion()}</Content>
+      </Container>
     );
   }
 }
