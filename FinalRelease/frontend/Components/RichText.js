@@ -30,7 +30,7 @@ export class RichText extends React.Component {
               bordered
               style={{width: '100%', fontSize: 18, color: 'black'}}
               value={this.props.richText.text}
-              placeholder="请输入文本内容                                         "
+              placeholder="请输入文本内容"
               onChangeText={(value) => {
                 let richText = this.props.richText;
                 richText.text = value;
@@ -46,11 +46,11 @@ export class RichText extends React.Component {
                 marginTop: 10,
               }}>
               {this.props.richText.fileList.map((item, index) => {
-                let baseImg = 'data:' + item.type + ';base64,' + item.data;
                 return (
                   <Image
+                    key={index}
                     style={{resizeMode: 'contain', height: 100, width: 100}}
-                    source={{uri: baseImg}}
+                    source={{uri: 'data:image/jpg;base64,' + item}}
                     onPress={() => {
                       let richText = this.props.richText;
                       richText.fileList.splice(index, 1);
@@ -84,7 +84,7 @@ export class RichText extends React.Component {
                       ImagePicker.showImagePicker(options, (response) => {
                         if (response.data) {
                           let richText = this.props.richText;
-                          richText.fileList.push(response);
+                          richText.fileList.push(response.data);
                           this.props.setRichText(richText);
                         }
                       });
