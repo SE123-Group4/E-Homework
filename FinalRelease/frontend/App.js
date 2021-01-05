@@ -42,8 +42,9 @@ import {FileScreen} from './Screens/FileScreen';
 import {StarScreen} from './Screens/StarScreen';
 import {WrongCollectScreen} from './Screens/WrongCollectScreen';
 import {DraftScreen} from './Screens/TeacherScreen/DraftScreen';
-import {QuestionScreen} from './Screens/StudentScreen/QuestionScreen';
+import {QuestionScreen} from './Screens/QuestionScreen';
 import {AnswerScreen} from './Screens/StudentScreen/AnswerScreen';
+import {StartScreen} from './Screens/StartScreen';
 
 const Stack = createStackNavigator();
 
@@ -52,6 +53,11 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerMode: 'none'}}>
         {/*放在第一个为默认界面，初始应只有login, register, home，其他的界面在home或者相应的界面路由*/}
+        <Stack.Screen
+          name="Start"
+          component={StartScreen}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="Login"
           component={LoginScreen}
