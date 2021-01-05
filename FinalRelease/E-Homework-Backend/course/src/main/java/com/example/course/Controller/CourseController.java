@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -56,5 +57,35 @@ public class CourseController {
         Timestamp endTime=Timestamp.valueOf(params.get("endTime"));
         int state = Integer.parseInt(params.get("state"));
         return courseService.insertCourse(teacher,introduction,name,book,startTime,endTime,state);
+    }
+
+    @RequestMapping(path = "/addTakes")
+    public ReturnMsg insertTakes(@RequestBody JSONObject params){
+        int courseID = Integer.parseInt(params.get("courseID").toString());
+        int schoolID = Integer.parseInt(params.get("schoolID").toString());
+        JSONArray students= params.getJSONArray("students");
+        List<String> student_id = new ArrayList<>();
+        for (Object student : students) {
+            student_id.add(JSONObject.parseObject(student.toString(), String.class));
+        }
+        return courseService.insertTakes(schoolID,student_id,courseID);
+    }
+
+    @RequestMapping(path = "/addTakesByExcel")
+    public ReturnMsg insertTakesByExcel(@RequestParam("file") MultipartFile file,@RequestParam("school") int schoolID,@RequestParam("course") int courseID) throws Exception {
+        List<String> student_id = importExcelService.importExcelWithSimple(file);
+        return courseService.insertTakes(schoolID,student_id,courseID);
+    }
+
+    @RequestMapping(path = "/insertGroup")
+    public ReturnMsg insertGroups(@RequestBody JSONObject params){
+        int courseID = Integer.parseInt(params.get("courseID").toString());
+        String name = params.get("name").toString();
+        JSONArray members= params.getJSONArray("members");
+        List<Integer> student_id = new ArrayList<>();
+        for (Object member : members) {
+            student_id.add(JSONObject.parseObject(member.toString(), Integer.class));
+        }
+        return courseService.insertGroup(courseID,name,student_id);
     }
 }

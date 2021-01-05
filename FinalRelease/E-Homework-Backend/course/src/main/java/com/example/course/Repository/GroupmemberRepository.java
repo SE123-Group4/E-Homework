@@ -8,9 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface GroupmemberRepository extends JpaRepository<Groupmember, GroupmemberId> {
-    @Query("from Groupmember where ID.groupID=:group")
+    @Query("from Groupmember where id.groupID=:group")
     List<Groupmember> getById_GroupID(int group);
 
-    @Query("from Groupmember where ID.member=:member")
+    @Query("from Groupmember where id.member=:member")
     List<Groupmember> getById_Member(int member);
+
+    @Transactional
+    @Modifying
+    @Query(value="insert into groupmember(groupID,member) values (?,?)",nativeQuery=true)
+    int insertGroupMember(int groupID,int member);
 }

@@ -10,4 +10,6 @@ public interface CoursegroupDao {
     Coursegroup getByID(int id);
 
     int insertCourseGroup(int cID,String name);
+
+    int getByCourseIDAndName(int cID,String name);
 }
