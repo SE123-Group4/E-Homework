@@ -8,4 +8,6 @@ public interface GroupmemberDao {
     List<Groupmember> getById_GroupID(int group);
 
     List<Groupmember> getById_Member(int member);
+
+    int insertGroupMember(int groupID,int member);
 }

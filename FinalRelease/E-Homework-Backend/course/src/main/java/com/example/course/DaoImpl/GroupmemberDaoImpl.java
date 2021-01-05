@@ -22,4 +22,9 @@ public class GroupmemberDaoImpl implements GroupmemberDao {
     public List<Groupmember> getById_Member(int member){
         return groupmemberRepository.getById_Member(member);
     }
+
+    @Override
+    public int insertGroupMember(int groupID,int member){
+        return groupmemberRepository.insertGroupMember(groupID, member);
+    }
 }

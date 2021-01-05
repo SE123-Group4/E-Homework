@@ -27,4 +27,9 @@ public class CoursegroupDaoImpl implements CoursegroupDao {
     public int insertCourseGroup(int cID,String name){
         return coursegroupRepository.insertCourseGroup(cID, name);
     }
+
+    @Override
+    public int getByCourseIDAndName(int cID,String name){
+        return coursegroupRepository.getByCourseIDAndName(cID, name);
+    }
 }

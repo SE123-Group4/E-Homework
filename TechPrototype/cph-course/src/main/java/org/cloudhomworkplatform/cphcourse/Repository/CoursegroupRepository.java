@@ -19,4 +19,7 @@ public interface CoursegroupRepository extends JpaRepository<Coursegroup,Integer
     @Modifying
     @Query(value="insert into coursegroup(courseID,name) values (?,?)",nativeQuery=true)
     int insertCourseGroup(int cID,String name);
+
+    @Query("select ID from Coursegroup where courseID=:cID and name=:name")
+    int getByCourseIDAndName(int cID,String name);
 }

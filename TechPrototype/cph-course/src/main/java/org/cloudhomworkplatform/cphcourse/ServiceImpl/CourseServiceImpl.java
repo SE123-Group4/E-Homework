@@ -1,9 +1,6 @@
 package org.cloudhomworkplatform.cphcourse.ServiceImpl;
 
-import org.cloudhomworkplatform.cphcourse.Dao.CourseDao;
-import org.cloudhomworkplatform.cphcourse.Dao.StudentDao;
-import org.cloudhomworkplatform.cphcourse.Dao.TakesDao;
-import org.cloudhomworkplatform.cphcourse.Dao.TeacherDao;
+import org.cloudhomworkplatform.cphcourse.Dao.*;
 import org.cloudhomworkplatform.cphcourse.Entity.Course;
 import org.cloudhomworkplatform.cphcourse.Entity.Takes;
 import org.cloudhomworkplatform.cphcourse.ReturnInfo.ReturnCourse;
@@ -34,6 +31,12 @@ public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private StudentDao studentDao;
+
+    @Autowired
+    private CoursegroupDao coursegroupDao;
+
+    @Autowired
+    private  GroupmemberDao groupmemberDao;
 
     @Override
     public List<Course> getCoursesByStudentId(int id){
@@ -87,6 +90,21 @@ public class CourseServiceImpl implements CourseService {
             takesDao.insertTakes(sID, courseID);
         }
         returnMsg.setMsg(Msg1);
+        return returnMsg;
+    }
+
+    @Override
+    public ReturnMsg insertGroup(int courseID,String name,List<Integer> members){
+        ReturnMsg returnMsg=new ReturnMsg();
+        if(coursegroupDao.insertCourseGroup(courseID,name)==1){
+            int id=coursegroupDao.getByCourseIDAndName(courseID,name);
+            for (Integer member : members){
+                groupmemberDao.insertGroupMember(id,member);
+            }
+            returnMsg.setMsg(Msg1);
+            return returnMsg;
+        }
+        returnMsg.setMsg(Msg0);
         return returnMsg;
     }
 }
