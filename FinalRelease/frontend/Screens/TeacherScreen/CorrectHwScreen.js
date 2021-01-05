@@ -79,7 +79,7 @@ export class CorrectHwScreen extends React.Component {
           },
           totalScore: 10,
           stuScore: 0,
-          type: 'TRUTH_OR_FALSE',
+          type: 'TRUE_OR_FALSE',
           refAnswer: true,
           stuAnswer: false,
         },
@@ -124,7 +124,7 @@ export class CorrectHwScreen extends React.Component {
         return <SimpleChoiceAnswer answer={answer} />;
       case 'MULTIPLE_CHOICE':
         return <ChoiceAnswer answer={answer} />;
-      case 'TRUTH_OR_FALSE':
+      case 'TRUE_OR_FALSE':
         return <TruthOrFalseAnswer answer={answer} />;
       case 'SUBJECTIVE':
         return (

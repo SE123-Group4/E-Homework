@@ -1,6 +1,17 @@
 import React from 'react';
-import {StyleSheet, Text} from 'react-native';
-import {Card, CardItem, Left, Right, Body, Icon, Button} from 'native-base';
+import {StyleSheet} from 'react-native';
+import {
+  Card,
+  CardItem,
+  Left,
+  Right,
+  Body,
+  Icon,
+  Button,
+  Label,
+  Text,
+} from 'native-base';
+import {getStatistics} from '../Service/HomeworkService';
 
 export class HomeworkInfo extends React.Component {
   constructor(props) {
@@ -13,7 +24,23 @@ export class HomeworkInfo extends React.Component {
       content: '这是作业内容',
       answer: '这是参考答案',
       comment: '这是整体点评',
+      maxScore: 98,
+      minScore: 61,
+      averageScore: 80,
     };
+  }
+
+  componentDidMount() {
+    const statisticCallback = (res) => {
+      if (res.status === 200) {
+        this.setState({
+          maxScore: res.data.maxScore,
+          minScore: res.data.minScore,
+          averageScore: res.data.averageScore,
+        });
+      }
+    };
+    //getStatistics(this.props.homeworkID, statisticCallback);
   }
 
   render() {
@@ -53,6 +80,20 @@ export class HomeworkInfo extends React.Component {
             <Text style={styles.FootNoteGray}>参考答案 提交后可见</Text>
             <Text style={styles.Body}>{this.state.answer}</Text>
           </Body>
+        </CardItem>
+        <CardItem style={{justifyContent: 'space-between'}}>
+          <Label>
+            <Text>最高分：</Text>
+            <Text style={{color: 'green'}}>{this.state.maxScore}</Text>
+          </Label>
+          <Label>
+            <Text>平均分：</Text>
+            <Text style={{color: '#0093fe'}}>{this.state.averageScore}</Text>
+          </Label>
+          <Label>
+            <Text>最低分：</Text>
+            <Text style={{color: 'red'}}>{this.state.minScore}</Text>
+          </Label>
         </CardItem>
         <CardItem>
           <Body>

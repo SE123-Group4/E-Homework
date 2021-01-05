@@ -32,10 +32,12 @@ export class CourseFuncBtn extends React.Component {
             vertical
             style={styles.button}
             onPress={() => {
-              console.log('文件管理');
+              this.props.navigation.navigate('CourseManage', {
+                courseID: this.props.courseID,
+              });
             }}>
             <Icon type="FontAwesome" name="users" style={styles.buttonIcon} />
-            <Text style={styles.text}>分组管理</Text>
+            <Text style={styles.text}>修改信息</Text>
           </Button>
           <Button
             icon

@@ -22,11 +22,12 @@ export class StatisticScreen extends React.Component {
     this.state = {
       courseID: '',
       homeworkName: '',
-      maxScore: '95',
-      minScore: '85',
-      averageScore: '90',
+      maxScore: '-',
+      minScore: '-',
+      averageScore: '-',
     };
   }
+
 
   render() {
     return (
@@ -69,7 +70,9 @@ export class StatisticScreen extends React.Component {
                   最高分
                 </Text>
               </Left>
-              <Text style={{color: '#e97091', fontSize: 18}}>{this.state.maxScore}</Text>
+              <Text style={{color: '#e97091', fontSize: 18}}>
+                {this.state.maxScore}
+              </Text>
             </CardItem>
           </Card>
           <Card>
@@ -79,7 +82,9 @@ export class StatisticScreen extends React.Component {
                   最低分
                 </Text>
               </Left>
-              <Text style={{color: '#e97091', fontSize: 18}}>{this.state.minScore}</Text>
+              <Text style={{color: '#e97091', fontSize: 18}}>
+                {this.state.minScore}
+              </Text>
             </CardItem>
           </Card>
           <Card>
@@ -89,7 +94,9 @@ export class StatisticScreen extends React.Component {
                   平均分
                 </Text>
               </Left>
-              <Text style={{color: '#e97091', fontSize: 18}}>{this.state.averageScore}</Text>
+              <Text style={{color: '#e97091', fontSize: 18}}>
+                {this.state.averageScore}
+              </Text>
             </CardItem>
           </Card>
         </Container>

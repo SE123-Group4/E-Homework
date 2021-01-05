@@ -45,8 +45,9 @@ export class LoginScreen extends React.Component {
       let _storeUser = async () => {
         try {
           var auth = data.authorities[0].authority;
-          var role = data.principal.role;
-          console.log(auth, role);
+          var principal = data.principal;
+          //var role = data.principal.role;
+          console.log(auth, principal);
           // var keys = [
           //   ['auth', auth],
           //   ['userInfo', role.toString()],
@@ -54,9 +55,9 @@ export class LoginScreen extends React.Component {
           // ];
           // await AsyncStorage.multiSet(keys);
           await AsyncStorage.setItem('auth', auth);
-          await AsyncStorage.setItem('roleID', role.id.toString());
-          await AsyncStorage.setItem('userInfo', JSON.stringify(role));
-          this._onLoginSuccess(auth, role);
+          //await AsyncStorage.setItem('roleID', principal.role.id.toString());
+          await AsyncStorage.setItem('principal', JSON.stringify(principal));
+          this._onLoginSuccess(auth, principal.role);
         } catch (e) {}
       };
       _storeUser();

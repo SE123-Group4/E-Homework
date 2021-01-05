@@ -9,6 +9,7 @@ import {
   Right,
   Icon,
   Button,
+  Content,
   Text,
 } from 'native-base';
 
@@ -17,11 +18,41 @@ export class StuHomeworkList extends React.Component {
     super();
     this.state = {
       homework: [
-        {title: '作业 1', post: '2020-09-28', ddl: '2020-10-10', state: 1},
-        {title: '作业 2', post: '2020-09-28', ddl: '2020-10-10', state: 0},
-        {title: '作业 3', post: '2020-09-28', ddl: '2020-10-10', state: 2},
-        {title: '作业 4', post: '2020-09-28', ddl: '2020-10-10', state: 0},
-        {title: '作业 5', post: '2020-09-28', ddl: '2020-10-10', state: 0},
+        {
+          ID: 1,
+          title: '作业 1',
+          post: '2020-09-28',
+          ddl: '2020-10-10',
+          state: 1,
+        },
+        {
+          ID: 2,
+          title: '作业 2',
+          post: '2020-09-28',
+          ddl: '2020-10-10',
+          state: 0,
+        },
+        {
+          ID: 3,
+          title: '作业 3',
+          post: '2020-09-28',
+          ddl: '2020-10-10',
+          state: 2,
+        },
+        {
+          ID: 4,
+          title: '作业 4',
+          post: '2020-09-28',
+          ddl: '2020-10-10',
+          state: 0,
+        },
+        {
+          ID: 5,
+          title: '作业 5',
+          post: '2020-09-28',
+          ddl: '2020-10-10',
+          state: 0,
+        },
       ],
     };
   }
@@ -71,9 +102,11 @@ export class StuHomeworkList extends React.Component {
             button
             onPress={() => {
               if (item.state !== 0) {
-                this.props.navigation.navigate('StuHW');
+                this.props.navigation.navigate('StuHW', {homeworkID: item.ID});
               } else {
-                this.props.navigation.navigate('AnswerHW');
+                this.props.navigation.navigate('AnswerHW', {
+                  homeworkAssignID: item.ID,
+                });
               }
             }}>
             <Left style={{marginLeft: 8}}>{this.getState(item.state)}</Left>
@@ -87,7 +120,7 @@ export class StuHomeworkList extends React.Component {
   };
   render() {
     return (
-      <Container>
+      <Content>
         {this.renderHomework()}
         <Card>
           <CardItem
@@ -100,7 +133,7 @@ export class StuHomeworkList extends React.Component {
             <Text>更多</Text>
           </CardItem>
         </Card>
-      </Container>
+      </Content>
     );
   }
 }

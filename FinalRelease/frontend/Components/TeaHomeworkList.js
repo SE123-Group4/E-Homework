@@ -10,6 +10,7 @@ import {
   Icon,
   Button,
   Text,
+  Content,
 } from 'native-base';
 
 export class TeaHomeworkList extends React.Component {
@@ -18,6 +19,7 @@ export class TeaHomeworkList extends React.Component {
     this.state = {
       homework: [
         {
+          ID: 1,
           title: '作业 1',
           post: '2020-09-28',
           ddl: '2020-10-10',
@@ -25,6 +27,7 @@ export class TeaHomeworkList extends React.Component {
           unfinished: 24,
         },
         {
+          ID: 2,
           title: '作业 2',
           post: '2020-09-28',
           ddl: '2020-10-10',
@@ -32,6 +35,7 @@ export class TeaHomeworkList extends React.Component {
           unfinished: 23,
         },
         {
+          ID: 3,
           title: '作业 3',
           post: '2020-09-28',
           ddl: '2020-10-10',
@@ -39,6 +43,7 @@ export class TeaHomeworkList extends React.Component {
           unfinished: 22,
         },
         {
+          ID: 4,
           title: '作业 4',
           post: '2020-09-28',
           ddl: '2020-10-10',
@@ -46,6 +51,7 @@ export class TeaHomeworkList extends React.Component {
           unfinished: 21,
         },
         {
+          ID: 5,
           title: '作业 5',
           post: '2020-09-28',
           ddl: '2020-10-10',
@@ -75,7 +81,7 @@ export class TeaHomeworkList extends React.Component {
           <CardItem
             button
             onPress={() => {
-              this.props.navigation.navigate('TeaHW');
+              this.props.navigation.navigate('TeaHW', {homeworkID: item.ID});
             }}>
             <Left>
               <Text style={{fontSize: 17}}>已完成：{item.finished}</Text>
@@ -97,7 +103,7 @@ export class TeaHomeworkList extends React.Component {
 
   render() {
     return (
-      <Container>
+      <Content>
         {this.renderHomework()}
         <Card>
           <CardItem
@@ -110,7 +116,7 @@ export class TeaHomeworkList extends React.Component {
             <Text>更多</Text>
           </CardItem>
         </Card>
-      </Container>
+      </Content>
     );
   }
 }

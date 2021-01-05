@@ -15,6 +15,16 @@ export default class SubjectiveQuestion extends Component {
       /*richText: this.state.richText,*/
     };
   }
+
+  renderText = () => {
+      console.log('question state: ', this.state.richText)
+    if (this.state.richText.text !== '') {
+      return this.state.richText.text;
+    } else {
+      return '点击输入答案';
+    }
+  };
+
   render() {
     return (
       <Card style={styles.card}>
@@ -32,8 +42,8 @@ export default class SubjectiveQuestion extends Component {
           }}
           setRichText={(value) => {
             console.log('setrichtext', value, 'state', this.state.richText);
-            this.setState({richText: value});
-            console.log('after', this.state.richText);
+            this.props.setRichText(value);
+            this.setState({richTex: value});
           }}
         />
         <Button
@@ -50,7 +60,7 @@ export default class SubjectiveQuestion extends Component {
               richText: this.state.richText,
             });
           }}>
-          <Text style={{fontSize: 14, color: 'grey'}}>点击输入答案…</Text>
+          <Text style={{fontSize: 14, color: 'grey'}}>{this.renderText()}</Text>
         </Button>
       </Card>
     );

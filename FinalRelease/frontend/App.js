@@ -47,6 +47,8 @@ import {AnswerScreen} from './Screens/StudentScreen/AnswerScreen';
 import {CorrectHwScreen} from './Screens/TeacherScreen/CorrectHwScreen';
 import {ImageEdit} from './Components/ImageEdit';
 import {StartScreen} from './Screens/StartScreen';
+import CourseManageScreen from './Screens/TeacherScreen/CourseManageScreen';
+import ProfileManageScreen from './Screens/ProfileManageScreen';
 
 const Stack = createStackNavigator();
 
@@ -60,16 +62,7 @@ export default function App() {
         {/*  component={ImageEdit}*/}
         {/*  options={{headerShown: false}}*/}
         {/*/>*/}
-        {/*<Stack.Screen*/}
-        {/*  name="Correct"*/}
-        {/*  component={CorrectHwScreen}*/}
-        {/*  options={{headerShown: false}}*/}
-        {/*/>*/}
-        {/*<Stack.Screen*/}
-        {/*  name="AnswerHW"*/}
-        {/*  component={AnswerScreen}*/}
-        {/*  options={{headerShown: false}}*/}
-        {/*/>*/}
+
         <Stack.Screen
           name="Start"
           component={StartScreen}
@@ -111,6 +104,16 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
+          name="CorrectHW"
+          component={CorrectHwScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AnswerHW"
+          component={AnswerScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="File"
           component={FileScreen}
           options={{headerShown: false}}
@@ -143,6 +146,11 @@ export default function App() {
         <Stack.Screen
           name="StuHW"
           component={StuHWScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ProfileManage"
+          component={ProfileManageScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

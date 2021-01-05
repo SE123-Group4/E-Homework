@@ -152,10 +152,10 @@ export class TeaCourseList extends React.Component {
   render() {
     console.log('list', this.props);
     return (
-      <View>
+      <Content>
         {this.renderButtons()}
         <View style={styles.CardList}>{this.renderCourses()}</View>
-      </View>
+      </Content>
     );
   }
 }

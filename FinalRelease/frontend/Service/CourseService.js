@@ -38,3 +38,13 @@ export const addCourse = (
   };
   postRequest(COURSE_URL + 'add_course', data, callback);
 };
+
+export const modifyCourse = (courseID, name, introduction, book, callback) => {
+  var data = {
+    courseID: courseID,
+    name: name,
+    introduction: introduction,
+    book: book,
+  };
+  postRequest(COURSE_URL + 'modify_course', data, callback);
+};
