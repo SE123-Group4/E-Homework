@@ -40,11 +40,22 @@ export class SimpleChoiceAnswer extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.answer.question.options);
+    //console.log(this.props.answer.question.options);
   }
 
   check = (option) => {
     return option === this.props.answer.stuAnswer.option;
+  };
+
+  getColor = (option) => {
+    if (option === this.props.answer.stuAnswer.option) {
+      if (option === this.props.answer.refAnswer.option) {
+        return 'green';
+      } else {
+        return 'red';
+      }
+    }
+    return 'blue';
   };
 
   renderChoices = () => {
@@ -52,7 +63,10 @@ export class SimpleChoiceAnswer extends React.Component {
       console.log(item);
       return (
         <ListItem>
-          <CheckBox checked={this.check(item.option)} />
+          <CheckBox
+            color={this.getColor(item.option)}
+            checked={this.check(item.option)}
+          />
           <Body>
             <Text>
               {item.option}. {item.content.content}
@@ -66,20 +80,17 @@ export class SimpleChoiceAnswer extends React.Component {
   render() {
     return (
       <Card style={styles.card}>
-        <CardItem>
-          <Text>csdvdfv</Text>
-        </CardItem>
-        <CardItem header bordered>
+        <CardItem bordered>
           <Text>{this.props.answer.question.stem.content}</Text>
         </CardItem>
         {this.renderChoices()}
         <CardItem footer>
           <Left>
-            <Text>{this.props.answer.refAnswer.option}</Text>
+            <Text>正确答案：{this.props.answer.refAnswer.option}</Text>
           </Left>
           <Right>
             <Text>
-              {this.props.answer.stuScore}/{this.props.answer.totalScore}
+              得分：{this.props.answer.stuScore}/{this.props.answer.totalScore}
             </Text>
           </Right>
         </CardItem>
@@ -90,6 +101,6 @@ export class SimpleChoiceAnswer extends React.Component {
 
 const styles = StyleSheet.create({
   card: {
-    width: width * 0.9,
+    width: width,
   },
 });

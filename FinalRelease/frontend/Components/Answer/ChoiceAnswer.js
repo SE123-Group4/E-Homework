@@ -54,7 +54,7 @@ export class ChoiceAnswer extends React.Component {
   check = (option) => {
     var flag = false;
     for (var i = 0; i < this.props.answer.stuAnswer.length; i++) {
-      console.log(this.props.answer.stuAnswer[i].option, option);
+      //console.log(this.props.answer.stuAnswer[i].option, option);
       if (this.props.answer.stuAnswer[i].option === option) {
         flag = true;
       }
@@ -67,7 +67,10 @@ export class ChoiceAnswer extends React.Component {
     return this.props.answer.question.options.map((item) => {
       return (
         <ListItem>
-          <CheckBox checked={this.check(item.option)} />
+          <CheckBox
+            color={this.getColor(item.option)}
+            checked={this.check(item.option)}
+          />
           <Body>
             <Text>
               {item.option}. {item.content.content}
@@ -78,24 +81,48 @@ export class ChoiceAnswer extends React.Component {
     });
   };
 
-  renderRefAnswer = () => {
-    return this.props.answer.refAnswer.map((item) => {
-      return <Text>{item.option}</Text>;
-    });
+  getRefAnswer = () => {
+    //console.log('multi ref', this.props.answer.refAnswer);
+    var s = '';
+    for (var i = 0; i < this.props.answer.refAnswer.length; i++) {
+      s += this.props.answer.refAnswer[i].option;
+      s += ' ';
+    }
+    return s;
+  };
+
+  getColor = (option) => {
+    var flag = false;
+    if (this.check(option)) {
+      for (var i = 0; i < this.props.answer.refAnswer.length; i++) {
+        if (option === this.props.answer.refAnswer[i].option) {
+          flag = true;
+        }
+      }
+      if (flag) {
+        return 'green';
+      } else {
+        return 'red';
+      }
+    } else {
+      return 'blue';
+    }
   };
 
   render() {
     return (
       <Card style={styles.card}>
-        <CardItem header bordered>
+        <CardItem bordered>
           <Text>{this.props.answer.question.stem.content}</Text>
         </CardItem>
         {this.renderChoices()}
         <CardItem footer>
-          <Left>{this.renderRefAnswer}</Left>
+          <Left>
+            <Text>正确答案：{this.getRefAnswer()}</Text>
+          </Left>
           <Right>
             <Text>
-              {this.props.answer.stuScore} /{this.props.answer.totalScore}
+              得分：{this.props.answer.stuScore} /{this.props.answer.totalScore}
             </Text>
           </Right>
         </CardItem>
@@ -106,6 +133,6 @@ export class ChoiceAnswer extends React.Component {
 
 const styles = StyleSheet.create({
   card: {
-    width: width * 0.9,
+    width: width,
   },
 });

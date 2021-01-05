@@ -45,6 +45,7 @@ import {DraftScreen} from './Screens/TeacherScreen/DraftScreen';
 import {QuestionScreen} from './Screens/StudentScreen/QuestionScreen';
 import {AnswerScreen} from './Screens/StudentScreen/AnswerScreen';
 import {CorrectHwScreen} from './Screens/TeacherScreen/CorrectHwScreen';
+import {ImageEdit} from './Components/ImageEdit';
 
 const Stack = createStackNavigator();
 
@@ -53,9 +54,19 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerMode: 'none'}}>
         {/*放在第一个为默认界面，初始应只有login, register, home，其他的界面在home或者相应的界面路由*/}
+        {/*<Stack.Screen*/}
+        {/*  name="ImageEdit"*/}
+        {/*  component={ImageEdit}*/}
+        {/*  options={{headerShown: false}}*/}
+        {/*/>*/}
         <Stack.Screen
           name="Correct"
           component={CorrectHwScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AnswerHW"
+          component={AnswerScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -126,11 +137,6 @@ export default function App() {
         <Stack.Screen
           name="StuHW"
           component={StuHWScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="AnswerHW"
-          component={AnswerScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
