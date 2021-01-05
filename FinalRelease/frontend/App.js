@@ -42,10 +42,11 @@ import {FileScreen} from './Screens/FileScreen';
 import {StarScreen} from './Screens/StarScreen';
 import {WrongCollectScreen} from './Screens/WrongCollectScreen';
 import {DraftScreen} from './Screens/TeacherScreen/DraftScreen';
-import {QuestionScreen} from './Screens/StudentScreen/QuestionScreen';
+import {QuestionScreen} from './Screens/QuestionScreen';
 import {AnswerScreen} from './Screens/StudentScreen/AnswerScreen';
 import {CorrectHwScreen} from './Screens/TeacherScreen/CorrectHwScreen';
 import {ImageEdit} from './Components/ImageEdit';
+import {StartScreen} from './Screens/StartScreen';
 
 const Stack = createStackNavigator();
 
@@ -59,14 +60,19 @@ export default function App() {
         {/*  component={ImageEdit}*/}
         {/*  options={{headerShown: false}}*/}
         {/*/>*/}
+        {/*<Stack.Screen*/}
+        {/*  name="Correct"*/}
+        {/*  component={CorrectHwScreen}*/}
+        {/*  options={{headerShown: false}}*/}
+        {/*/>*/}
+        {/*<Stack.Screen*/}
+        {/*  name="AnswerHW"*/}
+        {/*  component={AnswerScreen}*/}
+        {/*  options={{headerShown: false}}*/}
+        {/*/>*/}
         <Stack.Screen
-          name="Correct"
-          component={CorrectHwScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="AnswerHW"
-          component={AnswerScreen}
+          name="Start"
+          component={StartScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen

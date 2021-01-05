@@ -18,6 +18,7 @@ import TruthOrFalseQuestion from '../../Components/Question/TruthOrFalseQuestion
 import SubjectiveQuestion from '../../Components/Question/SubjectiveQuestion';
 import FillInBlankQuestion from '../../Components/Question/FillInBlankQuestion';
 import {ScrollView} from 'react-native';
+import {RichText} from '../../Components/RichText';
 
 export class AnswerScreen extends React.Component {
   constructor() {
@@ -25,11 +26,13 @@ export class AnswerScreen extends React.Component {
     this.state = {
       question: [
         {title: '问题 1', type: 'SimpleChoice'},
-        {title: '问题 2', type: 'TruthOrFalseQuestion'},
+        {title: '问题 2', type: 'MultiChoice'},
         {title: '问题 3', type: 'TruthOrFalseQuestion'},
         {title: '问题 4', type: 'FillInBlankQuestion'},
         {title: '问题 5', type: 'SubjectiveQuestion'},
       ],
+      ifRichTextShow: false,
+      richText: {text: '', fileList: []},
     };
   }
 
@@ -47,7 +50,14 @@ export class AnswerScreen extends React.Component {
       return <FillInBlankQuestion />;
     }
     if (type === 'SubjectiveQuestion') {
-      return <SubjectiveQuestion />;
+      console.log(this.state.ifRichTextShow);
+      console.log(this.state.richText);
+      return (
+        <SubjectiveQuestion
+          ifRichTextShow={this.state.ifRichTextShow}
+          richText={this.state.richText}
+        />
+      );
     }
   };
 

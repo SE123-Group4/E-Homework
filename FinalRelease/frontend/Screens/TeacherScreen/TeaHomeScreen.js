@@ -70,10 +70,10 @@ export class TeaHomeScreen extends React.Component {
               <Right>
                 <Text
                   style={{fontSize: 30, color: 'white', fontWeight: 'bold'}}>
-                  {this.state.userInfo.name}
+                  {/*{this.state.userInfo.name}*/}
                 </Text>
                 <Text style={{fontSize: 20, color: 'white'}}>
-                  {this.state.userInfo.teaNumber}
+                  {/*{this.state.userInfo.teaNumber}*/}
                 </Text>
               </Right>
             </CardItem>

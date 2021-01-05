@@ -43,10 +43,11 @@ export class CourseFuncBtn extends React.Component {
             vertical
             style={styles.button}
             onPress={() => {
-              console.log('文件管理');
+              console.log('Statistic');
+              this.props.navigation.navigate('Statistic');
             }}>
             <Icon type="FontAwesome" name="check" style={styles.buttonIcon} />
-            <Text style={styles.text}>成绩查询</Text>
+            <Text style={styles.text}>作业统计</Text>
           </Button>
           <Button
             icon
