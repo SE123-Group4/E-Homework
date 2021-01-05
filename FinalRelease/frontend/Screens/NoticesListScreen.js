@@ -1,0 +1,1 @@
+//notices list screen
