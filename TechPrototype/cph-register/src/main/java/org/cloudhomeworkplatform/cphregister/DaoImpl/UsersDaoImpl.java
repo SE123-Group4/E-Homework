@@ -40,4 +40,9 @@ public class UsersDaoImpl implements UsersDao {
     public int setPhone(String p,int ID){
         return usersRepository.setPhone(p, ID);
     }
+
+    @Override
+    public int setPassword(String pwd,int id){
+        return usersRepository.setPassword(pwd, id);
+    }
 }
