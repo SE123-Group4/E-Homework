@@ -1,16 +1,18 @@
 package com.example.course.Controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.example.course.Entity.Course;
 import com.example.course.ReturnInfo.ReturnCourse;
 import com.example.course.ReturnInfo.ReturnCourseList;
 import com.example.course.ReturnInfo.ReturnMsg;
+import com.example.course.ReturnInfo.ReturnStudent;
 import com.example.course.Service.CourseService;
+import com.example.course.Service.ImportExcelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -22,6 +24,8 @@ import java.util.Map;
 public class CourseController {
     @Autowired
     private CourseService courseService;
+    @Autowired
+    private ImportExcelService importExcelService;
 
     @RequestMapping(path = "/teacher_courses")
     @PreAuthorize("hasAnyAuthority('ROLE_TEACHER')")
@@ -72,7 +76,7 @@ public class CourseController {
     }
 
     @RequestMapping(path = "/addTakesByExcel")
-    public ReturnMsg insertTakesByExcel(@RequestParam("file") MultipartFile file,@RequestParam("school") int schoolID,@RequestParam("course") int courseID) throws Exception {
+    public ReturnMsg insertTakesByExcel(@RequestParam("file") MultipartFile file, @RequestParam("school") int schoolID, @RequestParam("course") int courseID) throws Exception {
         List<String> student_id = importExcelService.importExcelWithSimple(file);
         return courseService.insertTakes(schoolID,student_id,courseID);
     }
@@ -87,5 +91,40 @@ public class CourseController {
             student_id.add(JSONObject.parseObject(member.toString(), Integer.class));
         }
         return courseService.insertGroup(courseID,name,student_id);
+    }
+
+    @RequestMapping(path = "/deleteCourse")
+    public ReturnMsg deleteCourseById(@RequestBody Map<String,Integer> params){
+        int id=params.get("id");
+        return courseService.deleteCourseById(id);
+    }
+
+    @RequestMapping(path = "/updateCourse")
+    ReturnMsg updateCourseById(@RequestBody Map<String,String> params){
+        String name=params.get("name");
+        String introduction=params.get("introduction");
+        String book=params.get("book");
+        int id=Integer.parseInt(params.get("id"));
+        return courseService.updateCourseById(name,introduction,book,id);
+    }
+
+    @RequestMapping(path = "/deleteTake")
+    public ReturnMsg deleteTakesById(@RequestBody Map<String,Integer> params){
+        int student =params.get("student");
+        int courseID=params.get("course");
+        return courseService.deleteTakesById(student,courseID);
+    }
+
+    @RequestMapping(path = "/getStudentsByCourse")
+    List<ReturnStudent> getStudentsById(@RequestBody Map<String,Integer> params){
+        Integer id=params.get("id");
+        return courseService.getStudentsById(id);
+    }
+
+    @RequestMapping(path = "/searchStudent")
+    List<ReturnStudent> getByIdAndName(@RequestBody Map<String,String> params){
+        int cid=Integer.parseInt(params.get("cid"));
+        String name=params.get("search");
+        return courseService.getByIdAndName(cid,name);
     }
 }

@@ -47,4 +47,9 @@ public interface UsersRepository extends JpaRepository<Users,Integer> {
     @Modifying
     @Query(value ="update Users set phone=:p where ID=:ID")
     int setPhone(String p,int ID);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update Users set password=:pwd where ID=:id")
+    int setPassword(String pwd,int id);
 }

@@ -10,4 +10,6 @@ public interface TakesDao {
     List<Takes> getByIdCourseID(int course);
 
     int insertTakes(int student,int courseID);
+
+    int deleteTakesById(int student,int courseID);
 }

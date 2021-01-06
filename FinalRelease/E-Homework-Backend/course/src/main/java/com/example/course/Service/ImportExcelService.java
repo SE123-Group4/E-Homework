@@ -1,4 +1,4 @@
-package java.com.example.course.Service;
+package com.example.course.Service;
 
 import org.springframework.web.multipart.MultipartFile;
 

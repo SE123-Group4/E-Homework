@@ -94,6 +94,18 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public ReturnMsg  deleteTakesById(int student,int courseID){
+        ReturnMsg returnMsg=new ReturnMsg();
+        int i=takesDao.deleteTakesById(student, courseID);
+        if(i==1){
+            returnMsg.setMsg(Msg1);
+        }else {
+            returnMsg.setMsg(Msg0);
+        }
+        return returnMsg;
+    }
+
+    @Override
     public ReturnMsg insertGroup(int courseID,String name,List<Integer> members){
         ReturnMsg returnMsg=new ReturnMsg();
         if(coursegroupDao.insertCourseGroup(courseID,name)==1){
@@ -105,6 +117,32 @@ public class CourseServiceImpl implements CourseService {
             return returnMsg;
         }
         returnMsg.setMsg(Msg0);
+        return returnMsg;
+    }
+
+    @Override
+    public ReturnMsg deleteCourseById(int id) {
+        ReturnMsg returnMsg=new ReturnMsg();
+        int i=courseDao.deleteCourseById(id);
+        if(i==1){
+            returnMsg.setMsg(Msg1);
+        }
+        else {
+            returnMsg.setMsg(Msg0);
+        }
+        return returnMsg;
+    }
+
+    @Override
+    public ReturnMsg updateCourseById(String name,String introduction,String book,int id){
+        ReturnMsg returnMsg=new ReturnMsg();
+        int i=courseDao.updateCourseById(name, introduction, book, id);
+        if(i==1){
+            returnMsg.setMsg(Msg1);
+        }
+        else {
+            returnMsg.setMsg(Msg0);
+        }
         return returnMsg;
     }
 }

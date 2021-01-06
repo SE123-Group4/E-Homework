@@ -19,4 +19,10 @@ public interface CourseService {
     ReturnMsg insertTakes(int schoolID,List<String> students,int courseID);
 
     ReturnMsg insertGroup(int courseID,String name,List<Integer> members);
+
+    ReturnMsg deleteTakesById(int student,int courseID);
+
+    ReturnMsg  deleteCourseById(int id);
+
+    ReturnMsg updateCourseById(String name,String introduction,String book,int id);
 }

@@ -1,6 +1,7 @@
 import {postRequest} from '../Util/Ajax';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {HOMEWORK_URL, SEARCH_URL} from '../Constant/Url';
+import {getRequest} from '../Util/Ajax';
 
 export const getStuAnswer = (homeworkAssignID, callback) => {
   var data = {homeworkAssignID: homeworkAssignID};
@@ -84,4 +85,12 @@ export const search = (searchValue, callback) => {
     }
   };
   postRequest(SEARCH_URL + 'search', data, searchCallback);
+};
+
+export const getAssignHomework = (homeworkID, callback) => {
+  getRequest(HOMEWORK_URL + 'AssignHomework?hwId=' + homeworkID, callback);
+};
+
+export const postAssignHomework = (data, callback) => {
+  postRequest(HOMEWORK_URL + 'AssignHomework', data, callback);
 };

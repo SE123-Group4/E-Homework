@@ -3,6 +3,7 @@ package com.example.course.Service;
 import com.example.course.Entity.Course;
 import com.example.course.ReturnInfo.ReturnCourse;
 import com.example.course.ReturnInfo.ReturnMsg;
+import com.example.course.ReturnInfo.ReturnStudent;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -20,4 +21,13 @@ public interface CourseService {
 
     ReturnMsg insertGroup(int courseID,String name,List<Integer> members);
 
+    ReturnMsg deleteTakesById(int student,int courseID);
+
+    ReturnMsg  deleteCourseById(int id);
+
+    ReturnMsg updateCourseById(String name,String introduction,String book,int id);
+
+    List<ReturnStudent> getStudentsById(int id);
+
+    List<ReturnStudent> getByIdAndName(int cid, String name);
 }

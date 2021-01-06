@@ -13,4 +13,8 @@ public interface CourseDao {
     int insertCourse(int teacher, String introduction, String name, String book, Timestamp startTime, Timestamp endTime, int state);
 
     int setState(int id,int s);
+
+    int deleteCourseById(int id);
+
+    int updateCourseById(String name,String introduction,String book,int id);
 }

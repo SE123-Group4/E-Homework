@@ -11,4 +11,6 @@ public interface RegisterService {
     ReturnMessage register(String account,String pwd,String name,int school,String userNumber,int identity);
 
     List<School> getSchools();
+
+    ReturnMessage setPassword(String pwd,int id);
 }

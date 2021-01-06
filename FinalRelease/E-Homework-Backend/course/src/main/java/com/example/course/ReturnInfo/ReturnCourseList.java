@@ -11,4 +11,5 @@ public class ReturnCourseList {
     String endTime;
     int state;
     int takes;
+    int status=200;
 }

@@ -72,6 +72,13 @@ public class CourseController {
         return courseService.insertTakes(schoolID,student_id,courseID);
     }
 
+    @RequestMapping(path = "/deleteTake")
+    public ReturnMsg deleteTakesById(@RequestBody Map<String,Integer> params){
+        int student =params.get("student");
+        int courseID=params.get("course");
+        return courseService.deleteTakesById(student,courseID);
+    }
+
     @RequestMapping(path = "/insertGroup")
     public ReturnMsg insertGroups(@RequestBody JSONObject params){
         int courseID = Integer.parseInt(params.get("courseID").toString());
@@ -82,5 +89,20 @@ public class CourseController {
             student_id.add(JSONObject.parseObject(member.toString(), Integer.class));
         }
         return courseService.insertGroup(courseID,name,student_id);
+    }
+
+    @RequestMapping(path = "/deleteCourse")
+    public ReturnMsg deleteCourseById(@RequestBody Map<String,Integer> params){
+        int id=params.get("id");
+        return courseService.deleteCourseById(id);
+    }
+
+    @RequestMapping(path = "/updateCourse")
+    ReturnMsg updateCourseById(@RequestBody Map<String,String> params){
+        String name=params.get("name");
+        String introduction=params.get("introduction");
+        String book=params.get("book");
+        int id=Integer.parseInt(params.get("id"));
+        return courseService.updateCourseById(name,introduction,book,id);
     }
 }

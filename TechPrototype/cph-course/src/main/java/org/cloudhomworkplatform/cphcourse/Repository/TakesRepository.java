@@ -21,4 +21,9 @@ public interface TakesRepository extends JpaRepository<Takes, TakesId> {
     @Modifying
     @Query(value="insert into takes(student,courseID) values (?,?)",nativeQuery=true)
     int insertTakes(int student,int courseID);
+
+    @Transactional
+    @Modifying
+    @Query(value = "delete from Takes where id.student=:student and id.courseID=:courseID")
+    int deleteTakesById(int student,int courseID);
 }
