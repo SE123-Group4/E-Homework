@@ -88,4 +88,26 @@ public class CourseController {
         }
         return courseService.insertGroup(courseID,name,student_id);
     }
+
+    @RequestMapping(path = "/deleteCourse")
+    public ReturnMsg deleteCourseById(@RequestBody Map<String,Integer> params){
+        int id=params.get("id");
+        return courseService.deleteCourseById(id);
+    }
+
+    @RequestMapping(path = "/updateCourse")
+    ReturnMsg updateCourseById(@RequestBody Map<String,String> params){
+        String name=params.get("name");
+        String introduction=params.get("introduction");
+        String book=params.get("book");
+        int id=Integer.parseInt(params.get("id"));
+        return courseService.updateCourseById(name,introduction,book,id);
+    }
+
+    @RequestMapping(path = "/deleteTake")
+    public ReturnMsg deleteTakesById(@RequestBody Map<String,Integer> params){
+        int student =params.get("student");
+        int courseID=params.get("course");
+        return courseService.deleteTakesById(student,courseID);
+    }
 }
