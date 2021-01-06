@@ -4,6 +4,7 @@ import com.example.course.Entity.Course;
 import com.example.course.ReturnInfo.ReturnCourse;
 import com.example.course.ReturnInfo.ReturnCourseList;
 import com.example.course.ReturnInfo.ReturnMsg;
+import com.example.course.ReturnInfo.ReturnStudent;
 import com.example.course.Service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -109,5 +110,18 @@ public class CourseController {
         int student =params.get("student");
         int courseID=params.get("course");
         return courseService.deleteTakesById(student,courseID);
+    }
+
+    @RequestMapping(path = "/getStudentsByCourse")
+    List<ReturnStudent> getStudentsById(@RequestBody Map<String,Integer> params){
+        Integer id=params.get("id");
+        return courseService.getStudentsById(id);
+    }
+
+    @RequestMapping(path = "/searchStudent")
+    List<ReturnStudent> getByIdAndName(@RequestBody Map<String,String> params){
+        int cid=Integer.parseInt(params.get("cid"));
+        String name=params.get("search");
+        return courseService.getByIdAndName(cid,name);
     }
 }

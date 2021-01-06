@@ -6,6 +6,7 @@ import com.example.course.Entity.Takes;
 import com.example.course.ReturnInfo.ReturnCourse;
 import com.example.course.ReturnInfo.ReturnCourseList;
 import com.example.course.ReturnInfo.ReturnMsg;
+import com.example.course.ReturnInfo.ReturnStudent;
 import com.example.course.Service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -155,5 +156,36 @@ public class CourseServiceImpl implements CourseService {
             returnMsg.setStatus(400);
         }
         return returnMsg;
+    }
+
+    @Override
+    public List<ReturnStudent> getStudentsById(int id){
+        List<Takes> takesList=takesDao.getByIdCourseID(id);
+        List<ReturnStudent> studentList=new ArrayList<>();
+        for (Takes takes:takesList){
+            String name=studentDao.getNameByID(takes.getId().getStudent());
+            ReturnStudent returnStudent=new ReturnStudent();
+            returnStudent.setId(takes.getId().getStudent());
+            returnStudent.setName(name);
+            studentList.add(returnStudent);
+        }
+        return studentList;
+    }
+
+    @Override
+    public List<ReturnStudent> getByIdAndName(int cid,String search){
+        List<Takes> takesList=takesDao.getByIdCourseID(cid);
+        List<ReturnStudent> studentList=new ArrayList<>();
+        for (Takes takes:takesList){
+            String name=studentDao.getNameByID(takes.getId().getStudent());
+            if(name.indexOf(search,0) !=-1)
+            {
+                ReturnStudent returnStudent=new ReturnStudent();
+                returnStudent.setId(takes.getId().getStudent());
+                returnStudent.setName(name);
+                studentList.add(returnStudent);
+            }
+        }
+        return studentList;
     }
 }
