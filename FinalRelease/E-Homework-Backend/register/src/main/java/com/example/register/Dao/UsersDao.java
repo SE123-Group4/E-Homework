@@ -20,4 +20,6 @@ public interface UsersDao {
     int setEmail(String e,int ID);
 
     int setPhone(String p,int ID);
+
+    int setPassword(String pwd,int id);
 }

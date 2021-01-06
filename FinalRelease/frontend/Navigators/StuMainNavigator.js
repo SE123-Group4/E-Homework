@@ -2,7 +2,6 @@ import React from 'react';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import {TeaCourseNavigator} from './TeaCourseNavigator';
-import {TeaProfileScreen} from '../Screens/TeacherScreen/TeaProfileScreen';
 import {StuProfileScreen} from '../Screens/StudentScreen/StuProfileScreen';
 import {Container, Header, Content, Text, Icon} from 'native-base';
 import TabNavigator from 'react-native-tab-navigator';
@@ -13,6 +12,7 @@ import {TeaCoursesScreen} from '../Screens/TeacherScreen/TeaCoursesScreen';
 import {StuHomeScreen} from '../Screens/StudentScreen/StuHomeScreen';
 import {StuCoursesScreen} from '../Screens/StudentScreen/StuCoursesScreen';
 import {StuCourseNavigator} from './StuCourseNavigator';
+import {TeaProfileScreen} from "../Screens/TeacherScreen/TeaProfileScreen";
 
 const Stack = createStackNavigator();
 

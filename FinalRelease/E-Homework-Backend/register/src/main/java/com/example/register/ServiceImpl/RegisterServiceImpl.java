@@ -144,4 +144,19 @@ public class RegisterServiceImpl implements RegisterService {
         }
         return returnMessage;
     }
+
+    @Override
+    public ReturnMessage setPassword(String pwd,int id){
+        ReturnMessage returnMessage=new ReturnMessage();
+        int i=usersDao.setPassword(pwd, id);
+        if(i==1){
+            returnMessage.setMsg(Msg1);
+            returnMessage.setStatus(200);
+        }
+        else {
+            returnMessage.setMsg(Msg0);
+            returnMessage.setStatus(400);
+        }
+        return returnMessage;
+    }
 }

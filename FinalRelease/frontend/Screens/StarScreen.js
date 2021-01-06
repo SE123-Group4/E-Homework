@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, Input} from 'react-native-elements';
-import {Dimensions, StyleSheet, View, Text} from 'react-native';
+import {Dimensions, StyleSheet, View, Text, Image} from 'react-native';
+import {Card, CardItem} from 'native-base';
 let {width, height} = Dimensions.get('window');
 
 export class StarScreen extends React.Component {

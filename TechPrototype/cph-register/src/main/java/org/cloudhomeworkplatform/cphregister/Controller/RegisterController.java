@@ -43,4 +43,11 @@ public class RegisterController {
         return registerService.register(account,pwd,name,school,uNUM,identity);
     }
 
+    @RequestMapping(path = "/setPassword")
+    public ReturnMessage setPassword(@RequestBody Map<String,String> params){
+        String password=params.get("password");
+        int id=Integer.parseInt(params.get("id"));
+        return registerService.setPassword(password,id);
+    }
+
 }

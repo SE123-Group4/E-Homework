@@ -42,7 +42,7 @@ export class SearchFilter extends React.Component {
   render() {
     return (
       <View>
-        <Search />
+        {/*<Search />*/}
         <Grid>
           <Col>
             <Form>

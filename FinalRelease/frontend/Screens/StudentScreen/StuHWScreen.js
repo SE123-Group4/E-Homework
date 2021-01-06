@@ -12,8 +12,8 @@ export class StuHWScreen extends React.Component {
   render() {
     return (
       <ScrollView>
-        <HomeworkInfo />
-        <CommitInfo type={0} />
+        <HomeworkInfo homeworkID={this.props.route.params.homeworkID} />
+        <CommitInfo type={0} navigation={this.props.navigation} />
       </ScrollView>
     );
   }

@@ -2,7 +2,14 @@
 
 import React from 'react';
 import {Button} from 'react-native-elements';
-import {View, StyleSheet, Dimensions, Alert, TextInput} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  Alert,
+  TextInput,
+  Text,
+} from 'react-native';
 import {Item, Input, Form, Label, Container, Content} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -38,8 +45,9 @@ export class LoginScreen extends React.Component {
       let _storeUser = async () => {
         try {
           var auth = data.authorities[0].authority;
-          var role = data.principal.role;
-          console.log(auth, role);
+          var principal = data.principal;
+          //var role = data.principal.role;
+          console.log(auth, principal);
           // var keys = [
           //   ['auth', auth],
           //   ['userInfo', role.toString()],
@@ -47,9 +55,9 @@ export class LoginScreen extends React.Component {
           // ];
           // await AsyncStorage.multiSet(keys);
           await AsyncStorage.setItem('auth', auth);
-          await AsyncStorage.setItem('roleID', role.id.toString());
-          await AsyncStorage.setItem('userInfo', JSON.stringify(role));
-          this._onLoginSuccess(auth, role);
+          //await AsyncStorage.setItem('roleID', principal.role.id.toString());
+          await AsyncStorage.setItem('principal', JSON.stringify(principal));
+          this._onLoginSuccess(auth, principal.role);
         } catch (e) {}
       };
       _storeUser();
@@ -81,6 +89,17 @@ export class LoginScreen extends React.Component {
         {/*  <Text>Login</Text>*/}
         {/*</Header>*/}
         <View style={styles.container}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              right: 10,
+            }}>
+            <Icon name="mixcloud" size={60} color="#CCCCCC" />
+            <Text style={{fontSize: 40, color: '#CCCCCC', left: 20}}>
+              云作业
+            </Text>
+          </View>
           <Item
             rounded
             style={{
@@ -88,6 +107,7 @@ export class LoginScreen extends React.Component {
               height: 60,
               width: width * 0.9,
               justifyContent: 'center',
+              marginTop: 50,
             }}>
             <TextInput
               keyboardType={'email-address'}
@@ -134,7 +154,11 @@ export class LoginScreen extends React.Component {
           {/*</Form>*/}
           <Button
             buttonStyle={styles.loginBtnStyle_1}
-            onPress={() => this._clickLoginBtn()}
+            // onPress={() => this._clickLoginBtn()}
+            //路由用
+            onPress={() => {
+              this.props.navigation.navigate('TeaHome');
+            }}
             icon={<Icon name="share" size={30} color="white" />}
           />
           <View style={styles.settingStyle}>

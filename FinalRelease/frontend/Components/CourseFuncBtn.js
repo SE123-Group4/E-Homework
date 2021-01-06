@@ -32,10 +32,12 @@ export class CourseFuncBtn extends React.Component {
             vertical
             style={styles.button}
             onPress={() => {
-              console.log('文件管理');
+              this.props.navigation.navigate('CourseManage', {
+                courseID: this.props.courseID,
+              });
             }}>
             <Icon type="FontAwesome" name="users" style={styles.buttonIcon} />
-            <Text style={styles.text}>分组管理</Text>
+            <Text style={styles.text}>修改信息</Text>
           </Button>
           <Button
             icon
@@ -43,10 +45,11 @@ export class CourseFuncBtn extends React.Component {
             vertical
             style={styles.button}
             onPress={() => {
-              console.log('文件管理');
+              console.log('Statistic');
+              this.props.navigation.navigate('Statistic');
             }}>
             <Icon type="FontAwesome" name="check" style={styles.buttonIcon} />
-            <Text style={styles.text}>成绩查询</Text>
+            <Text style={styles.text}>作业统计</Text>
           </Button>
           <Button
             icon
@@ -62,7 +65,7 @@ export class CourseFuncBtn extends React.Component {
               name="user-plus"
               style={styles.buttonIcon}
             />
-            <Text style={styles.text}>添加学生</Text>
+            <Text style={styles.text}>管理学生</Text>
           </Button>
         </CardItem>
       </Card>

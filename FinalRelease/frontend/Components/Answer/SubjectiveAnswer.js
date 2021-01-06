@@ -1,6 +1,17 @@
 import React from 'react';
-import {CardItem, Card, ListItem, Text, Label, Textarea} from 'native-base';
+import {
+  CardItem,
+  Card,
+  ListItem,
+  Text,
+  Label,
+  Textarea,
+  Left,
+  Right,
+} from 'native-base';
 import {Dimensions, StyleSheet} from 'react-native';
+import {Input} from 'react-native-elements';
+import {MyImage} from '../MyImage';
 const {width} = Dimensions.get('window');
 
 export class SubjectiveAnswer extends React.Component {
@@ -10,52 +21,84 @@ export class SubjectiveAnswer extends React.Component {
       subjectiveAnswer: {
         ID: 3,
         question: {
-          stem: {
-            content: '题目3主观题',
-            file: null,
-          },
+          stem: '题目3主观题',
+          image: null,
         },
         totalScore: 10,
         stuScore: null,
         type: 'SUBJECTIVE',
         refAnswer: {
           content: '参考答案的主观题回答',
-          file: null,
+          image: null,
         },
         stuAnswer: {
           content: '学生的主观题回答',
-          file: null,
+          image: null,
         },
       },
+      stuScore: 0,
     };
   }
 
   render() {
     return (
       <Card style={styles.card}>
-        <CardItem header bordered>
-          <Text>{this.props.answer.question.stem.content}</Text>
+        <CardItem bordered>
+          <Text>{this.props.answer.question.stem}</Text>
+
+        </CardItem>
+        <CardItem>
+          <MyImage
+              sourse={this.props.answer.question.image}
+              width={width * 0.9}
+              height={200}
+          />
         </CardItem>
         <CardItem>
           <Label>
             <Text>学生回答：</Text>
           </Label>
-          <Textarea
-            rowSpan={5}
-            bordered={false}
-            underline={false}
-            value={this.props.answer.stuAnswer.content}
-          />
         </CardItem>
         <CardItem>
           <Label>
-            <Text>评价：</Text>
+            <Text>{this.props.answer.stuAnswer.content}</Text>
+            <MyImage
+              source={this.props.answer.stuAnswer.image}
+              width={width * 0.9}
+              height={200}
+            />
           </Label>
+        </CardItem>
+        <CardItem>
+          <Left>
+            <Label>
+              <Text>得分：</Text>
+            </Label>
+            <Input
+              inputContainerStyle={styles.input}
+              onChangeText={(text) => {
+                console.log('stuScore: ', parseInt(text, 10));
+                this.props.setStuScore(parseInt(text, 10));
+              }}
+            />
+          </Left>
+          <Label>
+            <Text>/{this.props.answer.totalScore}</Text>
+          </Label>
+        </CardItem>
+        <CardItem>
+          <Label>
+            <Text>*评价：</Text>
+          </Label>
+        </CardItem>
+        <CardItem>
           <Textarea
             rowSpan={5}
-            bordered={false}
-            underline={false}
+            bordered
+            underline
+            style={styles.textarea}
             placeholder="请输入评价"
+            onChangeText={(text) => this.props.setComment(text)}
           />
         </CardItem>
       </Card>
@@ -65,6 +108,12 @@ export class SubjectiveAnswer extends React.Component {
 
 const styles = StyleSheet.create({
   card: {
+    width: width,
+  },
+  textarea: {
     width: width * 0.9,
+  },
+  input: {
+    width: width * 0.5,
   },
 });

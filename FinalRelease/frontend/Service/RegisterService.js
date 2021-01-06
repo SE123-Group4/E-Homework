@@ -31,3 +31,7 @@ export const register = (
   console.log(data);
   postRequest(url.REGISTER_URL + 'register', data, callback);
 };
+
+export const modifyPassword = (username, password, callback) => {
+
+}

@@ -9,21 +9,68 @@ import {
   Right,
   Icon,
   Button,
+  Content,
   Text,
 } from 'native-base';
+import {SearchBar} from 'react-native-elements';
+import {getCourseHomework} from '../Service/HomeworkService';
 
 export class StuHomeworkList extends React.Component {
   constructor() {
     super();
     this.state = {
       homework: [
-        {title: '作业 1', post: '2020-09-28', ddl: '2020-10-10', state: 1},
-        {title: '作业 2', post: '2020-09-28', ddl: '2020-10-10', state: 0},
-        {title: '作业 3', post: '2020-09-28', ddl: '2020-10-10', state: 2},
-        {title: '作业 4', post: '2020-09-28', ddl: '2020-10-10', state: 0},
-        {title: '作业 5', post: '2020-09-28', ddl: '2020-10-10', state: 0},
+        {
+          ID: 1,
+          title: '作业 1',
+          post: '2020-09-28',
+          ddl: '2020-10-10',
+          state: 1,
+        },
+        {
+          ID: 2,
+          title: '作业 2',
+          post: '2020-09-28',
+          ddl: '2020-10-10',
+          state: 0,
+        },
+        {
+          ID: 3,
+          title: '作业 3',
+          post: '2020-09-28',
+          ddl: '2020-10-10',
+          state: 2,
+        },
+        {
+          ID: 4,
+          title: '作业 4',
+          post: '2020-09-28',
+          ddl: '2020-10-10',
+          state: 0,
+        },
+        {
+          ID: 5,
+          title: '作业 5',
+          post: '2020-09-28',
+          ddl: '2020-10-10',
+          state: 0,
+        },
       ],
+      searchValue: '',
     };
+  }
+
+  componentDidMount() {
+    const callback = (res) => {
+      if (res.status === 200) {
+        this.setState({homework: res.data});
+      }
+    };
+    if (this.props.courseID === null || this.props.courseID === undefined) {
+      //getStuHomework(callback);
+    } else {
+      getCourseHomework(this.props.courseID, 'ROLE_STUDENT', callback);
+    }
   }
 
   getState = (state) => {
@@ -50,6 +97,15 @@ export class StuHomeworkList extends React.Component {
     }
   };
 
+  search = () => {
+    const callback = (res) => {
+      if (res.status === 200) {
+        this.setState({homework: res.data});
+      }
+    };
+    //search(this.state.searchValue, callback);
+  };
+
   renderHomework = () => {
     console.log(this.props.navigation);
     return this.state.homework.map((item, index) => {
@@ -71,9 +127,11 @@ export class StuHomeworkList extends React.Component {
             button
             onPress={() => {
               if (item.state !== 0) {
-                this.props.navigation.navigate('StuHW');
+                this.props.navigation.navigate('StuHW', {homeworkID: item.ID});
               } else {
-                this.props.navigation.navigate('AnswerHW');
+                this.props.navigation.navigate('AnswerHW', {
+                  homeworkAssignID: item.ID,
+                });
               }
             }}>
             <Left style={{marginLeft: 8}}>{this.getState(item.state)}</Left>
@@ -87,7 +145,16 @@ export class StuHomeworkList extends React.Component {
   };
   render() {
     return (
-      <Container>
+      <Content>
+        <SearchBar
+          placeholder="搜索"
+          onChangeText={(text) => this.setState({searchValue: text})}
+          onSubmitEditing={this.search()}
+          value={this.state.searchValue}
+          lightTheme
+          containerStyle={{backgroundColor: 'white'}}
+          round
+        />
         {this.renderHomework()}
         <Card>
           <CardItem
@@ -100,7 +167,7 @@ export class StuHomeworkList extends React.Component {
             <Text>更多</Text>
           </CardItem>
         </Card>
-      </Container>
+      </Content>
     );
   }
 }

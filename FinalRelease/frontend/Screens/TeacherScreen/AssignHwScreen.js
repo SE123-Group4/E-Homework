@@ -26,8 +26,12 @@ import {
 } from 'native-base';
 import {Overlay} from 'react-native-elements';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {Alert, ScrollView, StyleSheet, View} from 'react-native';
 import {RichText} from '../../Components/RichText';
+import {
+  getAssignHomework,
+  postAssignHomework,
+} from '../../Service/HomeworkService';
 
 export class AssignHwScreen extends React.Component {
   static propTypes = {
@@ -39,7 +43,7 @@ export class AssignHwScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      ID: 0, //homeworkID
+      ID: props.hwId, //homeworkID
       state: undefined, //homeworkState(ASSIGNED/DRAFT/ABORTED)
       title: '', //标题
       courseId: undefined, //选中的课程
@@ -55,46 +59,167 @@ export class AssignHwScreen extends React.Component {
       assignDate: new Date(), //发布日期
       assignTime: new Date(), //发布时间
       questionList: [], //题目
-      courseInfo: [
-        {
-          ID: 1,
-          name: 'CSE',
-          groupList: [
-            {ID: 1, name: 'group1'},
-            {ID: 2, name: 'group2'},
-            {ID: 3, name: 'group3'},
-          ],
-          studentList: [
-            {ID: 1, name: 'student1'},
-            {ID: 2, name: 'student2'},
-            {ID: 3, name: 'student3'},
-          ],
-        },
-        {
-          ID: 2,
-          name: 'Compiler',
-          groupList: [
-            {ID: 4, name: 'group4'},
-            {ID: 5, name: 'group5'},
-            {ID: 6, name: 'group6'},
-          ],
-          studentList: [
-            {ID: 4, name: 'student4'},
-            {ID: 5, name: 'student5'},
-            {ID: 6, name: 'student6'},
-          ],
-        },
-      ],
+      courseInfo: [],
+      // courseInfo: [
+      //   {
+      //     ID: 1,
+      //     name: 'CSE',
+      //     groupList: [
+      //       {ID: 1, name: 'group1'},
+      //       {ID: 2, name: 'group2'},
+      //       {ID: 3, name: 'group3'},
+      //     ],
+      //     studentList: [
+      //       {ID: 1, name: 'student1'},
+      //       {ID: 2, name: 'student2'},
+      //       {ID: 3, name: 'student3'},
+      //     ],
+      //   },
+      //   {
+      //     ID: 2,
+      //     name: 'Compiler',
+      //     groupList: [
+      //       {ID: 4, name: 'group4'},
+      //       {ID: 5, name: 'group5'},
+      //       {ID: 6, name: 'group6'},
+      //     ],
+      //     studentList: [
+      //       {ID: 4, name: 'student4'},
+      //       {ID: 5, name: 'student5'},
+      //       {ID: 6, name: 'student6'},
+      //     ],
+      //   },
+      // ],
       ifCheckBoxShow: false,
       ifDeadlineTimePickerShow: false,
       ifAssignTimePickerShow: false,
       isDetailed: false, //是否编辑详情
-      ifSpinnerShow: false,
+      ifSpinnerShow: true,
       ifRichTextShow: false,
       richText: {text: '', fileList: []},
     };
   }
-  post = () => {
+  componentDidMount() {
+    let callback = (res) => {
+      if (res.status === 200) {
+        if (this.props.hwId === 0) {
+          this.setState({
+            courseInfo: res.data.courseInfo,
+            courseId: res.data.courseInfo[0].ID,
+            ifSpinnerShow: false,
+          });
+        } else {
+          this.setState({
+            courseInfo: res.data.courseInfo,
+            state: res.data.hwInfo.state,
+            title: res.data.hwInfo.title,
+            courseId: res.data.hwInfo.courseID,
+            submitIdList: res.data.hwInfo.submitIdList,
+            totals: res.data.hwInfo.totals,
+            isDelayed: res.data.hwInfo.isDelayed,
+            isRepeated: res.data.hwInfo.isRepeated,
+            isTimed: res.data.hwInfo.isTimed,
+            isGrouped: res.data.hwInfo.isGrouped,
+            resultAfter: res.data.hwInfo.resultAfter,
+            questionList: res.data.hwInfo.qInfoList.map((item) => {
+              let question = JSON.parse(JSON.stringify(item));
+              switch (question.type) {
+                case 'MULTIPLE_CHOICE':
+                  if (question.refAnswer.text === '') {
+                    question.refAnswer = [];
+                  } else {
+                    question.refAnswer = question.refAnswer.text.split(',');
+                  }
+                  break;
+                case 'SUBJECTIVE':
+                  break;
+                case 'ONE_CHOICE':
+                  question.refAnswer = question.refAnswer.text;
+                  break;
+                case 'TRUE_OR_FALSE':
+                  if (question.refAnswer.text === 'true') {
+                    question.refAnswer = true;
+                  } else {
+                    question.refAnswer = false;
+                  }
+                  break;
+              }
+              return question;
+            }),
+            ifSpinnerShow: false,
+          });
+        }
+      }
+    };
+    getAssignHomework(this.props.hwId, callback);
+  }
+  post = (action) => {
+    if (!this.state.title) {
+      Alert.alert('标题不能为空');
+      return;
+    }
+    if (!this.state.courseId && this.state.courseId !== 0) {
+      Alert.alert('选择课程不能为空');
+      return;
+    }
+    if (!this.state.submitIdList) {
+      Alert.alert('学生不能为空');
+      return;
+    }
+    if (!this.state.totals && this.state.totals !== 0) {
+      Alert.alert('总分值不能为空');
+      return;
+    }
+    let ddl = new Date(
+      this.state.deadlineDate.toLocaleDateString() +
+        ' ' +
+        this.state.deadlineTime.toLocaleTimeString(),
+    );
+    let assign = new Date(
+      this.state.assignDate.toLocaleDateString() +
+        ' ' +
+        this.state.assignTime.toLocaleTimeString(),
+    );
+    let now = new Date();
+    if (ddl <= now) {
+      Alert.alert('截止时间不能早于当前时间');
+      return;
+    }
+    if (this.state.isTimed && assign <= now) {
+      Alert.alert('发布时间不能早于当前时间');
+      return;
+    }
+    if (this.state.isTimed && ddl <= assign) {
+      Alert.alert('截止时间不能早于发布时间');
+      return;
+    }
+    if (
+      this.state.questionList.some((item) => {
+        return !item.score && item.score !== 0;
+      })
+    ) {
+      Alert.alert('题目分值不能为空');
+      return;
+    }
+    if (
+      this.state.questionList.reduce((totals, item) => {
+        return totals + item.score;
+      }, 0) !== this.state.totals
+    ) {
+      Alert.alert('题目分值之和必须等于总分值');
+      return;
+    }
+    if (
+      this.state.questionList.some((item) => {
+        if (item.type === 'MULTIPLE_CHOICE' || item.type === 'ONE_CHOICE') {
+          return !item.refAnswer;
+        }
+        return false;
+      })
+    ) {
+      Alert.alert('参考答案不能为空');
+      return;
+    }
     let hwInfo = {
       ID: this.state.ID,
       state: this.state.state,
@@ -133,7 +258,24 @@ export class AssignHwScreen extends React.Component {
         return question;
       }),
     };
-    console.log(hwInfo);
+    let data = {
+      action: action,
+      hwInfo: hwInfo,
+    };
+    let callback = (res) => {
+      if (res.status === 200) {
+        // 回到主页or作业详情页面
+      } else {
+        this.setState({ifSpinnerShow: false});
+        if (action === 'ASSIGN') {
+          Alert.alert('发布失败');
+        } else {
+          Alert.alert('暂存失败');
+        }
+      }
+    };
+    this.setState({ifSpinnerShow: true});
+    postAssignHomework(data, callback);
   };
   render() {
     return (
@@ -279,9 +421,9 @@ export class AssignHwScreen extends React.Component {
                               }}>
                               {item.type === 'ONE_CHOICE' ? '单选题' : ''}
                               {item.type === 'MULTIPLE_CHOICE' ? '多选题' : ''}
-                              {item.type === 'FILL_IN_THE_BLANK'
-                                ? '填空题'
-                                : ''}
+                              {/*{item.type === 'FILL_IN_THE_BLANK'*/}
+                              {/*  ? '填空题'*/}
+                              {/*  : ''}*/}
                               {item.type === 'TRUE_OR_FALSE' ? '判断题' : ''}
                               {item.type === 'SUBJECTIVE' ? '主观题' : ''}
                             </Text>
@@ -625,24 +767,24 @@ export class AssignHwScreen extends React.Component {
                           </Text>
                         </Button>
                       )}
-                      {item.type === 'FILL_IN_THE_BLANK' && (
-                        <Item style={{width: '50%'}}>
-                          <Input
-                            placeholder="请输入答案"
-                            placeholderTextColor="gray"
-                            value={item.refAnswer}
-                            onChangeText={(value) => {
-                              let questionList = this.state.questionList;
-                              let thisQuestion = item;
-                              thisQuestion.refAnswer = value;
-                              questionList.splice(index, 1, thisQuestion);
-                              this.setState({
-                                questionList: questionList,
-                              });
-                            }}
-                          />
-                        </Item>
-                      )}
+                      {/*{item.type === 'FILL_IN_THE_BLANK' && (*/}
+                      {/*  <Item style={{width: '50%'}}>*/}
+                      {/*    <Input*/}
+                      {/*      placeholder="请输入答案"*/}
+                      {/*      placeholderTextColor="gray"*/}
+                      {/*      value={item.refAnswer}*/}
+                      {/*      onChangeText={(value) => {*/}
+                      {/*        let questionList = this.state.questionList;*/}
+                      {/*        let thisQuestion = item;*/}
+                      {/*        thisQuestion.refAnswer = value;*/}
+                      {/*        questionList.splice(index, 1, thisQuestion);*/}
+                      {/*        this.setState({*/}
+                      {/*          questionList: questionList,*/}
+                      {/*        });*/}
+                      {/*      }}*/}
+                      {/*    />*/}
+                      {/*  </Item>*/}
+                      {/*)}*/}
                     </Content>
                   </CardItem>
                 );
@@ -767,38 +909,38 @@ export class AssignHwScreen extends React.Component {
                         判断题
                       </Text>
                     </Button>
-                    <Button
-                      transparent
-                      style={{
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                      onPress={() => {
-                        let questionList = this.state.questionList;
-                        let thisQuestion = {
-                          question: {
-                            stem: {text: '', fileList: []},
-                          },
-                          score: undefined,
-                          refAnswer: '',
-                          analysis: {text: '', fileList: []},
-                          type: 'FILL_IN_THE_BLANK',
-                        };
-                        questionList.push(thisQuestion);
-                        this.setState({
-                          questionList: questionList,
-                        });
-                      }}>
-                      <Icon
-                        name="i-cursor"
-                        type="FontAwesome5"
-                        style={{color: '#0093fe'}}
-                      />
-                      <Text style={{fontSize: 13, color: '#0093fe'}}>
-                        填空题
-                      </Text>
-                    </Button>
+                    {/*<Button*/}
+                    {/*  transparent*/}
+                    {/*  style={{*/}
+                    {/*    flexDirection: 'column',*/}
+                    {/*    justifyContent: 'center',*/}
+                    {/*    alignItems: 'center',*/}
+                    {/*  }}*/}
+                    {/*  onPress={() => {*/}
+                    {/*    let questionList = this.state.questionList;*/}
+                    {/*    let thisQuestion = {*/}
+                    {/*      question: {*/}
+                    {/*        stem: {text: '', fileList: []},*/}
+                    {/*      },*/}
+                    {/*      score: undefined,*/}
+                    {/*      refAnswer: '',*/}
+                    {/*      analysis: {text: '', fileList: []},*/}
+                    {/*      type: 'FILL_IN_THE_BLANK',*/}
+                    {/*    };*/}
+                    {/*    questionList.push(thisQuestion);*/}
+                    {/*    this.setState({*/}
+                    {/*      questionList: questionList,*/}
+                    {/*    });*/}
+                    {/*  }}>*/}
+                    {/*  <Icon*/}
+                    {/*    name="i-cursor"*/}
+                    {/*    type="FontAwesome5"*/}
+                    {/*    style={{color: '#0093fe'}}*/}
+                    {/*  />*/}
+                    {/*  <Text style={{fontSize: 13, color: '#0093fe'}}>*/}
+                    {/*    填空题*/}
+                    {/*  </Text>*/}
+                    {/*</Button>*/}
                     <Button
                       transparent
                       style={{
@@ -1221,7 +1363,7 @@ export class AssignHwScreen extends React.Component {
                   backgroundColor: '#0093fe',
                 }}
                 onPress={() => {
-                  this.post();
+                  this.post('SAVE');
                 }}>
                 <Text
                   style={{
@@ -1236,7 +1378,9 @@ export class AssignHwScreen extends React.Component {
                 style={{
                   backgroundColor: '#0093fe',
                 }}
-                onPress={() => {}}>
+                onPress={() => {
+                  this.post('ASSIGN');
+                }}>
                 <Text
                   style={{
                     fontSize: 20,
