@@ -34,15 +34,20 @@ export class AnswerScreen extends React.Component {
         {ID: 4, title: '问题 4', type: 'FILL_IN_THE_BLANK'},
         {ID: 5, title: '问题 5', type: 'SUBJECTIVE'},
       ],
+      handsonID: null,
       ifRichTextShow: false,
       richText: {text: '', fileList: []},
+      SimpleChoiceAnswer: [],
+      ChoiceAnswer: [],
+      TorFAnswer: [],
+      SubAnswer: [],
     };
   }
 
   componentDidMount() {
     const callback = (res) => {
       if (res.status === 200) {
-        this.setState({quetions: res.data});
+        this.setState({quetions: res.data, handsonID: res.handsonID});
       }
     };
     //getStuQuestion(this.props.route.params.homeworkAssignID, callback);
@@ -66,6 +71,7 @@ export class AnswerScreen extends React.Component {
               newSimpleChoiceAnswer.push({ID: ID, option: option});
             }
             this.setState({SimpleChoiceAnswer: newSimpleChoiceAnswer});
+            console.log('simple', this.state.SimpleChoiceAnswer);
           }}
         />
       );
@@ -87,6 +93,7 @@ export class AnswerScreen extends React.Component {
               newChoiceAnswer.push({ID: ID, option: option});
             }
             this.setState({ChoiceAnswer: newChoiceAnswer});
+            console.log('multi', this.state.ChoiceAnswer);
           }}
         />
       );
@@ -108,6 +115,7 @@ export class AnswerScreen extends React.Component {
               newTorFAnswer.push({ID: ID, option: option});
             }
             this.setState({TorFAnswer: newTorFAnswer});
+            console.log('TF', this.state.TorFAnswer);
           }}
         />
       );
@@ -127,15 +135,21 @@ export class AnswerScreen extends React.Component {
             var newSubAnswer = this.state.SubAnswer;
             for (var i = 0; i < newSubAnswer.length; i++) {
               if (newSubAnswer[i].ID === ID) {
-                newSubAnswer[i].richText = richText;
+                newSubAnswer[i].content = richText.text;
+                newSubAnswer[i].image = richText.image;
                 flag = true;
                 break;
               }
             }
             if (!flag) {
-              newSubAnswer.push({ID: ID, richText: richText});
+              newSubAnswer.push({
+                ID: ID,
+                content: richText.text,
+                image: richText.image,
+              });
             }
             this.setState({TorFAnswer: newSubAnswer});
+            console.log('sub', this.state.SubAnswer);
           }}
         />
       );
@@ -154,7 +168,7 @@ export class AnswerScreen extends React.Component {
               </Text>
             </Left>
           </CardItem>
-          <CardItem>{this.getType(item.type)}</CardItem>
+          <CardItem>{this.getType(item.type, item.ID)}</CardItem>
         </Card>
       );
     });
@@ -172,7 +186,7 @@ export class AnswerScreen extends React.Component {
       TorFAnswer: this.state.TorFAnswer,
       SubAnswer: this.state.SubAnswer,
     };
-    //commitAnswer(answers, callback);
+    //commitAnswer(answers, this.state.handsonID, callback);
   };
 
   render() {

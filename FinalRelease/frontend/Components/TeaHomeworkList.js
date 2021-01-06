@@ -12,6 +12,7 @@ import {
   Text,
   Content,
 } from 'native-base';
+import {getCourseHomework, getTeaHomework} from '../Service/HomeworkService';
 
 export class TeaHomeworkList extends React.Component {
   constructor() {
@@ -61,6 +62,28 @@ export class TeaHomeworkList extends React.Component {
       ],
     };
   }
+
+  componentDidMount() {
+    const callback = (res) => {
+      if (res.status === 200) {
+        this.setState({homework: res.data});
+      }
+    };
+    if (this.props.courseID === null || this.props.courseID === undefined) {
+      //getTeaHomework(callback);
+    } else {
+      //getCourseHomework(this.props.courseID, 'ROLE_TEACHER', callback);
+    }
+  }
+
+  search = () => {
+    const callback = (res) => {
+      if (res.status === 200) {
+        this.setState({homework: res.data});
+      }
+    };
+    //search(this.state.searchValue, callback);
+  };
 
   renderHomework = () => {
     return this.state.homework.map((item, index) => {

@@ -9,7 +9,8 @@ import {
   Left,
   Right,
 } from 'native-base';
-import {Dimensions, StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet, Image} from 'react-native';
+import {MyImage} from '../MyImage';
 let {width} = Dimensions.get('window');
 
 export class SimpleChoiceAnswer extends React.Component {
@@ -19,22 +20,20 @@ export class SimpleChoiceAnswer extends React.Component {
       simpleChoiceAnswer: {
         ID: 1,
         question: {
-          stem: {
-            content: '题目1单项选择题',
-            file: null,
-          },
+          stem: '题目1单项选择题',
+          image: null,
           options: [
-            {option: 'A', content: {content: '选项A', file: null}},
-            {option: 'B', content: {content: '选项B', file: null}},
-            {option: 'C', content: {content: '选项C', file: null}},
-            {option: 'D', content: {content: '选项D', file: null}},
+            {option: 'A', content: '选项A', image: null},
+            {option: 'B', content: '选项B', image: null},
+            {option: 'C', content: '选项C', image: null},
+            {option: 'D', content: '选项D', image: null},
           ],
         },
         totalScore: 10,
         stuScore: 10,
         type: 'ONE_CHOICE',
-        refAnswer: {option: 'A', content: {content: '选项A', file: null}},
-        stuAnswer: {option: 'A', content: {content: '选项A', file: null}},
+        refAnswer: {option: 'A', content: '选项A', image: null},
+        stuAnswer: {option: 'A', content: '选项A', image: null},
       },
     };
   }
@@ -71,6 +70,7 @@ export class SimpleChoiceAnswer extends React.Component {
             <Text>
               {item.option}. {item.content.content}
             </Text>
+            <MyImage source={item.image} width={width * 0.9} height={200} />
           </Body>
         </ListItem>
       );
@@ -78,10 +78,18 @@ export class SimpleChoiceAnswer extends React.Component {
   };
 
   render() {
+    console.log(this.props.answer.question.image);
     return (
       <Card style={styles.card}>
         <CardItem bordered>
-          <Text>{this.props.answer.question.stem.content}</Text>
+          <Text>{this.props.answer.question.stem}</Text>
+        </CardItem>
+        <CardItem>
+          <MyImage
+            source={this.props.answer.question.image}
+            width={width * 0.9}
+            height={300}
+          />
         </CardItem>
         {this.renderChoices()}
         <CardItem footer>

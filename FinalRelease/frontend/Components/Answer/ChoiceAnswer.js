@@ -10,6 +10,7 @@ import {
   Body,
 } from 'native-base';
 import {Dimensions, StyleSheet} from 'react-native';
+import {MyImage} from '../MyImage';
 const {width} = Dimensions.get('window');
 
 export class ChoiceAnswer extends React.Component {
@@ -19,27 +20,25 @@ export class ChoiceAnswer extends React.Component {
       choiceAnswer: {
         ID: 2,
         question: {
-          stem: {
-            content: '题目2多项选择题',
-            file: null,
-          },
+          stem: '题目2多项选择题',
+          image: null,
           options: [
-            {option: 'A', content: {content: '选项A', file: null}},
-            {option: 'B', content: {content: '选项B', file: null}},
-            {option: 'C', content: {content: '选项C', file: null}},
-            {option: 'D', content: {content: '选项D', file: null}},
+            {option: 'A', content: '选项A', image: null},
+            {option: 'B', content: '选项B', image: null},
+            {option: 'C', content: '选项C', image: null},
+            {option: 'D', content: '选项D', image: null},
           ],
         },
         totalScore: 10,
         stuScore: 0,
         type: 'MULTIPLE_CHOICE',
         refAnswer: [
-          {option: 'A', content: {content: '选项A', file: null}},
-          {option: 'B', content: {content: '选项B', file: null}},
+          {option: 'A', content: '选项A', image: null},
+          {option: 'B', content: '选项B', image: null},
         ],
         stuAnswer: [
-          {option: 'C', content: {content: '选项C', file: null}},
-          {option: 'D', content: {content: '选项D', file: null}},
+          {option: 'B', content: '选项B', image: null},
+          {option: 'C', content: '选项C', image: null},
         ],
       },
     };
@@ -75,6 +74,7 @@ export class ChoiceAnswer extends React.Component {
             <Text>
               {item.option}. {item.content.content}
             </Text>
+            <MyImage source={item.image} width={width * 0.9} height={200} />
           </Body>
         </ListItem>
       );
@@ -113,7 +113,14 @@ export class ChoiceAnswer extends React.Component {
     return (
       <Card style={styles.card}>
         <CardItem bordered>
-          <Text>{this.props.answer.question.stem.content}</Text>
+          <Text>{this.props.answer.question.stem}</Text>
+        </CardItem>
+        <CardItem>
+          <MyImage
+            source={this.props.answer.question.image}
+            width={width * 0.9}
+            height={200}
+          />
         </CardItem>
         {this.renderChoices()}
         <CardItem footer>

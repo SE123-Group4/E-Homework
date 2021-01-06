@@ -2,13 +2,17 @@ import React, {Component} from 'react';
 import {Textarea, Card, CardItem, Text, Button} from 'native-base';
 import {Dimensions, StyleSheet, View} from 'react-native';
 import {RichText} from '../RichText';
+import {MyImage} from '../MyImage';
 let {width} = Dimensions.get('window');
 
 export default class SubjectiveQuestion extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      question: '主观题1',
+      question: {
+        stem: '主观题',
+        image: null,
+      },
       answers: '',
       ifRichTextShow: false,
       richText: {text: '', fileList: []},
@@ -17,7 +21,7 @@ export default class SubjectiveQuestion extends Component {
   }
 
   renderText = () => {
-      console.log('question state: ', this.state.richText)
+    console.log('question state: ', this.state.richText);
     if (this.state.richText.text !== '') {
       return this.state.richText.text;
     } else {
@@ -30,8 +34,15 @@ export default class SubjectiveQuestion extends Component {
       <Card style={styles.card}>
         <CardItem header bordered>
           <Text style={{fontSize: 20, color: 'black'}}>
-            {this.state.question}
+            {this.state.question.stem}
           </Text>
+        </CardItem>
+        <CardItem>
+          <MyImage
+            source={this.state.question.image}
+            width={width * 0.9}
+            height={200}
+          />
         </CardItem>
         {/*<Textarea rowSpan={5} bordered placeholder="Textarea" />*/}
         <RichText

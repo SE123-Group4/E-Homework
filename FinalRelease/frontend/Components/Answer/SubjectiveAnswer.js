@@ -11,6 +11,7 @@ import {
 } from 'native-base';
 import {Dimensions, StyleSheet} from 'react-native';
 import {Input} from 'react-native-elements';
+import {MyImage} from '../MyImage';
 const {width} = Dimensions.get('window');
 
 export class SubjectiveAnswer extends React.Component {
@@ -20,21 +21,19 @@ export class SubjectiveAnswer extends React.Component {
       subjectiveAnswer: {
         ID: 3,
         question: {
-          stem: {
-            content: '题目3主观题',
-            file: null,
-          },
+          stem: '题目3主观题',
+          image: null,
         },
         totalScore: 10,
         stuScore: null,
         type: 'SUBJECTIVE',
         refAnswer: {
           content: '参考答案的主观题回答',
-          file: null,
+          image: null,
         },
         stuAnswer: {
           content: '学生的主观题回答',
-          file: null,
+          image: null,
         },
       },
       stuScore: 0,
@@ -45,7 +44,15 @@ export class SubjectiveAnswer extends React.Component {
     return (
       <Card style={styles.card}>
         <CardItem bordered>
-          <Text>{this.props.answer.question.stem.content}</Text>
+          <Text>{this.props.answer.question.stem}</Text>
+
+        </CardItem>
+        <CardItem>
+          <MyImage
+              sourse={this.props.answer.question.image}
+              width={width * 0.9}
+              height={200}
+          />
         </CardItem>
         <CardItem>
           <Label>
@@ -55,6 +62,11 @@ export class SubjectiveAnswer extends React.Component {
         <CardItem>
           <Label>
             <Text>{this.props.answer.stuAnswer.content}</Text>
+            <MyImage
+              source={this.props.answer.stuAnswer.image}
+              width={width * 0.9}
+              height={200}
+            />
           </Label>
         </CardItem>
         <CardItem>

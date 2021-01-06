@@ -65,7 +65,7 @@ export class CourseFuncBtn extends React.Component {
               name="user-plus"
               style={styles.buttonIcon}
             />
-            <Text style={styles.text}>添加学生</Text>
+            <Text style={styles.text}>管理学生</Text>
           </Button>
         </CardItem>
       </Card>

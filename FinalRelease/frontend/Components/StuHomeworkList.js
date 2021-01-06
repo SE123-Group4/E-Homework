@@ -12,6 +12,8 @@ import {
   Content,
   Text,
 } from 'native-base';
+import {SearchBar} from 'react-native-elements';
+import {getCourseHomework} from '../Service/HomeworkService';
 
 export class StuHomeworkList extends React.Component {
   constructor() {
@@ -54,7 +56,21 @@ export class StuHomeworkList extends React.Component {
           state: 0,
         },
       ],
+      searchValue: '',
     };
+  }
+
+  componentDidMount() {
+    const callback = (res) => {
+      if (res.status === 200) {
+        this.setState({homework: res.data});
+      }
+    };
+    if (this.props.courseID === null || this.props.courseID === undefined) {
+      //getStuHomework(callback);
+    } else {
+      getCourseHomework(this.props.courseID, 'ROLE_STUDENT', callback);
+    }
   }
 
   getState = (state) => {
@@ -79,6 +95,15 @@ export class StuHomeworkList extends React.Component {
         </Button>
       );
     }
+  };
+
+  search = () => {
+    const callback = (res) => {
+      if (res.status === 200) {
+        this.setState({homework: res.data});
+      }
+    };
+    //search(this.state.searchValue, callback);
   };
 
   renderHomework = () => {
@@ -121,6 +146,15 @@ export class StuHomeworkList extends React.Component {
   render() {
     return (
       <Content>
+        <SearchBar
+          placeholder="搜索"
+          onChangeText={(text) => this.setState({searchValue: text})}
+          onSubmitEditing={this.search()}
+          value={this.state.searchValue}
+          lightTheme
+          containerStyle={{backgroundColor: 'white'}}
+          round
+        />
         {this.renderHomework()}
         <Card>
           <CardItem

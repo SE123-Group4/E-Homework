@@ -10,6 +10,7 @@ import {
   Right,
 } from 'native-base';
 import {Dimensions, StyleSheet} from 'react-native';
+import {MyImage} from '../MyImage';
 let {width} = Dimensions.get('window');
 
 export class TruthOrFalseAnswer extends React.Component {
@@ -19,10 +20,8 @@ export class TruthOrFalseAnswer extends React.Component {
       truthOrFalseAnswer: {
         ID: 4,
         question: {
-          stem: {
-            content: '题目4是非题',
-            file: null,
-          },
+          stem: '题目4是非题',
+          image: null,
         },
         totalScore: 10,
         stuScore: 0,
@@ -70,7 +69,15 @@ export class TruthOrFalseAnswer extends React.Component {
     return (
       <Card style={styles.card}>
         <CardItem bordered>
-          <Text>{this.props.answer.question.stem.content}</Text>
+          <Text>{this.props.answer.question.stem}</Text>
+
+        </CardItem>
+        <CardItem>
+          <MyImage
+            source={this.props.answer.question.image}
+            width={width * 0.9}
+            height={200}
+          />
         </CardItem>
         {this.renderChoices()}
         <CardItem footer>
