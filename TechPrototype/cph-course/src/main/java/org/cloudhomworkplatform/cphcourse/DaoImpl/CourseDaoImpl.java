@@ -33,4 +33,14 @@ public class CourseDaoImpl implements CourseDao {
     public int setState(int id,int s){
         return courseRepository.setState(id, s);
     }
+
+    @Override
+    public int deleteCourseById(int id){
+        return courseRepository.deleteCourseById(id);
+    }
+
+    @Override
+    public int updateCourseById(String name,String introduction,String book,int id){
+        return courseRepository.updateCourseById(name, introduction, book, id);
+    }
 }

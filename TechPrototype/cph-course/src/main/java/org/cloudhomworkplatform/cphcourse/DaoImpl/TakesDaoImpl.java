@@ -27,4 +27,9 @@ public class TakesDaoImpl implements TakesDao {
     public int insertTakes(int student,int courseID){
         return takesRepository.insertTakes(student, courseID);
     }
+
+    @Override
+    public int deleteTakesById(int student,int courseID){
+        return takesRepository.deleteTakesById(student, courseID);
+    }
 }

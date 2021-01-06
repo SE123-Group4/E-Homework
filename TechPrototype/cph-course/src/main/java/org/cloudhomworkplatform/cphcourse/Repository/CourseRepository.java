@@ -25,4 +25,14 @@ public interface CourseRepository extends JpaRepository<Course,Integer> {
     @Modifying
     @Query(value = "update Course set state=:s where id=:id")
     int setState(int id,int s);
+
+    @Transactional
+    @Modifying
+    @Query(value = "delete from Course where id=:id")
+    int deleteCourseById(int id);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update Course set name=:name,introduction=:introduction,book=:book where id=:id")
+    int updateCourseById(String name,String introduction,String book,int id);
 }

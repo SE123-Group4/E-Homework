@@ -13,4 +13,5 @@ public class ReturnCourse {
     String endTime;
     int state;
     int takes;
+    Integer status=200;
 }
