@@ -4,6 +4,8 @@ import org.chp.hw.dao.AnswerDao;
 import org.chp.hw.dao.HandsonDao;
 import org.chp.hw.entity.Answer;
 import org.chp.hw.entity.Handson;
+import org.chp.hw.entity.Homework;
+import org.chp.hw.entity.Student;
 import org.chp.hw.repository.HandsonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -36,6 +38,10 @@ public class HandsonDaoImpl implements HandsonDao {
         }
     }
 
+    public void saveWithoutAnswer(Handson handson){
+        handsonRepository.saveAndFlush(handson);
+    }
+
     public void deleteHdByID(int id){
         Optional<Handson> handsonOptional = getHdByID(id);
         if(handsonOptional.isPresent()){
@@ -63,5 +69,9 @@ public class HandsonDaoImpl implements HandsonDao {
             return Optional.of(handson);
         }
         return Optional.empty();
+    }
+
+    public Integer getHdIDByStuAndHw(int hwid, int stuid){
+        return handsonRepository.findIDByHWIDAndSTUID(hwid, stuid);
     }
 }

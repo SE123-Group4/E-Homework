@@ -36,8 +36,9 @@ public class QuestionDaoImpl implements QuestionDao {
         Optional<Question> questionOptional = questionRepository.findById(id);
         if(questionOptional.isPresent()){
             Question question = questionOptional.get();
-            Optional<QuestionContent> questionContentOptional = questionContentRepository.findById(id);
+            Optional<QuestionContent> questionContentOptional = questionContentRepository.findByInnerID(id);
             if(questionContentOptional.isPresent()){
+                System.out.println(questionContentOptional.get().getInnerID());
                 question.setQuestionContent(questionContentOptional.get());
             }
             return Optional.of(question);
@@ -48,15 +49,19 @@ public class QuestionDaoImpl implements QuestionDao {
     public void saveQuestion(Question question){
         questionRepository.saveAndFlush(question);
         QuestionContent questionContent = question.getQuestionContent();
-        questionContent.setId(question.getId());
+        questionContent.setInnerID(question.getId());
         questionContentRepository.save(question.getQuestionContent());
     }
 
     public void deleteQuestionByID(int id){
+        System.out.println(id);
         Optional<Question> questionOptional = getByQuestionID(id);
         if(questionOptional.isPresent()){
             Question question = questionOptional.get();
-            questionContentRepository.delete(question.getQuestionContent());
+            if(question.getQuestionContent()!= null){
+                System.out.println(question.getQuestionContent().getInnerID());
+                questionContentRepository.delete(question.getQuestionContent());
+            }
             questionRepository.delete(question);
             List<Answer> answerList = question.getAnswerList();
             for(Answer answer : answerList){

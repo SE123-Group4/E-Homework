@@ -1,17 +1,23 @@
 package org.chp.hw.serviceimpl;
 
+import com.alibaba.fastjson.JSON;
 import org.chp.hw.constant.HdStateEnum;
 import org.chp.hw.constant.HwResultEnum;
 import org.chp.hw.constant.HwStateEnum;
 import org.chp.hw.dao.*;
 import org.chp.hw.entity.*;
+import org.chp.hw.repository.UserRepository;
+import org.chp.hw.repository.UserRoleRepository;
 import org.chp.hw.service.HwService;
+import org.chp.hw.service.IMailService;
 import org.chp.hw.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +53,15 @@ public class HwServiceImpl implements HwService {
 
     @Autowired
     AnswerDao answerDao;
+
+    @Autowired
+    IMailService iMailService;
+
+    @Autowired
+    UserRepository userDao;
+
+    @Autowired
+    UserRoleRepository userRoleDao;
 
 
     private HwInfo changeHwtoHwInfo(Homework homework) throws ParseException {
@@ -95,21 +110,41 @@ public class HwServiceImpl implements HwService {
 
     }
 
-    public TotalInfo getORcreateHw(Integer hwID, Integer teaID) throws Exception {
+    public response getORcreateHw(Integer hwID, Integer teaID) throws Exception {
+        response ret = new response();
+        ret.setStatus(200);
         System.out.println(hwID);
         TotalInfo totalInfo = new TotalInfo();
-        totalInfo.setCourseInfoList(getCourseInfoListByTeaID(teaID));
+        try{
+            totalInfo.setCourseInfoList(getCourseInfoListByTeaID(teaID));
+        }
+        catch (Exception e){
+            ret.setMsg("error 1");
+            ret.setStatus(400);
+            return ret;
+        }
         if(hwID.equals(0)){
-            return totalInfo;
+            ret.setMsg("successful response");
+            ret.setData(totalInfo);
+            return ret;
         }
         else{
-            totalInfo.setHwInfo(getHwInfoByHwID(hwID));
+            try {
+                totalInfo.setHwInfo(getHwInfoByHwID(hwID));
+            }
+            catch (Exception e){
+                ret.setStatus(400);
+                ret.setMsg("error 2");
+                return ret;
+            }
+            ret.setData(totalInfo);
         }
-        return totalInfo;
+        return ret;
     }
 
     private Homework getFromHwInfo(HwInfo hwInfo){
         Homework homework = new Homework();
+        System.out.println(hwInfo.getCourseId());
         homework.setCourse(courseDao.getByCourseID(hwInfo.getCourseId()).get());
         homework.setState(HwStateEnum.ASSIGNED);
         homework.setTitle(hwInfo.getTitle());
@@ -118,15 +153,23 @@ public class HwServiceImpl implements HwService {
         homework.setIsrepeated(hwInfo.isRepeated());
         homework.setIstimed(hwInfo.isTimed());
         homework.setIsgrouped(hwInfo.isGrouped());
-        homework.setResultafter(HwResultEnum.SUBMIT);
-        homework.setDeadline("20210108");
-        homework.setAssignTime("20210108");
+        homework.setResultafter(HwResultEnum.valueOf(hwInfo.getResultAfter()));
+        homework.setDeadline(hwInfo.getDeadlineDate());
+        homework.setAssignTime(hwInfo.getAssignDate());
         return homework;
     }
 
-    public void resetByHwInfo(HwInfo hwInfo){
+    public response resetByHwInfo(HwInfo hwInfo){
+        response ret = new response();
+        ret.setStatus(200);
+        System.out.println(hwInfo);
         if(hwInfo.getID() != 0){
-            homeWorkDao.deleteHwByID(hwInfo.getID());
+            Optional<Homework> homeworkOptional = homeWorkDao.getByHwID(hwInfo.getID());
+            if(homeworkOptional.isPresent()){
+                Homework homework = homeworkOptional.get();
+                homework.setState(HwStateEnum.ABORTED);
+                homeWorkDao.saveHw(homework);
+            }
         }
         Homework homework = getFromHwInfo(hwInfo);
         System.out.println(homework.getAssignTime());
@@ -134,18 +177,30 @@ public class HwServiceImpl implements HwService {
         System.out.println(homework.getId());
         for(Integer i : hwInfo.getSubmitIdList()){
             Handson handson = new Handson();
-            handson.setSubmitter(i);
+            Optional<Student> studentOptional = studentDao.getByID(i);
+            if(!studentOptional.isPresent()){
+                ret.setStatus(400);
+                ret.setMsg("invalid submitter id");
+                return ret;
+            }
+            handson.setSubmitter(studentOptional.get());
             handson.setHomework(homework);
             handson.setIsGrouped(homework.isIsgrouped());
             handson.setState(HdStateEnum.UNSUBMITTED);
-            System.out.println(i);
             handsonDao.saveHd(handson);
+            Optional<Userrole> userroleOptional = userRoleDao.findByRoleAndRoleID(1, i);
+            if(userroleOptional.isPresent()){
+                iMailService.sendAssignMail(userDao.findById(userroleOptional.get().getUserID()).get().getEmail(),
+                        homework.getCourse().getName(), homework.getTitle());
+            }
         }
         for(QuestionListTuple questionListTuple : hwInfo.getQuestionList()){
             Question question = questionListTuple.toQuestion();
             question.setHomework(homework);
             questionDao.saveQuestion(question);
         }
+        ret.setMsg("suscessful response");
+        return ret;
     }
 
     public response getAnswerList(int id){
@@ -174,24 +229,20 @@ public class HwServiceImpl implements HwService {
                 System.out.println("_________________________if");
                 if(type.equals("ONE_CHOICE") || type.equals("MULTIPLE_CHOICE")){
                     util.setOptions(question.getQuestionContent().getOptions());
-                    util.setRefAnswer(question.getQuestionContent().getChoiceRefAnswer());
-                    if(answer.getContent() != null)
-                        util.setStuAnswer(answer.getContent().getChoiceAnswer());
                 }
-                if(type.equals("TRUE_OR_FALSE")){
-                    util.setRefAnswer(question.getQuestionContent().isTfRefAnswer());
-                    if(answer.getContent() != null)
-                        util.setStuAnswer(answer.getContent().isTfAnswer());
-                }
-                if(type.equals(("SUBJECTIVE"))){
-                    util.setRefAnswer(question.getQuestionContent().getStringRefAnswer());
-                    if(answer.getContent() != null)
-                        util.setStuAnswer(answer.getContent().getStringAnswer());
+                util.setRefAnswer(question.getQuestionContent().getRefAnswer());
+                if(answer.getContent() != null)
+                {
+                    ContentImage contentImage = new ContentImage();
+                    contentImage.setImage(answer.getContent().getImage());
+                    contentImage.setContent(answer.getContent().getAnswer());
+                    util.setStuAnswer(contentImage);
                 }
                 if(answer.getScore() != null){
                     util.setStuScore(answer.getScore());
                 }
                 util.setTotalScore(question.getScore());
+                util.setComment(answer.getComment());
                 System.out.println("_________________________add");
                 answerUtils.add(util);
             }
@@ -208,6 +259,7 @@ public class HwServiceImpl implements HwService {
         for(CorrectUtil util : correctUtils){
             Answer answer;
 
+
             System.out.println(util.getID());
             Optional<Answer> answerOptional = answerDao.getByAnswerID(util.getID());
 
@@ -217,6 +269,16 @@ public class HwServiceImpl implements HwService {
             else {
                 ret.setStatus(400);
                 return ret;
+            }
+
+            Handson handson = answer.getHandson();
+            if(handson.getState() != HdStateEnum.CORRECTED){
+                handson.setState(HdStateEnum.CORRECTED);
+                Optional<Userrole> userroleOptional = userRoleDao.findByRoleAndRoleID(1, answer.getHandson().getSubmitter().getId());
+                if(userroleOptional.isPresent()){
+                    iMailService.sendCorrectMail(userDao.findById(userroleOptional.get().getUserID()).get().getEmail(),
+                            answer.getHandson().getHomework().getCourse().getName(), answer.getHandson().getHomework().getTitle());
+                }
             }
 
             answer.setScore(util.getStuScore());
@@ -234,6 +296,7 @@ public class HwServiceImpl implements HwService {
             answer.setComment(comment);
 
             answerDao.saveAnswer(answer);
+            handsonDao.saveWithoutAnswer(handson);
         }
         ret.setStatus(200);
         return ret;
@@ -293,27 +356,347 @@ public class HwServiceImpl implements HwService {
         return ret;
     }
 
-    public response postAnswer(PostAnswerUtil postAnswerUtil){
+    public response postAnswer(PostAnswerUtilPack postAnswerUtilPack){
         response ret = new response();
+        ret.setStatus(400);
+        int hansonID = postAnswerUtilPack.getHandsonID();
+        Optional<Handson> handsonOptional = handsonDao.getHdByID(hansonID);
+        Handson handson;
+        if(!handsonOptional.isPresent()){
+            System.out.println(hansonID);
+            ret.setMsg("invalid handson id");
+            return ret;
+        }
+        handson = handsonOptional.get();
+        handson.setState(HdStateEnum.SUBMITTED);
+        PostAnswerUtil postAnswerUtil = postAnswerUtilPack.getAnswer();
         if(postAnswerUtil.getSimpleChoiceAnswer() != null){
             for(PostAnswerItem item : postAnswerUtil.getSimpleChoiceAnswer()){
                 Answer answer = new Answer();
                 Optional<Question> questionOptional = questionDao.getByQuestionID(item.getID());
                 if(questionOptional.isPresent()){
                     answer.setQuestion(questionOptional.get());
+                    answer.setHandson(handson);
+                    AnswerContent answerContent = new AnswerContent();
+                    answerContent.setType("ONE_CHOICE");
+                    System.out.println(item.getOption());
+                    List<OptionItem> optionItems = JSON.parseArray(item.getOption().toString(), OptionItem.class) ;
+                    List<String> to_contact = new ArrayList<>();
+                    for (OptionItem o : optionItems){
+                        to_contact.add(o.getOption());
+                    }
+                    answerContent.setAnswer(String.join(",", to_contact));
+                    answerContent.setHwID(handson.getHomework().getId());
+                    answer.setContent(answerContent);
+                    answerDao.saveAnswer(answer);
+                }
+                else {
+                    ret.setMsg("invalid question id");
+                    return ret;
                 }
             }
         }
         if(postAnswerUtil.getChoiceAnswer() != null){
-
+            for(PostAnswerItem item : postAnswerUtil.getChoiceAnswer()){
+                Answer answer = new Answer();
+                Optional<Question> questionOptional = questionDao.getByQuestionID(item.getID());
+                if(questionOptional.isPresent()){
+                    answer.setQuestion(questionOptional.get());
+                    answer.setHandson(handson);
+                    AnswerContent answerContent = new AnswerContent();
+                    answerContent.setType("MULTIPLE_CHOICE");
+                    List<OptionItem> optionItems = JSON.parseArray(item.getOption().toString(), OptionItem.class) ;
+                    List<String> to_contact = new ArrayList<>();
+                    for (OptionItem o : optionItems){
+                        to_contact.add(o.getOption());
+                    }
+                    answerContent.setAnswer(String.join(",", to_contact));
+                    answerContent.setHwID(handson.getHomework().getId());
+                    answer.setContent(answerContent);
+                    answerDao.saveAnswer(answer);
+                }
+                else {
+                    ret.setMsg("invalid question id");
+                    return ret;
+                }
+            }
         }
         if(postAnswerUtil.getSubjectiveAnswer() != null){
-
+            for(PostAnswerItem item : postAnswerUtil.getSubjectiveAnswer()){
+                Answer answer = new Answer();
+                Optional<Question> questionOptional = questionDao.getByQuestionID(item.getID());
+                if(questionOptional.isPresent()){
+                    answer.setQuestion(questionOptional.get());
+                    answer.setHandson(handson);
+                    AnswerContent answerContent = new AnswerContent();
+                    answerContent.setType("SUBJECTIVE");
+                    answerContent.setAnswer(item.getContent());
+                    answerContent.setImage(item.getImage());
+                    answerContent.setHwID(handson.getHomework().getId());
+                    answer.setContent(answerContent);
+                    answerDao.saveAnswer(answer);
+                }
+                else {
+                    ret.setMsg("invalid question id");
+                    return ret;
+                }
+            }
         }
         if(postAnswerUtil.getTorFAnswer() != null){
-
+            for(PostAnswerItem item : postAnswerUtil.getTorFAnswer()){
+                Answer answer = new Answer();
+                Optional<Question> questionOptional = questionDao.getByQuestionID(item.getID());
+                if(questionOptional.isPresent()){
+                    answer.setQuestion(questionOptional.get());
+                    answer.setHandson(handson);
+                    AnswerContent answerContent = new AnswerContent();
+                    answerContent.setType("TRUE_OR_FALSE");
+                    if((Boolean) item.getOption()){
+                        answerContent.setAnswer("true");
+                    }
+                    else{
+                        answerContent.setAnswer("false");
+                    }
+                    answerContent.setHwID(handson.getHomework().getId());
+                    answer.setContent(answerContent);
+                    answerDao.saveAnswer(answer);
+                }
+                else {
+                    ret.setMsg("invalid question id");
+                    return ret;
+                }
+            }
         }
+        handsonDao.saveHd(handson);
+        ret.setStatus(200);
+        ret.setMsg("sucessful response");
+        return ret;
+    }
+
+    public response getQuestions(int hdID){
+        response ret = new response();
         ret.setStatus(400);
+        Optional<Handson> handsonOptional = handsonDao.getHdByID(hdID);
+        if(!handsonOptional.isPresent()){
+            ret.setMsg("invalid handson id");
+            return ret;
+        }
+        Handson handson = handsonOptional.get();
+        List<Question> questionList = handson.getHomework().getQuestionList();
+        List<QuestionUtil> questionUtilList = new ArrayList<>();
+        for(Question item : questionList){
+            Question question = questionDao.getByQuestionID(item.getId()).get();
+            QuestionUtil questionUtil = new QuestionUtil();
+            questionUtil.setOptions(question.getQuestionContent().getOptions());
+            questionUtil.setStem(question.getQuestionContent().getStem());
+            questionUtil.setID(question.getId());
+            questionUtil.setImage(question.getQuestionContent().getImage());
+            questionUtil.setType(question.getQuestionContent().getType());
+            questionUtilList.add(questionUtil);
+        }
+        QuestionRet questionRet = new QuestionRet();
+        questionRet.setHandsonID(hdID);
+        questionRet.setQuestionList(questionUtilList);
+        ret.setStatus(200);
+        ret.setMsg("successful response");
+        ret.setData(questionRet);
+        return ret;
+    }
+
+    public response getHwList(int stuID) throws ParseException {
+        response ret = new response();
+        ret.setStatus(400);
+        Optional<Student> studentOptional = studentDao.getByID(stuID);
+        if(!studentOptional.isPresent()){
+            ret.setMsg("invalid student id");
+            return ret;
+        }
+        Student student = studentOptional.get();
+        List<Handson> handsonList = student.getHandsonList();
+        List<HomeworkUtil> homeworkUtilList = new ArrayList<>();
+        for(Handson item : handsonList){
+            HomeworkUtil homeworkUtil = new HomeworkUtil();
+            homeworkUtil.setID(item.getId());
+            homeworkUtil.setTitle(item.getHomework().getTitle());
+            homeworkUtil.setPost(item.getHomework().getAssignTime());
+            homeworkUtil.setDdl(item.getHomework().getDeadline());
+            if(item.getState() == HdStateEnum.UNSUBMITTED){
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date();
+                if(sdf.parse(item.getHomework().getDeadline()).before(date)){
+                    item.setState(HdStateEnum.LATE);
+                    handsonDao.saveHd(item);
+                }
+            }
+
+            homeworkUtil.setState(item.getState().toString());
+            homeworkUtilList.add(homeworkUtil);
+        }
+        ret.setStatus(200);
+        ret.setData(homeworkUtilList);
+        return ret;
+    }
+
+    public response courseHwList(int courseID, String role, Integer ID) throws ParseException {
+        response ret = new response();
+        ret.setStatus(400);
+        Optional<Course> courseOptional = courseDao.getByCourseID(courseID);
+        if(!courseOptional.isPresent()){
+            ret.setMsg("invalid course id");
+            return ret;
+        }
+        Course course = courseOptional.get();
+        if(role.equals("ROLE_STUDENT")){
+            List<Homework> coursehomeworkList = course.getHomeworkList();
+            List<HomeworkUtil> homeworkUtilList = new ArrayList<>();
+            for(Homework item : coursehomeworkList){
+                Integer handsonID = handsonDao.getHdIDByStuAndHw(item.getId(), ID);
+                if(handsonID != null){
+                    Handson handson = handsonDao.getHdByID(handsonID).get();
+
+                    HomeworkUtil homeworkUtil = new HomeworkUtil();
+                    homeworkUtil.setTitle(item.getTitle());
+                    homeworkUtil.setDdl(item.getDeadline());
+                    homeworkUtil.setPost(item.getAssignTime());
+                    homeworkUtil.setID(handson.getId());
+                    if(handson.getState() == HdStateEnum.UNSUBMITTED){
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date date = new Date();
+                        if(sdf.parse(item.getDeadline()).before(date)){
+                            handson.setState(HdStateEnum.LATE);
+                            handsonDao.saveHd(handson);
+                        }
+                    }
+                    homeworkUtil.setState(handson.getState().toString());
+
+                    homeworkUtilList.add(homeworkUtil);
+                }
+            }
+            ret.setData(homeworkUtilList);
+            ret.setMsg("successful response");
+        }
+        if(role.equals("ROLE_TEACHER")){
+            List<Homework> coursehomeworkList = course.getHomeworkList();
+            List<HomeworkUtil> homeworkUtilList = new ArrayList<>();
+            for(Homework item : coursehomeworkList){
+                HomeworkUtil homeworkUtil = new HomeworkUtil();
+                homeworkUtil.setTitle(item.getTitle());
+                homeworkUtil.setDdl(item.getDeadline());
+                homeworkUtil.setPost(item.getAssignTime());
+                homeworkUtil.setID(item.getId());
+                homeworkUtil.setState(item.getState().toString());
+
+                List<Handson> handsonList = item.getHandsonList();
+                int f = 0;
+                int u = 0;
+                int l = 0;
+                int c = 0;
+                boolean flag = false;
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date();
+                if(sdf.parse(item.getDeadline()).before(date)){
+                    flag = true;
+                }
+                for(Handson handson : handsonList){
+                    if(handson.getState() == HdStateEnum.UNSUBMITTED){
+                        if(flag){
+                            handson.setState(HdStateEnum.LATE);
+                            handsonDao.saveHd(handson);
+                            l++;
+                        }
+                        else {
+                            u++;
+                        }
+                    }
+                    if(handson.getState() == HdStateEnum.SUBMITTED){
+                        f++;
+                    }
+                    if(handson.getState() == HdStateEnum.CORRECTED){
+                        c++;
+                    }
+                    if(handson.getState() == HdStateEnum.LATE){
+                        l++;
+                    }
+                }
+                homeworkUtil.setCorrect(c);
+                homeworkUtil.setFinished(f);
+                homeworkUtil.setUnfinished(u);
+                homeworkUtil.setLate(l);
+
+                homeworkUtilList.add(homeworkUtil);
+            }
+            ret.setData(homeworkUtilList);
+            ret.setMsg("sucessful response");
+        }
+        ret.setStatus(200);
+        return ret;
+    }
+
+    public response teaGetQuestion(int TeaID) throws ParseException {
+        response ret = new response();
+        ret.setStatus(400);
+        Optional<Teacher> teacherOptional = teacherDao.getTeaByID(TeaID);
+        if(!teacherOptional.isPresent()){
+            ret.setMsg("invalid teacher id");
+            return ret;
+        }
+        Teacher teacher = teacherOptional.get();
+        List<Course> courseList = teacher.getCourseList();
+        List<HomeworkUtil> homeworkUtilList = new ArrayList<>();
+        for(Course course: courseList){
+            List<Homework> coursehomeworkList = course.getHomeworkList();
+            for(Homework item : coursehomeworkList){
+                HomeworkUtil homeworkUtil = new HomeworkUtil();
+                homeworkUtil.setTitle(item.getTitle());
+                homeworkUtil.setDdl(item.getDeadline());
+                homeworkUtil.setPost(item.getAssignTime());
+                homeworkUtil.setID(item.getId());
+                homeworkUtil.setState(item.getState().toString());
+
+                List<Handson> handsonList = item.getHandsonList();
+                int f = 0;
+                int u = 0;
+                int l = 0;
+                int c = 0;
+                boolean flag = false;
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date date = new Date();
+                if(sdf.parse(item.getDeadline()).before(date)){
+                    flag = true;
+                }
+                for(Handson handson : handsonList){
+                    if(handson.getState() == HdStateEnum.UNSUBMITTED){
+                        if(flag){
+                            handson.setState(HdStateEnum.LATE);
+                            handsonDao.saveHd(handson);
+                            l++;
+                        }
+                        else {
+                            u++;
+                        }
+                    }
+                    if(handson.getState() == HdStateEnum.SUBMITTED){
+                        f++;
+                    }
+                    if(handson.getState() == HdStateEnum.CORRECTED){
+                        c++;
+                    }
+                    if(handson.getState() == HdStateEnum.LATE){
+                        l++;
+                    }
+                }
+                homeworkUtil.setCorrect(c);
+                homeworkUtil.setFinished(f);
+                homeworkUtil.setUnfinished(u);
+                homeworkUtil.setLate(l);
+
+                homeworkUtilList.add(homeworkUtil);
+            }
+            ret.setData(homeworkUtilList);
+            ret.setMsg("sucessful response");
+        }
+        ret.setStatus(200);
+        ret.setData(homeworkUtilList);
         return ret;
     }
 }

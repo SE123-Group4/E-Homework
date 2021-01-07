@@ -37,7 +37,9 @@ public class Handson {
     @Column(name = "isgrouped")
     private Boolean isGrouped;
 
-    private int submitter;
+    @ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)
+    @JoinColumn(name="submitter")
+    private Student submitter;
 
     @Column(name = "submittime")
     private String submittime;

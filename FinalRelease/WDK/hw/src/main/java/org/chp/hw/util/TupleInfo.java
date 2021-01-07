@@ -1,5 +1,6 @@
 package org.chp.hw.util;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.chp.hw.entity.Group;
 import org.chp.hw.entity.Student;
@@ -13,6 +14,7 @@ import org.chp.hw.entity.Student;
  **/
 @Data
 public class TupleInfo {
+    @JsonProperty("ID")
     private int ID;
 
     private String name;

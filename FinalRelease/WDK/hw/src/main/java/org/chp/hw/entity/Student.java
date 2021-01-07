@@ -47,4 +47,8 @@ public class Student {
     @JsonIgnore
     @ManyToMany(mappedBy = "studentcourseList")
     private List<Course> courseList;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "submitter",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+    private List<Handson> handsonList;
 }
