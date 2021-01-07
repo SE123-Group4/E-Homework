@@ -2,6 +2,7 @@ package org.chp.hw.serviceimpl;
 
 import org.chp.hw.HwApplicationTests;
 import org.chp.hw.service.HwService;
+import org.chp.hw.service.IMailService;
 import org.chp.hw.util.HwInfo;
 import org.chp.hw.util.QuestionListTuple;
 import org.chp.hw.util.response;
@@ -28,6 +29,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class HwServiceTest extends HwApplicationTests {
     @Autowired
     private HwService hwService;
+
+    @Autowired
+    private IMailService iMailService;
 
     @Test
     public void contextLoads() {
@@ -187,5 +191,11 @@ public class HwServiceTest extends HwApplicationTests {
     public void getTeaList2() throws ParseException {
         response response=hwService.teaGetQuestion(100);
         assertEquals(400,response.getStatus());
+    }
+
+    @Test
+    public void  sendMail(){
+        int i=iMailService.sendAssignMail("738761580@qq.com","course","title");
+        assertEquals(0,i);
     }
 }
