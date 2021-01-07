@@ -2230,3 +2230,8 @@ Error starting ApplicationContext. To display the conditions report re-run your 
 2021-01-06 22:35:34 INFO  [springAppName_IS_UNDEFINED,,,] http-nio-8080-exec-1 org.springframework.web.servlet.DispatcherServlet Initializing Servlet 'dispatcherServlet'
 2021-01-06 22:35:34 INFO  [springAppName_IS_UNDEFINED,,,] http-nio-8080-exec-1 org.springframework.web.servlet.DispatcherServlet Completed initialization in 3 ms
 2021-01-06 22:35:35 INFO  [springAppName_IS_UNDEFINED,,,] http-nio-8080-exec-1 org.mongodb.driver.connection Opened connection [connectionId{localValue:3, serverValue:112}] to localhost:27017
+2021-01-06 22:46:06 INFO  [springAppName_IS_UNDEFINED,,,] SpringContextShutdownHook org.mongodb.driver.connection Closed connection [connectionId{localValue:3, serverValue:112}] to localhost:27017 because the pool has been closed.
+2021-01-06 22:46:07 INFO  [springAppName_IS_UNDEFINED,,,] SpringContextShutdownHook org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean Closing JPA EntityManagerFactory for persistence unit 'default'
+2021-01-06 22:46:07 INFO  [springAppName_IS_UNDEFINED,,,] SpringContextShutdownHook org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor Shutting down ExecutorService 'applicationTaskExecutor'
+2021-01-06 22:46:07 INFO  [springAppName_IS_UNDEFINED,,,] SpringContextShutdownHook com.zaxxer.hikari.HikariDataSource HikariPool-1 - Shutdown initiated...
+2021-01-06 22:46:07 INFO  [springAppName_IS_UNDEFINED,,,] SpringContextShutdownHook com.zaxxer.hikari.HikariDataSource HikariPool-1 - Shutdown completed.

@@ -1,12 +1,10 @@
 package org.chp.hw.daoimpl;
 
-import org.chp.hw.constant.TextTypeEnum;
 import org.chp.hw.dao.AnswerDao;
 import org.chp.hw.entity.*;
 import org.chp.hw.repository.AnswerContentRepository;
 import org.chp.hw.repository.AnswerRepository;
 import org.chp.hw.repository.CommentRepository;
-import org.chp.hw.util.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

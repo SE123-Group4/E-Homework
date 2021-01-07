@@ -27,6 +27,9 @@ public class AnswerContent {
     @Field(name = "hwID")
     private int hwID;
 
+    @Field(name = "image")
+    private String image;
+
     @Field(name = "choiceAnswer")
     private List<OptionItem> choiceAnswer;
 

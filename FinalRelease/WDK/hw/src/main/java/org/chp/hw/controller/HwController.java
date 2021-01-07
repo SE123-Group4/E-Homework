@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -71,7 +72,30 @@ public class HwController {
     }
 
     @RequestMapping(path = "/answer")
-    public response answer(@RequestBody PostAnswerUtil params){
-        return hwService.postAnswer(params);
+    public response answer(@RequestBody String params){
+        System.out.println(params);
+        PostAnswerUtilPack postAnswerUtilPack = JSON.parseObject(params, PostAnswerUtilPack.class);
+        System.out.println(postAnswerUtilPack);
+        return hwService.postAnswer(postAnswerUtilPack);
+    }
+
+    @RequestMapping(path = "/questions")
+    public response getQuestions(@RequestBody Map<String, Integer> params){
+        return hwService.getQuestions(params.get("handsonID"));
+    }
+
+    @RequestMapping(path = "/stu_homework_list")
+    public response homeworkList(@RequestBody Map<String, Integer> params) throws ParseException {
+        return hwService.getHwList(params.get("stuID"));
+    }
+
+    @RequestMapping(path = "/course_homework_list")
+    public response homeworklistbycourse(@RequestBody Map<String, Object> params) throws ParseException {
+        return hwService.courseHwList((int)params.get("courseID"), (String)params.get("role"), (Integer) params.get("ID"));
+    }
+
+    @RequestMapping(path = "/tea_homework_list")
+    public response teaGetQuestion(@RequestBody Map<String, Integer> params) throws ParseException {
+        return hwService.teaGetQuestion(params.get("teaID"));
     }
 }
