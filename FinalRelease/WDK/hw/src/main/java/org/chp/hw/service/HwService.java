@@ -33,4 +33,6 @@ public interface HwService {
     response courseHwList(int courseID, String role, Integer ID) throws ParseException;
 
     response teaGetQuestion(int TeaID) throws ParseException;
+
+    response getHandsonList(int hwID);
 }

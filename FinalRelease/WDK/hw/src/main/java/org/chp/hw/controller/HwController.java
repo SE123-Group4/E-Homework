@@ -51,8 +51,8 @@ public class HwController {
      **/
     @RequestMapping(path = "/student_answer", method = RequestMethod.POST)
     public response getAnswer(@RequestBody Map<String,Integer> params){
-        System.out.println(params.get("homeworkAssignID"));
-        return hwService.getAnswerList(params.get("homeworkAssignID"));
+        System.out.println(params.get("handsonID"));
+        return hwService.getAnswerList(params.get("handsonID"));
     }
 
     @RequestMapping(path = "/correction", method = RequestMethod.POST)
@@ -93,5 +93,10 @@ public class HwController {
     @RequestMapping(path = "/tea_homework_list")
     public response teaGetQuestion(@RequestBody Map<String, Integer> params) throws ParseException {
         return hwService.teaGetQuestion(params.get("teaID"));
+    }
+
+    @RequestMapping(path = "/get_handson")
+    public response getHandson(@RequestBody Map<String, Integer> params){
+        return hwService.getHandsonList(params.get("homeworkID"));
     }
 }
