@@ -1,0 +1,136 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ImportExcelServiceImpl</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.cloudhomworkplatform.cphcourse.ServiceImpl</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ImportExcelServiceImpl (org.cloudhomworkplatform.cphcourse.ServiceImpl)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ImportExcelServiceImpl</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (1/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    4%
+  </span>
+  <span class="absValue">
+    (1/ 25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.cloudhomworkplatform.cphcourse.ServiceImpl;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+<i>4</i>&nbsp;import org.apache.poi.ss.usermodel.*;
+<i>5</i>&nbsp;import org.apache.poi.xssf.usermodel.XSSFCell;
+<i>6</i>&nbsp;import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+<i>7</i>&nbsp;import org.cloudhomworkplatform.cphcourse.Service.ImportExcelService;
+<i>8</i>&nbsp;import org.springframework.stereotype.Service;
+<i>9</i>&nbsp;import org.springframework.web.multipart.MultipartFile;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import java.io.InputStream;
+<i>12</i>&nbsp;import java.util.ArrayList;
+<i>13</i>&nbsp;import java.util.List;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;@Service
+<b class="fc"><i>16</i>&nbsp;public class ImportExcelServiceImpl implements ImportExcelService {</b>
+<i>17</i>&nbsp;    @Override
+<i>18</i>&nbsp;    public List&lt;String&gt; importExcelWithSimple(MultipartFile file) throws Exception {
+<b class="nc"><i>19</i>&nbsp;        InputStream is =null;</b>
+<b class="nc"><i>20</i>&nbsp;        is=file.getInputStream();</b>
+<b class="nc"><i>21</i>&nbsp;        Workbook workbook=new XSSFWorkbook(is);</b>
+<b class="nc"><i>22</i>&nbsp;        Sheet sheet = null;</b>
+<b class="nc"><i>23</i>&nbsp;        Row row = null;</b>
+<b class="nc"><i>24</i>&nbsp;        Cell cell=null;</b>
+<b class="nc"><i>25</i>&nbsp;        List&lt;String&gt; students=new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>26</i>&nbsp;        for (int i=0;i&lt;workbook.getNumberOfSheets();i++){</b>
+<b class="nc"><i>27</i>&nbsp;            sheet=workbook.getSheetAt(i);</b>
+<b class="nc"><i>28</i>&nbsp;            if (sheet==null){</b>
+<b class="nc"><i>29</i>&nbsp;                continue;</b>
+<i>30</i>&nbsp;            }
+<b class="nc"><i>31</i>&nbsp;            int j=sheet.getFirstRowNum();</b>
+<b class="nc"><i>32</i>&nbsp;            row=sheet.getRow(j);</b>
+<i>33</i>&nbsp;            int k;
+<b class="nc"><i>34</i>&nbsp;            for(k=row.getFirstCellNum();k&lt;=row.getLastCellNum();k++){</b>
+<b class="nc"><i>35</i>&nbsp;                cell=row.getCell(k);</b>
+<b class="nc"><i>36</i>&nbsp;                if(cell.getStringCellValue().equals(&quot;Ñ§ºÅ&quot;)){</b>
+<i>37</i>&nbsp;//                    System.out.print(k);
+<b class="nc"><i>38</i>&nbsp;                    break;</b>
+<i>39</i>&nbsp;                }
+<i>40</i>&nbsp;            }
+<b class="nc"><i>41</i>&nbsp;            for(j=sheet.getFirstRowNum()+1;j&lt;=sheet.getLastRowNum();j++){</b>
+<b class="nc"><i>42</i>&nbsp;                row=sheet.getRow(j);</b>
+<b class="nc"><i>43</i>&nbsp;                cell=row.getCell(k);</b>
+<b class="nc"><i>44</i>&nbsp;                cell.setCellType(CellType.STRING);</b>
+<b class="nc"><i>45</i>&nbsp;                String studentID=cell.getStringCellValue();</b>
+<i>46</i>&nbsp;//                System.out.print(studentID);
+<b class="nc"><i>47</i>&nbsp;                students.add(studentID);</b>
+<i>48</i>&nbsp;            }
+<i>49</i>&nbsp;        }
+<b class="nc"><i>50</i>&nbsp;        return students;</b>
+<i>51</i>&nbsp;    }
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-01-07 14:29</div>
+</div>
+</body>
+</html>
