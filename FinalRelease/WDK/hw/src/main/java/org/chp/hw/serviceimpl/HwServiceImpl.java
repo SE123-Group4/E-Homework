@@ -451,14 +451,14 @@ public class HwServiceImpl implements HwService {
             homeworkUtil.setTitle(item.getHomework().getTitle());
             homeworkUtil.setPost(item.getHomework().getAssignTime());
             homeworkUtil.setDdl(item.getHomework().getDeadline());
-            if(item.getState() == HdStateEnum.UNSUBMITTED){
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                Date date = new Date();
-                if(sdf.parse(item.getHomework().getDeadline()).before(date)){
-                    item.setState(HdStateEnum.LATE);
-                    handsonDao.saveHd(item);
-                }
-            }
+//            if(item.getState() == HdStateEnum.UNSUBMITTED){
+//                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                Date date = new Date();
+//                if(sdf.parse(item.getHomework().getDeadline()).before(date)){
+//                    item.setState(HdStateEnum.LATE);
+//                    handsonDao.saveHd(item);
+//                }
+//            }
 
             homeworkUtil.setState(item.getState().toString());
             homeworkUtilList.add(homeworkUtil);
@@ -532,7 +532,7 @@ public class HwServiceImpl implements HwService {
                     if(handson.getState() == HdStateEnum.UNSUBMITTED){
                         if(flag){
                             handson.setState(HdStateEnum.LATE);
-                            handsonDao.saveHd(handson);
+                            //handsonDao.saveHd(handson);
                             l++;
                         }
                         else {
@@ -599,7 +599,7 @@ public class HwServiceImpl implements HwService {
                     if(handson.getState() == HdStateEnum.UNSUBMITTED){
                         if(flag){
                             handson.setState(HdStateEnum.LATE);
-                            handsonDao.saveHd(handson);
+                            //handsonDao.saveHd(handson);
                             l++;
                         }
                         else {

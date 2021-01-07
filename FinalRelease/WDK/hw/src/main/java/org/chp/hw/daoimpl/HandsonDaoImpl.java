@@ -31,11 +31,6 @@ public class HandsonDaoImpl implements HandsonDao {
 
     public void saveHd(Handson handson){
         handsonRepository.saveAndFlush(handson);
-        if(handson.getAnswerList() != null) {
-            for (Answer answer : handson.getAnswerList()) {
-                answerDao.saveAnswer(answer);
-            }
-        }
     }
 
     public void deleteHdByID(int id){

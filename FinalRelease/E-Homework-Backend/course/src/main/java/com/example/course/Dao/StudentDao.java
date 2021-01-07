@@ -1,7 +1,9 @@
 package com.example.course.Dao;
 
+import com.example.course.Entity.Student;
+
 public interface StudentDao {
-    String getNameByID(int id);
+    Student getNameByID(int id);
 
     int getByStuNumberAndSchoolID(String sNum,int sID);
 }

@@ -2,6 +2,7 @@ package com.example.course.ServiceImpl;
 
 import com.example.course.Dao.*;
 import com.example.course.Entity.Course;
+import com.example.course.Entity.Student;
 import com.example.course.Entity.Takes;
 import com.example.course.ReturnInfo.ReturnCourse;
 import com.example.course.ReturnInfo.ReturnCourseList;
@@ -166,15 +167,16 @@ public class CourseServiceImpl implements CourseService {
         return returnMsg;
     }
 
+
     @Override
     public List<ReturnStudent> getStudentsById(int id){
         List<Takes> takesList=takesDao.getByIdCourseID(id);
         List<ReturnStudent> studentList=new ArrayList<>();
         for (Takes takes:takesList){
-            String name=studentDao.getNameByID(takes.getId().getStudent());
+            Student name=studentDao.getNameByID(takes.getId().getStudent());
             ReturnStudent returnStudent=new ReturnStudent();
-            returnStudent.setId(takes.getId().getStudent());
-            returnStudent.setName(name);
+            returnStudent.setId(name.getStuNumber());
+            returnStudent.setName(name.getName());
             studentList.add(returnStudent);
         }
         return studentList;
@@ -185,12 +187,12 @@ public class CourseServiceImpl implements CourseService {
         List<Takes> takesList=takesDao.getByIdCourseID(cid);
         List<ReturnStudent> studentList=new ArrayList<>();
         for (Takes takes:takesList){
-            String name=studentDao.getNameByID(takes.getId().getStudent());
-            if(name.indexOf(search,0) !=-1)
+            Student name=studentDao.getNameByID(takes.getId().getStudent());
+            if(name.getName().indexOf(search,0) !=-1)
             {
                 ReturnStudent returnStudent=new ReturnStudent();
-                returnStudent.setId(takes.getId().getStudent());
-                returnStudent.setName(name);
+                returnStudent.setId(name.getStuNumber());
+                returnStudent.setName(name.getName());
                 studentList.add(returnStudent);
             }
         }

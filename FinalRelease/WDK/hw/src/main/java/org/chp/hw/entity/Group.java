@@ -37,7 +37,7 @@ public class Group {
 
     /** 维护与student的多对多关系 **/
     @ManyToMany
-    @JoinTable(name = "groupMember",joinColumns = @JoinColumn(name = "groupID"),
+    @JoinTable(name = "groupmember",joinColumns = @JoinColumn(name = "groupID"),
             inverseJoinColumns = @JoinColumn(name = "memberID"))
     private List<Student> studentgroupList;
 }
