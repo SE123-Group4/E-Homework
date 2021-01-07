@@ -30,11 +30,13 @@ public class Student {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "schoolid")
     private int schoolID;
 
     @Column(name = "stunumber")
     private String stuNumber;
 
+    @Column(name = "name")
     private String name;
 
     @Column(name = "class")

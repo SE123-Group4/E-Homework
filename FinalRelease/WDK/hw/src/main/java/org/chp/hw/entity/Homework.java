@@ -31,13 +31,16 @@ public class Homework {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "title")
     private String title;
 
     @Column(name = "assigntime")
     private String assignTime;
 
+    @Column(name = "deadline")
     private String deadline;
 
+    @Column(name = "totals")
     private int totals;
 
     @Column(name = "isdelayed")

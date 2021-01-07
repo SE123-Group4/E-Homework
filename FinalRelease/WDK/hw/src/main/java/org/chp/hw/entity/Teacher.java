@@ -36,6 +36,7 @@ public class Teacher {
     @Column(name = "teanumber")
     private String teanumber;
 
+    @Column(name = "name")
     private String name;
 
     @JsonIgnore

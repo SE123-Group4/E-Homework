@@ -35,10 +35,13 @@ public class Course {
     @JoinColumn(name="teacher")
     private Teacher teacher;
 
+    @Column(name = "introduction")
     private String introduction;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "book")
     private String book;
 
     @Column(name = "starttime")
@@ -46,6 +49,9 @@ public class Course {
 
     @Column(name = "endtime")
     private String endTime;
+
+    @Column(name = "takes")
+    private int takes;
 
     @Enumerated(EnumType.ORDINAL)
     private CourseEnum state;
@@ -57,6 +63,7 @@ public class Course {
     @JsonIgnore
     @OneToMany(mappedBy = "course",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
     private List<Homework> homeworkList;
+
 
     /** 维护与student的多对多关系 */
     @JsonIgnore

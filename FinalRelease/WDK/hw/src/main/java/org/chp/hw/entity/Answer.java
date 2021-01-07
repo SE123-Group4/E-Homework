@@ -28,6 +28,7 @@ public class Answer {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "score")
     private Integer score;
 
     @Transient

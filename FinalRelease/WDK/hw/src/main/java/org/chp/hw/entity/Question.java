@@ -30,6 +30,7 @@ public class Question {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "score")
     private int score;
 
     @Transient
