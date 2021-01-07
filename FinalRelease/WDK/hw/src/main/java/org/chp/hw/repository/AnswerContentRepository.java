@@ -1,7 +1,10 @@
 package org.chp.hw.repository;
 
+import org.bson.types.ObjectId;
 import org.chp.hw.entity.AnswerContent;
 import org.springframework.data.mongodb.repository.MongoRepository;
+
+import java.util.Optional;
 
 /**
  * @ClassName: AnswerContentRepository
@@ -11,4 +14,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * @Version 1.0
  **/
 public interface AnswerContentRepository extends MongoRepository<AnswerContent, Integer> {
+    Optional<AnswerContent> findByInnerID(int id);
 }

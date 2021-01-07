@@ -1,6 +1,7 @@
 package org.chp.hw.entity;
 
 import lombok.Data;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -17,9 +18,12 @@ import java.util.List;
 @Data
 @Document(collection = "answer")
 public class AnswerContent {
+    @Field(name = "_id")
+    private ObjectId id;
+
     @Id
     @Field(name = "ID")
-    private int id;
+    private int innerID;
 
     @Field(name = "type")
     private String type;
@@ -30,12 +34,15 @@ public class AnswerContent {
     @Field(name = "image")
     private String image;
 
-    @Field(name = "choiceAnswer")
-    private List<OptionItem> choiceAnswer;
+    @Field(name = "answer")
+    private String answer;
 
-    @Field(name = "stringAnswer")
-    private String stringAnswer;
-
-    @Field(name = "tfAnswer")
-    private boolean tfAnswer;
+//    @Field(name = "choiceAnswer")
+//    private List<OptionItem> choiceAnswer;
+//
+//    @Field(name = "stringAnswer")
+//    private String stringAnswer;
+//
+//    @Field(name = "tfAnswer")
+//    private boolean tfAnswer;
 }

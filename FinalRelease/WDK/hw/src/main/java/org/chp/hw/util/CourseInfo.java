@@ -1,5 +1,6 @@
 package org.chp.hw.util;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.chp.hw.entity.Group;
 import org.chp.hw.entity.Student;
@@ -16,6 +17,7 @@ import java.util.List;
  **/
 @Data
 public class CourseInfo {
+    @JsonProperty("ID")
     private int ID;
 
     private String name;

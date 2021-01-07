@@ -1,11 +1,15 @@
 package org.chp.hw.serviceimpl;
 
+import com.alibaba.fastjson.JSON;
 import org.chp.hw.constant.HdStateEnum;
 import org.chp.hw.constant.HwResultEnum;
 import org.chp.hw.constant.HwStateEnum;
 import org.chp.hw.dao.*;
 import org.chp.hw.entity.*;
+import org.chp.hw.repository.UserRepository;
+import org.chp.hw.repository.UserRoleRepository;
 import org.chp.hw.service.HwService;
+import org.chp.hw.service.IMailService;
 import org.chp.hw.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +53,15 @@ public class HwServiceImpl implements HwService {
 
     @Autowired
     AnswerDao answerDao;
+
+    @Autowired
+    IMailService iMailService;
+
+    @Autowired
+    UserRepository userDao;
+
+    @Autowired
+    UserRoleRepository userRoleDao;
 
 
     private HwInfo changeHwtoHwInfo(Homework homework) throws ParseException {
@@ -97,21 +110,41 @@ public class HwServiceImpl implements HwService {
 
     }
 
-    public TotalInfo getORcreateHw(Integer hwID, Integer teaID) throws Exception {
+    public response getORcreateHw(Integer hwID, Integer teaID) throws Exception {
+        response ret = new response();
+        ret.setStatus(200);
         System.out.println(hwID);
         TotalInfo totalInfo = new TotalInfo();
-        totalInfo.setCourseInfoList(getCourseInfoListByTeaID(teaID));
+        try{
+            totalInfo.setCourseInfoList(getCourseInfoListByTeaID(teaID));
+        }
+        catch (Exception e){
+            ret.setMsg("error 1");
+            ret.setStatus(400);
+            return ret;
+        }
         if(hwID.equals(0)){
-            return totalInfo;
+            ret.setMsg("successful response");
+            ret.setData(totalInfo);
+            return ret;
         }
         else{
-            totalInfo.setHwInfo(getHwInfoByHwID(hwID));
+            try {
+                totalInfo.setHwInfo(getHwInfoByHwID(hwID));
+            }
+            catch (Exception e){
+                ret.setStatus(400);
+                ret.setMsg("error 2");
+                return ret;
+            }
+            ret.setData(totalInfo);
         }
-        return totalInfo;
+        return ret;
     }
 
     private Homework getFromHwInfo(HwInfo hwInfo){
         Homework homework = new Homework();
+        System.out.println(hwInfo.getCourseId());
         homework.setCourse(courseDao.getByCourseID(hwInfo.getCourseId()).get());
         homework.setState(HwStateEnum.ASSIGNED);
         homework.setTitle(hwInfo.getTitle());
@@ -120,15 +153,23 @@ public class HwServiceImpl implements HwService {
         homework.setIsrepeated(hwInfo.isRepeated());
         homework.setIstimed(hwInfo.isTimed());
         homework.setIsgrouped(hwInfo.isGrouped());
-        homework.setResultafter(HwResultEnum.SUBMIT);
-        homework.setDeadline("20210108");
-        homework.setAssignTime("20210108");
+        homework.setResultafter(HwResultEnum.valueOf(hwInfo.getResultAfter()));
+        homework.setDeadline(hwInfo.getDeadlineDate());
+        homework.setAssignTime(hwInfo.getAssignDate());
         return homework;
     }
 
-    public void resetByHwInfo(HwInfo hwInfo){
+    public response resetByHwInfo(HwInfo hwInfo){
+        response ret = new response();
+        ret.setStatus(200);
+        System.out.println(hwInfo);
         if(hwInfo.getID() != 0){
-            homeWorkDao.deleteHwByID(hwInfo.getID());
+            Optional<Homework> homeworkOptional = homeWorkDao.getByHwID(hwInfo.getID());
+            if(homeworkOptional.isPresent()){
+                Homework homework = homeworkOptional.get();
+                homework.setState(HwStateEnum.ABORTED);
+                homeWorkDao.saveHw(homework);
+            }
         }
         Homework homework = getFromHwInfo(hwInfo);
         System.out.println(homework.getAssignTime());
@@ -138,19 +179,28 @@ public class HwServiceImpl implements HwService {
             Handson handson = new Handson();
             Optional<Student> studentOptional = studentDao.getByID(i);
             if(!studentOptional.isPresent()){
-                return;
+                ret.setStatus(400);
+                ret.setMsg("invalid submitter id");
+                return ret;
             }
             handson.setSubmitter(studentOptional.get());
             handson.setHomework(homework);
             handson.setIsGrouped(homework.isIsgrouped());
             handson.setState(HdStateEnum.UNSUBMITTED);
             handsonDao.saveHd(handson);
+            Optional<Userrole> userroleOptional = userRoleDao.findByRoleAndRoleID(1, i);
+            if(userroleOptional.isPresent()){
+                iMailService.sendAssignMail(userDao.findById(userroleOptional.get().getUserID()).get().getEmail(),
+                        homework.getCourse().getName(), homework.getTitle());
+            }
         }
         for(QuestionListTuple questionListTuple : hwInfo.getQuestionList()){
             Question question = questionListTuple.toQuestion();
             question.setHomework(homework);
             questionDao.saveQuestion(question);
         }
+        ret.setMsg("suscessful response");
+        return ret;
     }
 
     public response getAnswerList(int id){
@@ -179,24 +229,20 @@ public class HwServiceImpl implements HwService {
                 System.out.println("_________________________if");
                 if(type.equals("ONE_CHOICE") || type.equals("MULTIPLE_CHOICE")){
                     util.setOptions(question.getQuestionContent().getOptions());
-                    util.setRefAnswer(question.getQuestionContent().getChoiceRefAnswer());
-                    if(answer.getContent() != null)
-                        util.setStuAnswer(answer.getContent().getChoiceAnswer());
                 }
-                if(type.equals("TRUE_OR_FALSE")){
-                    util.setRefAnswer(question.getQuestionContent().isTfRefAnswer());
-                    if(answer.getContent() != null)
-                        util.setStuAnswer(answer.getContent().isTfAnswer());
-                }
-                if(type.equals(("SUBJECTIVE"))){
-                    util.setRefAnswer(question.getQuestionContent().getStringRefAnswer());
-                    if(answer.getContent() != null)
-                        util.setStuAnswer(answer.getContent().getStringAnswer());
+                util.setRefAnswer(question.getQuestionContent().getRefAnswer());
+                if(answer.getContent() != null)
+                {
+                    ContentImage contentImage = new ContentImage();
+                    contentImage.setImage(answer.getContent().getImage());
+                    contentImage.setContent(answer.getContent().getAnswer());
+                    util.setStuAnswer(contentImage);
                 }
                 if(answer.getScore() != null){
                     util.setStuScore(answer.getScore());
                 }
                 util.setTotalScore(question.getScore());
+                util.setComment(answer.getComment());
                 System.out.println("_________________________add");
                 answerUtils.add(util);
             }
@@ -226,7 +272,14 @@ public class HwServiceImpl implements HwService {
             }
 
             Handson handson = answer.getHandson();
-            handson.setState(HdStateEnum.CORRECTED);
+            if(handson.getState() != HdStateEnum.CORRECTED){
+                handson.setState(HdStateEnum.CORRECTED);
+                Optional<Userrole> userroleOptional = userRoleDao.findByRoleAndRoleID(1, answer.getHandson().getSubmitter().getId());
+                if(userroleOptional.isPresent()){
+                    iMailService.sendCorrectMail(userDao.findById(userroleOptional.get().getUserID()).get().getEmail(),
+                            answer.getHandson().getHomework().getCourse().getName(), answer.getHandson().getHomework().getTitle());
+                }
+            }
 
             answer.setScore(util.getStuScore());
 
@@ -243,7 +296,7 @@ public class HwServiceImpl implements HwService {
             answer.setComment(comment);
 
             answerDao.saveAnswer(answer);
-            handsonDao.saveHd(handson);
+            handsonDao.saveWithoutAnswer(handson);
         }
         ret.setStatus(200);
         return ret;
@@ -326,7 +379,13 @@ public class HwServiceImpl implements HwService {
                     answer.setHandson(handson);
                     AnswerContent answerContent = new AnswerContent();
                     answerContent.setType("ONE_CHOICE");
-                    answerContent.setChoiceAnswer((List<OptionItem>) item.getOption());
+                    System.out.println(item.getOption());
+                    List<OptionItem> optionItems = JSON.parseArray(item.getOption().toString(), OptionItem.class) ;
+                    List<String> to_contact = new ArrayList<>();
+                    for (OptionItem o : optionItems){
+                        to_contact.add(o.getOption());
+                    }
+                    answerContent.setAnswer(String.join(",", to_contact));
                     answerContent.setHwID(handson.getHomework().getId());
                     answer.setContent(answerContent);
                     answerDao.saveAnswer(answer);
@@ -346,7 +405,12 @@ public class HwServiceImpl implements HwService {
                     answer.setHandson(handson);
                     AnswerContent answerContent = new AnswerContent();
                     answerContent.setType("MULTIPLE_CHOICE");
-                    answerContent.setChoiceAnswer((List<OptionItem>) item.getOption());
+                    List<OptionItem> optionItems = JSON.parseArray(item.getOption().toString(), OptionItem.class) ;
+                    List<String> to_contact = new ArrayList<>();
+                    for (OptionItem o : optionItems){
+                        to_contact.add(o.getOption());
+                    }
+                    answerContent.setAnswer(String.join(",", to_contact));
                     answerContent.setHwID(handson.getHomework().getId());
                     answer.setContent(answerContent);
                     answerDao.saveAnswer(answer);
@@ -366,7 +430,7 @@ public class HwServiceImpl implements HwService {
                     answer.setHandson(handson);
                     AnswerContent answerContent = new AnswerContent();
                     answerContent.setType("SUBJECTIVE");
-                    answerContent.setStringAnswer(item.getContent());
+                    answerContent.setAnswer(item.getContent());
                     answerContent.setImage(item.getImage());
                     answerContent.setHwID(handson.getHomework().getId());
                     answer.setContent(answerContent);
@@ -387,7 +451,12 @@ public class HwServiceImpl implements HwService {
                     answer.setHandson(handson);
                     AnswerContent answerContent = new AnswerContent();
                     answerContent.setType("TRUE_OR_FALSE");
-                    answerContent.setTfAnswer((Boolean) item.getOption());
+                    if((Boolean) item.getOption()){
+                        answerContent.setAnswer("true");
+                    }
+                    else{
+                        answerContent.setAnswer("false");
+                    }
                     answerContent.setHwID(handson.getHomework().getId());
                     answer.setContent(answerContent);
                     answerDao.saveAnswer(answer);
@@ -495,7 +564,7 @@ public class HwServiceImpl implements HwService {
                         Date date = new Date();
                         if(sdf.parse(item.getDeadline()).before(date)){
                             handson.setState(HdStateEnum.LATE);
-                            handsonDao.saveHd(handson);
+                            //handsonDao.saveHd(handson);
                         }
                     }
                     homeworkUtil.setState(handson.getState().toString());

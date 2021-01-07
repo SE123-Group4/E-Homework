@@ -1,6 +1,8 @@
 package org.chp.hw.util;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.chp.hw.entity.ContentImage;
 import org.chp.hw.entity.OptionItem;
 
 import java.util.List;
@@ -24,5 +26,8 @@ public class QuestionUtil {
 
     private int score;
 
+    @JsonProperty("ID")
     private int ID;
+
+
 }
