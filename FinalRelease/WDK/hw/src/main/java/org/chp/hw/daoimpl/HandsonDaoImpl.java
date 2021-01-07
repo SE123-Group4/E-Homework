@@ -38,6 +38,10 @@ public class HandsonDaoImpl implements HandsonDao {
         }
     }
 
+    public void saveWithoutAnswer(Handson handson){
+        handsonRepository.saveAndFlush(handson);
+    }
+
     public void deleteHdByID(int id){
         Optional<Handson> handsonOptional = getHdByID(id);
         if(handsonOptional.isPresent()){

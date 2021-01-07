@@ -14,9 +14,9 @@ import java.util.List;
  * @Version 1.0
  **/
 public interface HwService {
-    TotalInfo getORcreateHw(Integer hwID, Integer teaID) throws Exception;
+    response getORcreateHw(Integer hwID, Integer teaID) throws Exception;
 
-    void resetByHwInfo(HwInfo hwInfo);
+    response resetByHwInfo(HwInfo hwInfo);
 
     response getAnswerList(int id);
 

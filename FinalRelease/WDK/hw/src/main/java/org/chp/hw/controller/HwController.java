@@ -34,19 +34,14 @@ public class HwController {
     * @Description: 获取作业信息若id为0则新建作业
     * @Date: 1:06 下午 2020/11/17
     **/
-    @RequestMapping(path = "/Homework/AssignHomework", method = RequestMethod.GET)
-    public TotalInfo getHwInfo(@RequestBody Map<String,Integer> params) throws Exception {
-        System.out.println(params.get("ID"));
-        return hwService.getORcreateHw(params.get("ID"), params.get("TeaID"));
+    @RequestMapping(path = "/getAssignHomework")
+    public response getHwInfo(@RequestParam(name = "ID") Integer id, @RequestParam(name = "TeaID") Integer tid) throws Exception {
+        return hwService.getORcreateHw(id, tid);
     }
 
-    @RequestMapping(path = "/Homework/AssignHomework", method = RequestMethod.POST)
-    public void assignHw(@RequestBody JSONObject params) throws Exception {
-        System.out.println(params.get("hwinfo").getClass());
-        JSONObject HwInfo_json = JSONObject.parseObject(JSON.toJSONString(params.get("hwinfo")));
-        HwInfo hwInfo = (HwInfo)JSONObject.toJavaObject(HwInfo_json, HwInfo.class);
-        System.out.println(hwInfo);
-        hwService.resetByHwInfo(hwInfo);
+    @RequestMapping(path = "/AssignHomework", method = RequestMethod.POST)
+    public response assignHw(@RequestBody Map<String, HwInfo> params) throws Exception {
+        return hwService.resetByHwInfo(params.get("hwinfo"));
     }
     /**
      * @Auther: DakeWang

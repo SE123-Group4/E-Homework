@@ -1,5 +1,6 @@
 package org.chp.hw.util;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
@@ -11,6 +12,7 @@ import lombok.Data;
  **/
 @Data
 public class PostAnswerItem {
+    @JsonProperty("ID")
     private int ID;
 
     private Object option;

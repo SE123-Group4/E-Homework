@@ -30,18 +30,21 @@ public class QuestionContent {
     @Field(name = "type")
     private String type;
 
+    @Field(name = "refAnswer")
+    private ContentImage refAnswer;
+
     @Field(name = "options")
     private List<OptionItem> options;
 
-    @Field(name = "choiceRefAnswer")
-    private List<OptionItem> choiceRefAnswer;
-
-    @Field(name = "stringRefAnswer")
-    private String stringRefAnswer;
-
-    @Field(name = "tfRefAnswer")
-    private boolean tfRefAnswer;
+//    @Field(name = "choiceRefAnswer")
+//    private List<OptionItem> choiceRefAnswer;
+//
+//    @Field(name = "stringRefAnswer")
+//    private String stringRefAnswer;
+//
+//    @Field(name = "tfRefAnswer")
+//    private boolean tfRefAnswer;
 
     @Field(name = "analysis")
-    private String analysis;
+    private ContentImage analysis;
 }

@@ -34,4 +34,12 @@ public enum HwResultEnum {
         }
         throw new IllegalArgumentException();
     }
+
+    public HwResultEnum fromString(String string){
+        if(string.equals("SUBMIT"))
+            return SUBMIT;
+        else {
+            return DEADLINE;
+        }
+    }
 }

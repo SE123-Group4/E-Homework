@@ -1,5 +1,6 @@
 package org.chp.hw.util;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.chp.hw.constant.HwResultEnum;
 import org.chp.hw.constant.HwStateEnum;
@@ -23,6 +24,7 @@ import java.util.List;
  **/
 @Data
 public class HwInfo {
+    @JsonProperty("ID")
     private int ID;
 
     private String state;
@@ -45,15 +47,12 @@ public class HwInfo {
 
     private boolean isGrouped;
 
-    private int resultAfter;
+    private String resultAfter;
 
-    private Date deadlineDate;
+    private String deadlineDate;
 
-    private Time deadlineTime;
+    private String assignDate;
 
-    private Date assignDate;
-
-    private Time assignTime;
 
     public void fromHWtoHwInfo(Homework homework) throws ParseException {
         this.setID(homework.getId());
@@ -64,11 +63,9 @@ public class HwInfo {
         this.setRepeated(homework.isIsrepeated());
         this.setTimed(homework.isIstimed());
         this.setGrouped(homework.isIsgrouped());
-        this.setResultAfter(homework.getResultafter().getValue());
-        this.setDeadlineDate(str2Date(homework.getDeadline()));
-        this.setAssignDate(str2Date(homework.getAssignTime()));
-        this.setDeadlineTime(null);
-        this.setAssignTime(null);
+        this.setResultAfter(homework.getResultafter().toString());
+        this.setDeadlineDate(homework.getDeadline());
+        this.setAssignDate(homework.getAssignTime());
         List<Handson> handsonList = homework.getHandsonList();
         List<Integer> submiterList = new ArrayList<>();
         for(Handson handson : handsonList){
@@ -85,10 +82,10 @@ public class HwInfo {
         this.setQuestionList(questionListTupleList);
     }
 
-    private Date str2Date(String string) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = sdf.parse(string);
-        System.out.println(sdf.parse(string));
-        return date;
-    }
+//    private Date str2Date(String string) throws ParseException {
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Date date = sdf.parse(string);
+//        System.out.println(sdf.parse(string));
+//        return date;
+//    }
 }

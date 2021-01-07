@@ -16,6 +16,8 @@ import java.util.Optional;
 public interface HandsonDao {
     void saveHd(Handson handson);
 
+    void saveWithoutAnswer(Handson handson);
+
     void deleteHdByID(int handson);
 
     Optional<Handson> getHdByID(int id);

@@ -30,12 +30,15 @@ public class AnswerContent {
     @Field(name = "image")
     private String image;
 
-    @Field(name = "choiceAnswer")
-    private List<OptionItem> choiceAnswer;
+    @Field(name = "answer")
+    private String answer;
 
-    @Field(name = "stringAnswer")
-    private String stringAnswer;
-
-    @Field(name = "tfAnswer")
-    private boolean tfAnswer;
+//    @Field(name = "choiceAnswer")
+//    private List<OptionItem> choiceAnswer;
+//
+//    @Field(name = "stringAnswer")
+//    private String stringAnswer;
+//
+//    @Field(name = "tfAnswer")
+//    private boolean tfAnswer;
 }

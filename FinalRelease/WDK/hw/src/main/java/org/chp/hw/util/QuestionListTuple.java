@@ -1,13 +1,12 @@
 package org.chp.hw.util;
 
-import com.alibaba.fastjson.JSON;
 import lombok.Data;
-import org.chp.hw.constant.TextTypeEnum;
+import org.chp.hw.entity.ContentImage;
 import org.chp.hw.entity.OptionItem;
 import org.chp.hw.entity.Question;
 import org.chp.hw.entity.QuestionContent;
-import springfox.documentation.spring.web.json.Json;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,13 +22,13 @@ public class QuestionListTuple {
 
     private String image;
 
-    private List<OptionItem> options;
+    private List<OptionItemUtil> options;
 
     private int score;
 
-    private Object refAnswer;
+    private ContentImage refAnswer;
 
-    private Object analysis;
+    private ContentImage analysis;
 
     private String type;
 
@@ -39,20 +38,18 @@ public class QuestionListTuple {
         QuestionContent questionContent = new QuestionContent();
         ret.setScore(score);
         System.out.println(this.toString());
-        questionContent.setAnalysis(analysis.toString());
+        questionContent.setAnalysis(analysis);
         questionContent.setType(type);
         questionContent.setImage(image);
         questionContent.setStem(stem);
         if(type.equals("ONE_CHOICE") || type.equals("MULTIPLE_CHOICE")){
-            questionContent.setChoiceRefAnswer(JSON.parseArray(refAnswer.toString(), OptionItem.class));
-            questionContent.setOptions(options);
+            List<OptionItem> optionItemList = new ArrayList<>();
+            for(OptionItemUtil optionItemUtil : options){
+                optionItemList.add(optionItemUtil.toOptionItem());
+            }
+            questionContent.setOptions(optionItemList);
         }
-        if(type.equals("TRUE_OR_FALSE")){
-            questionContent.setTfRefAnswer((Boolean) refAnswer);
-        }
-        if(type.equals(("SUBJECTIVE"))){
-            questionContent.setStringRefAnswer(refAnswer.toString());
-        }
+        questionContent.setRefAnswer(refAnswer);
         ret.setQuestionContent(questionContent);
         return ret;
     }
@@ -65,15 +62,25 @@ public class QuestionListTuple {
         this.stem = questionContent.getStem();
         this.image = questionContent.getImage();
         if(type.equals("ONE_CHOICE") || type.equals("MULTIPLE_CHOICE")){
-            this.setRefAnswer(questionContent.getChoiceRefAnswer());
-            this.setOptions(questionContent.getOptions());
+            List<OptionItemUtil> optionItemUtils = new ArrayList<>();
+            for(OptionItem optionItem : q.getQuestionContent().getOptions()){
+                optionItemUtils.add(fromItemtoUtil(optionItem));
+            }
+            this.setOptions(optionItemUtils);
         }
-        if(type.equals("TRUE_OR_FALSE")){
-            this.setRefAnswer(questionContent.isTfRefAnswer());
-        }
-        if(type.equals(("SUBJECTIVE"))){
-            this.setRefAnswer(questionContent.getStringRefAnswer());
-        }
+        this.setRefAnswer(questionContent.getRefAnswer());
         this.setAnalysis(questionContent.getAnalysis());
+    }
+
+    private OptionItemUtil fromItemtoUtil(OptionItem item){
+        OptionItemUtil optionItemUtil = new OptionItemUtil();
+        ContentImage contentImage = new ContentImage();
+
+        contentImage.setContent(item.getContent());
+        contentImage.setImage(item.getImage());
+        optionItemUtil.setOption(item.getOption());
+        optionItemUtil.setContent(contentImage);
+
+        return optionItemUtil;
     }
 }
