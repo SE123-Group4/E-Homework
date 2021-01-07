@@ -50,7 +50,7 @@ export class CourseFuncBtn extends React.Component {
                 refresh: this.props.infoRefresh,
               });
             }}>
-            <Icon type="FontAwesome" name="fa-info" style={styles.buttonIcon} />
+            <Icon type="FontAwesome" name="info" style={styles.buttonIcon} />
             <Text style={styles.text}>修改信息</Text>
           </Button>
           <Button
@@ -60,10 +60,12 @@ export class CourseFuncBtn extends React.Component {
             style={styles.button}
             onPress={() => {
               console.log('check students');
-              this.props.navigation.navigate('CheckStu');
+              this.props.navigation.navigate('CheckStu', {
+                courseID: this.props.courseID,
+              });
             }}>
-            <Icon type="FontAwesome" name="users" style={styles.buttonIcon} />
-            <Text style={styles.text}>查看学生</Text>
+            <Icon type="FontAwesome" name="users" style={styles.littleButtonIcon} />
+            <Text style={styles.littleText}>查看学生</Text>
           </Button>
           <Button
             icon
@@ -80,9 +82,9 @@ export class CourseFuncBtn extends React.Component {
             <Icon
               type="FontAwesome"
               name="user-plus"
-              style={styles.buttonIcon}
+              style={styles.littleButtonIcon}
             />
-            <Text style={styles.text}>管理学生</Text>
+            <Text style={styles.littleText}>管理学生</Text>
           </Button>
           <Button
             icon
@@ -122,9 +124,18 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: '#0093fe',
   },
+  littleButtonIcon: {
+    fontSize: 35,
+    color: '#0093fe',
+  },
   deleteButton: {
     fontSize: 40,
     color: 'red',
   },
   text: {color: 'rgba(138,138,138,0.78)', fontSize: 15},
+  littleText: {
+    color: 'rgba(138,138,138,0.78)',
+    fontSize: 15,
+    marginTop: 5,
+  }
 });

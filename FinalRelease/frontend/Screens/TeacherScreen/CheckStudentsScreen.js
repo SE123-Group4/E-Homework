@@ -25,22 +25,16 @@ export class CheckStudentsScreen extends React.Component {
   constructor() {
     super();
     this.state = {
-      students: [
-        {id: '1234', name: '学生1'},
-        {id: '1235', name: '学生2'},
-        {id: '1236', name: '学生3'},
-      ],
+      students: [{id: '学号', name: '学生姓名'}],
       searchValue: null,
     };
   }
 
   componentDidMount() {
     const callback = (res) => {
-      if (res.status === 200) {
-        this.setState({students: res.data});
-      }
+      this.setState({students: res});
     };
-    //getStudentsByCourse(this.props.route.params.courseID, callback);
+    getStudentsByCourse(this.props.route.params.courseID, callback);
   }
 
   search = () => {
@@ -49,15 +43,14 @@ export class CheckStudentsScreen extends React.Component {
       return;
     }
     const callback = (res) => {
-      if (res.status === 200) {
-        this.setState({students: res.data});
-      }
+      console.log('res', res);
+      this.setState({students: res});
     };
-    // searchStudent(
-    //   this.props.route.params.courseID,
-    //   this.state.searchValue,
-    //   callback,
-    // );
+    searchStudent(
+      this.props.route.params.courseID,
+      this.state.searchValue,
+      callback,
+    );
   };
 
   renderStudents = () => {
@@ -67,7 +60,7 @@ export class CheckStudentsScreen extends React.Component {
           <CardItem style={styles.studentCardItem} bordered>
             <Body>
               <Text>暂无学生</Text>
-            </Body>{' '}
+            </Body>
           </CardItem>
         );
       } else {
@@ -75,7 +68,7 @@ export class CheckStudentsScreen extends React.Component {
           <CardItem style={styles.studentCardItem} bordered>
             <Body>
               <Text>搜索无结果</Text>
-            </Body>{' '}
+            </Body>
           </CardItem>
         );
       }
@@ -105,8 +98,13 @@ export class CheckStudentsScreen extends React.Component {
           </Card>
           <SearchBar
             placeholder="搜索"
-            onChangeText={(text) => this.setState({searchValue: text})}
-            onSubmitEditing={this.search()}
+            onChangeText={(text) => {
+              if (text === '') {
+                this.componentDidMount();
+              }
+              this.setState({searchValue: text});
+            }}
+            onSubmitEditing={() => this.search()}
             value={this.state.searchValue}
             lightTheme
             inputContainerStyle={{backgroundColor: '#f0f2f3'}}
