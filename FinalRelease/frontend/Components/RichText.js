@@ -13,6 +13,7 @@ import {
 import {Image, Overlay} from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import {postImage, image2word} from '../Service/HomeworkService';
+import {View} from 'react-native';
 
 export class RichText extends React.Component {
   constructor(props) {
@@ -25,7 +26,14 @@ export class RichText extends React.Component {
     return (
       <Overlay isVisible={this.props.ifRichTextShow} fullScreen>
         <Overlay isVisible={this.state.ifSpinnerShow}>
-          <Spinner color="#0093fe" />
+          <View
+            style={{
+              paddingVertical: 10,
+              paddingHorizontal: 25,
+              backgroundColor: '#fff',
+            }}>
+            <Spinner color="#0093fe" />
+          </View>
         </Overlay>
         <Container>
           <Content

@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ReturnStudent {
-    int id;
+    String id;
 
     String name;
 }
