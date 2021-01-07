@@ -35,4 +35,9 @@ public interface CourseRepository extends JpaRepository<Course,Integer> {
     @Modifying
     @Query(value = "update Course set name=:name,introduction=:introduction,book=:book where id=:id")
     int updateCourseById(String name,String introduction,String book,int id);
+
+    @Transactional
+    @Modifying
+    @Query(value="update Course set takes=:takes where id=:id")
+    int updateCourseTakes(int id,int takes);
 }

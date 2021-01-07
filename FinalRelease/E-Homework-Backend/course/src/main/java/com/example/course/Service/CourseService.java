@@ -21,7 +21,7 @@ public interface CourseService {
 
     ReturnMsg insertGroup(int courseID,String name,List<Integer> members);
 
-    ReturnMsg deleteTakesById(int student,int courseID);
+    ReturnMsg deleteTakesById(int schoolID,List<String> students,int courseID);
 
     ReturnMsg  deleteCourseById(int id);
 

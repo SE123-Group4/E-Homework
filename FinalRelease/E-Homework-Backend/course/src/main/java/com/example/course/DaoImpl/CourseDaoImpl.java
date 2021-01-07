@@ -43,4 +43,9 @@ public class CourseDaoImpl implements CourseDao {
     public int updateCourseById(String name,String introduction,String book,int id){
         return courseRepository.updateCourseById(name, introduction, book, id);
     }
+
+    @Override
+    public int updateCourseTakes(int id,int takes){
+        return courseRepository.updateCourseTakes(id, takes);
+    }
 }
