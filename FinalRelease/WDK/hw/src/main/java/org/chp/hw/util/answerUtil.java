@@ -2,6 +2,7 @@ package org.chp.hw.util;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.chp.hw.entity.Comment;
 import org.chp.hw.entity.OptionItem;
 
 import java.util.List;
@@ -31,4 +32,6 @@ public class answerUtil {
     private String type;
 
     private int stuScore;
+
+    private Comment comment;
 }

@@ -32,7 +32,7 @@ public class AnswerDaoImpl implements AnswerDao {
         Optional<Answer> answerOptional = answerRepository.findById(id);
         if(answerOptional.isPresent()){
             Answer answer  = answerOptional.get();
-            Optional<AnswerContent> answerContentOptional = answerContentRepository.findById(id);
+            Optional<AnswerContent> answerContentOptional = answerContentRepository.findByInnerID(id);
             Optional<Comment> commentOptional = commentRepository.findById(id);
             if(answerContentOptional.isPresent()){
                 answer.setContent(answerContentOptional.get());
@@ -48,7 +48,7 @@ public class AnswerDaoImpl implements AnswerDao {
     public void saveAnswer(Answer answer){
         answerRepository.saveAndFlush(answer);
         if(answer.getContent() != null){
-            answer.getContent().setId(answer.getId());
+            answer.getContent().setInnerID(answer.getId());
             answerContentRepository.save(answer.getContent());
         }
         if(answer.getComment() != null){

@@ -1,6 +1,7 @@
 package org.chp.hw.entity;
 
 import lombok.Data;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -17,9 +18,12 @@ import java.util.List;
 @Data
 @Document(collection = "answer")
 public class AnswerContent {
+    @Field(name = "_id")
+    private ObjectId id;
+
     @Id
     @Field(name = "ID")
-    private int id;
+    private int InnerID;
 
     @Field(name = "type")
     private String type;

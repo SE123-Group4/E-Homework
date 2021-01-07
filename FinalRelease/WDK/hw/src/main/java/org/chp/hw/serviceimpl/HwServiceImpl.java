@@ -6,7 +6,10 @@ import org.chp.hw.constant.HwResultEnum;
 import org.chp.hw.constant.HwStateEnum;
 import org.chp.hw.dao.*;
 import org.chp.hw.entity.*;
+import org.chp.hw.repository.UserRepository;
+import org.chp.hw.repository.UserRoleRepository;
 import org.chp.hw.service.HwService;
+import org.chp.hw.service.IMailService;
 import org.chp.hw.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,6 +53,15 @@ public class HwServiceImpl implements HwService {
 
     @Autowired
     AnswerDao answerDao;
+
+    @Autowired
+    IMailService iMailService;
+
+    @Autowired
+    UserRepository userDao;
+
+    @Autowired
+    UserRoleRepository userRoleDao;
 
 
     private HwInfo changeHwtoHwInfo(Homework homework) throws ParseException {
@@ -107,7 +119,7 @@ public class HwServiceImpl implements HwService {
             totalInfo.setCourseInfoList(getCourseInfoListByTeaID(teaID));
         }
         catch (Exception e){
-            ret.setMsg(e.getMessage());
+            ret.setMsg("error 1");
             ret.setStatus(400);
             return ret;
         }
@@ -122,7 +134,7 @@ public class HwServiceImpl implements HwService {
             }
             catch (Exception e){
                 ret.setStatus(400);
-                ret.setMsg(e.getMessage());
+                ret.setMsg("error 2");
                 return ret;
             }
             ret.setData(totalInfo);
@@ -150,8 +162,14 @@ public class HwServiceImpl implements HwService {
     public response resetByHwInfo(HwInfo hwInfo){
         response ret = new response();
         ret.setStatus(200);
+        System.out.println(hwInfo);
         if(hwInfo.getID() != 0){
-            homeWorkDao.deleteHwByID(hwInfo.getID());
+            Optional<Homework> homeworkOptional = homeWorkDao.getByHwID(hwInfo.getID());
+            if(homeworkOptional.isPresent()){
+                Homework homework = homeworkOptional.get();
+                homework.setState(HwStateEnum.ABORTED);
+                homeWorkDao.saveHw(homework);
+            }
         }
         Homework homework = getFromHwInfo(hwInfo);
         System.out.println(homework.getAssignTime());
@@ -170,6 +188,11 @@ public class HwServiceImpl implements HwService {
             handson.setIsGrouped(homework.isIsgrouped());
             handson.setState(HdStateEnum.UNSUBMITTED);
             handsonDao.saveHd(handson);
+            Optional<Userrole> userroleOptional = userRoleDao.findByRoleAndRoleID(1, i);
+            if(userroleOptional.isPresent()){
+                iMailService.sendAssignMail(userDao.findById(userroleOptional.get().getUserID()).get().getEmail(),
+                        homework.getCourse().getName(), homework.getTitle());
+            }
         }
         for(QuestionListTuple questionListTuple : hwInfo.getQuestionList()){
             Question question = questionListTuple.toQuestion();
@@ -219,6 +242,7 @@ public class HwServiceImpl implements HwService {
                     util.setStuScore(answer.getScore());
                 }
                 util.setTotalScore(question.getScore());
+                util.setComment(answer.getComment());
                 System.out.println("_________________________add");
                 answerUtils.add(util);
             }
@@ -248,7 +272,14 @@ public class HwServiceImpl implements HwService {
             }
 
             Handson handson = answer.getHandson();
-            handson.setState(HdStateEnum.CORRECTED);
+            if(handson.getState() != HdStateEnum.CORRECTED){
+                handson.setState(HdStateEnum.CORRECTED);
+                Optional<Userrole> userroleOptional = userRoleDao.findByRoleAndRoleID(1, answer.getHandson().getSubmitter().getId());
+                if(userroleOptional.isPresent()){
+                    iMailService.sendCorrectMail(userDao.findById(userroleOptional.get().getUserID()).get().getEmail(),
+                            answer.getHandson().getHomework().getCourse().getName(), answer.getHandson().getHomework().getTitle());
+                }
+            }
 
             answer.setScore(util.getStuScore());
 

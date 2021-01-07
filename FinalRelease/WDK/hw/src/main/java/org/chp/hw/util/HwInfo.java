@@ -56,6 +56,7 @@ public class HwInfo {
 
     public void fromHWtoHwInfo(Homework homework) throws ParseException {
         this.setID(homework.getId());
+        this.setCourseId(homework.getCourse().getId());
         this.setState(homework.getState().toString());
         this.setTitle(homework.getTitle());
         this.setTotals(homework.getTotals());
@@ -69,7 +70,7 @@ public class HwInfo {
         List<Handson> handsonList = homework.getHandsonList();
         List<Integer> submiterList = new ArrayList<>();
         for(Handson handson : handsonList){
-            submiterList.add(handson.getId());
+            submiterList.add(handson.getSubmitter().getId());
         }
         this.setSubmitIdList(submiterList);
         List<Question> questionList = homework.getQuestionList();

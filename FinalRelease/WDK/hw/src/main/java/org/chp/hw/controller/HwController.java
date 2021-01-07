@@ -36,6 +36,7 @@ public class HwController {
     **/
     @RequestMapping(path = "/getAssignHomework")
     public response getHwInfo(@RequestParam(name = "ID") Integer id, @RequestParam(name = "TeaID") Integer tid) throws Exception {
+        System.out.println("GET REQUEST");
         return hwService.getORcreateHw(id, tid);
     }
 

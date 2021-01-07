@@ -57,6 +57,7 @@ public class QuestionListTuple {
     public void changeFromQuestion(Question q){
         this.score = q.getScore();
         QuestionContent questionContent= q.getQuestionContent();
+        System.out.println(questionContent);
         String type = questionContent.getType();
         this.type = type;
         this.stem = questionContent.getStem();
