@@ -12,7 +12,7 @@ import {TeaCoursesScreen} from '../Screens/TeacherScreen/TeaCoursesScreen';
 import {StuHomeScreen} from '../Screens/StudentScreen/StuHomeScreen';
 import {StuCoursesScreen} from '../Screens/StudentScreen/StuCoursesScreen';
 import {StuCourseNavigator} from './StuCourseNavigator';
-import {TeaProfileScreen} from "../Screens/TeacherScreen/TeaProfileScreen";
+import {TeaProfileScreen} from '../Screens/TeacherScreen/TeaProfileScreen';
 
 const Stack = createStackNavigator();
 

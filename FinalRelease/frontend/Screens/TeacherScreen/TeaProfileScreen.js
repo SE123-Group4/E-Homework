@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, ListItem, Avatar, Text} from 'react-native-elements';
 import {View, Image, Dimensions, StyleSheet} from 'react-native';
-let {width, height} = Dimensions.get('window');
+import {StackActions, NavigationActions} from 'react-navigation';
 import {Component} from 'react';
 import {
   Container,
@@ -16,11 +16,29 @@ import {
   Body,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {logout} from "../../Service/LoginService";
+let {width, height} = Dimensions.get('window');
 
 export class TeaProfileScreen extends React.Component {
   constructor() {
     super();
   }
+
+  logout = () => {
+    const callback = (res) => {
+      if (res === 200) {
+        this.props.navigation.navigate('Login');
+        // const resetAction = StackActions.reset({
+        //   index: 0,
+        //   actions: [
+        //     NavigationActions.navigate({routeName: 'Login'}), //Login 要跳转的路由
+        //   ],
+        // });
+        // this.props.navigation.dispatch(resetAction);
+      }
+    };
+    logout(callback);
+  };
 
   render() {
     return (
@@ -101,7 +119,7 @@ export class TeaProfileScreen extends React.Component {
             </CardItem>
           </Card>
           <View style={styles.logoutStyle}>
-            <Button danger style={styles.logoutBtnStyle} full rounded>
+            <Button danger style={styles.logoutBtnStyle} full rounded onPress={() => this.logout()}>
               <Text style={{color: '#f5f1f0', fontSize: 15}}>退出登录</Text>
             </Button>
           </View>

@@ -28,4 +28,7 @@ public class UserController {
     public Object currentUser(Principal principal) {
         return principal;
     }
+
+    @RequestMapping("exit")
+    public String exit() {return "exit";}
 }

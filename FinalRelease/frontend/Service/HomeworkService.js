@@ -18,9 +18,16 @@ export const commitAnswer = (answer, handsonID, callback) => {
   postRequest(HOMEWORK_URL + 'answer', data, callback);
 };
 
-export const getStuQuestion = (homeworkAssignID, callback) => {
-  var data = {homeworkAssignID: homeworkAssignID};
-  postRequest(HOMEWORK_URL + 'student_question', data, callback);
+export const getStuQuestion = (handsonID, callback) => {
+  // var stuID;
+  // let _loatID = async () => {
+  //   try {
+  //     stuID = await AsyncStorage.getItem('principal').roleID;
+  //   } catch (e) {}
+  // };
+  // _loatID();
+  var data = {handsonID: handsonID};
+  postRequest(HOMEWORK_URL + 'questions', data, callback);
 };
 
 export const getStatistics = (homeworkID, callback) => {
@@ -32,7 +39,7 @@ export const getStuHomework = (callback) => {
   var stuID;
   let _loatID = async () => {
     try {
-      stuID = await AsyncStorage.getItem('principal').roleID;
+      stuID = await JSON.parse(AsyncStorage.getItem('principal')).roleID;
     } catch (e) {}
   };
   _loatID();
@@ -44,7 +51,7 @@ export const getTeaHomework = (callback) => {
   var teaID;
   let _loatID = async () => {
     try {
-      teaID = await AsyncStorage.getItem('principal').roleID;
+      teaID = await JSON.parse(AsyncStorage.getItem('principal')).roleID;
     } catch (e) {}
   };
   _loatID();
@@ -53,7 +60,18 @@ export const getTeaHomework = (callback) => {
 };
 
 export const getCourseHomework = (courseID, role, callback) => {
-  var data = {courseID: courseID, role: role};
+  if (role === 'ROLE_STUDENT') {
+    var stuID;
+    let _loatID = async () => {
+      try {
+        stuID = await JSON.parse(AsyncStorage.getItem('principal')).roleID;
+      } catch (e) {}
+    };
+    _loatID();
+    var data = {courseID: courseID, role: role, stuID: stuID};
+  } else {
+    var data = {courseID: courseID, role: role};
+  }
   postRequest(HOMEWORK_URL + 'course_homework_list', data, callback);
 };
 
@@ -68,7 +86,7 @@ export const search = (searchValue, callback) => {
         var principal;
         let _loadID = async () => {
           try {
-            principal = await AsyncStorage.getItem('principal');
+            principal = await JSON.parse(AsyncStorage.getItem('principal'));
           } catch (e) {}
         };
         _loadID();

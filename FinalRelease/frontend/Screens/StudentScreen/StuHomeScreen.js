@@ -49,9 +49,6 @@ export class StuHomeScreen extends React.Component {
     };
     _loadUserInfo();
 
-    //var userInfo = AsyncStorage.getItem('userInfo');
-    //console.log('userInfo: ', userInfo);
-    //this.setState({userInfo: this.props.route.params.userInfo});
   }
 
   render() {

@@ -44,7 +44,7 @@ public class CourseServiceImpl implements CourseService {
         List<Takes> takeList=takesDao.getByIdStudent(id);
         List<Course> list=new ArrayList<>();
         for (Takes takes : takeList) {
-            Course course = courseDao.getByID(takes.getId().getCourseID());
+            Course course = courseDao.getByID(takes.getID().getCourseID());
             list.add(course);
         }
         return list;
@@ -59,7 +59,7 @@ public class CourseServiceImpl implements CourseService {
     public ReturnCourse getCourseById(int id){
         ReturnCourse returnCourse=new ReturnCourse();
         Course course=courseDao.getByID(id);
-        returnCourse.setId(course.getId());
+        returnCourse.setId(course.getID());
         returnCourse.setBook(course.getBook());
         returnCourse.setIntroduction(course.getIntroduction());
         returnCourse.setName(course.getName());
@@ -163,9 +163,9 @@ public class CourseServiceImpl implements CourseService {
         List<Takes> takesList=takesDao.getByIdCourseID(id);
         List<ReturnStudent> studentList=new ArrayList<>();
         for (Takes takes:takesList){
-            String name=studentDao.getNameByID(takes.getId().getStudent());
+            String name=studentDao.getNameByID(takes.getID().getStudent());
             ReturnStudent returnStudent=new ReturnStudent();
-            returnStudent.setId(takes.getId().getStudent());
+            returnStudent.setId(takes.getID().getStudent());
             returnStudent.setName(name);
             studentList.add(returnStudent);
         }
@@ -177,11 +177,11 @@ public class CourseServiceImpl implements CourseService {
         List<Takes> takesList=takesDao.getByIdCourseID(cid);
         List<ReturnStudent> studentList=new ArrayList<>();
         for (Takes takes:takesList){
-            String name=studentDao.getNameByID(takes.getId().getStudent());
+            String name=studentDao.getNameByID(takes.getID().getStudent());
             if(name.indexOf(search,0) !=-1)
             {
                 ReturnStudent returnStudent=new ReturnStudent();
-                returnStudent.setId(takes.getId().getStudent());
+                returnStudent.setId(takes.getID().getStudent());
                 returnStudent.setName(name);
                 studentList.add(returnStudent);
             }

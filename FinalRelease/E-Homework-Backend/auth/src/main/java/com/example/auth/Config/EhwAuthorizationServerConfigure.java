@@ -65,7 +65,7 @@ public class EhwAuthorizationServerConfigure extends AuthorizationServerConfigur
         //tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
         tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), jwtAccessTokenConverter()));
-        tokenServices.setAccessTokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(15)); // 15 days
+        tokenServices.setAccessTokenValiditySeconds((int) TimeUnit.HOURS.toSeconds(1)); // 1 hour
         endpoints.tokenServices(tokenServices).tokenEnhancer(tokenEnhancerChain);
 
         //endpoints.exceptionTranslator(ehwWebResponseExceptionTranslator);

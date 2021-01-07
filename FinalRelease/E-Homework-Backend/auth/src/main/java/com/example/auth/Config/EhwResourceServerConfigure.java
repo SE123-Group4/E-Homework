@@ -2,6 +2,7 @@ package com.example.auth.Config;
 
 import com.example.auth.Util.AuthExceptionEntryPoint;
 import com.example.auth.Util.EhwAccessDeniedHandler;
+import com.example.auth.Util.EhwLogoutHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,7 +24,8 @@ public class EhwResourceServerConfigure extends ResourceServerConfigurerAdapter 
                 .and()
                 .authorizeRequests()
                 .antMatchers("/actuator/**").permitAll()
-                .antMatchers("/**").authenticated();
+                .antMatchers("/**").authenticated()
+                .and().logout().addLogoutHandler( new EhwLogoutHandler());
     }
 
     @Override

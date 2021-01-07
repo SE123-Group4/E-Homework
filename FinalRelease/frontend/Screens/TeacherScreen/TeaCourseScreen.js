@@ -7,6 +7,7 @@ import {Search} from '../../Components/Search';
 import {ScrollView} from 'react-native';
 import {Container, Content} from 'native-base';
 import {TeaHomeworkList} from '../../Components/TeaHomeworkList';
+import {SearchFilter} from '../../Components/SearchFilter';
 
 export class TeaCourseScreen extends React.Component {
   constructor() {
@@ -23,7 +24,7 @@ export class TeaCourseScreen extends React.Component {
             navigation={this.props.navigation}
             courseID={this.props.route.params.courseID}
           />
-          <Search />
+
           <TeaHomeworkList
             courseID={this.props.route.params.courseID}
             navigation={this.props.navigation}

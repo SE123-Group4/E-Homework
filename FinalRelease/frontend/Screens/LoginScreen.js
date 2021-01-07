@@ -19,6 +19,7 @@ import {getUser} from '../Service/LoginService';
 
 export class LoginScreen extends React.Component {
   constructor(props) {
+    //props.navigation.navigate('Start');
     super(props);
     this.state = {
       account: '',
@@ -26,6 +27,11 @@ export class LoginScreen extends React.Component {
       token: '',
     };
   }
+
+  componentDidMount() {
+    this.props.navigation.navigate('Start');
+  }
+
   _onLoginSuccess = (auth, role) => {
     if (auth === 'ROLE_TEACHER') {
       this.props.navigation.navigate('TeaHome', {userInfo: role});

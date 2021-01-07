@@ -49,6 +49,7 @@ import {ImageEdit} from './Components/ImageEdit';
 import {StartScreen} from './Screens/StartScreen';
 import CourseManageScreen from './Screens/TeacherScreen/CourseManageScreen';
 import ProfileManageScreen from './Screens/ProfileManageScreen';
+import {MyImage} from './Components/MyImage';
 
 const Stack = createStackNavigator();
 
@@ -59,18 +60,18 @@ export default function App() {
         {/*放在第一个为默认界面，初始应只有login, register, home，其他的界面在home或者相应的界面路由*/}
         {/*<Stack.Screen*/}
         {/*  name="ImageEdit"*/}
-        {/*  component={ImageEdit}*/}
+        {/*  component={MyImage}*/}
         {/*  options={{headerShown: false}}*/}
         {/*/>*/}
 
         <Stack.Screen
-          name="Start"
-          component={StartScreen}
+          name="Login"
+          component={LoginScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Login"
-          component={LoginScreen}
+          name="Start"
+          component={StartScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen

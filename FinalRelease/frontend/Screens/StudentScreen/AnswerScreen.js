@@ -47,10 +47,13 @@ export class AnswerScreen extends React.Component {
   componentDidMount() {
     const callback = (res) => {
       if (res.status === 200) {
-        this.setState({quetions: res.data, handsonID: res.handsonID});
+        this.setState({
+          quetions: res.data.questionList,
+          handsonID: res.data.handsonID,
+        });
       }
     };
-    //getStuQuestion(this.props.route.params.homeworkAssignID, callback);
+    //getStuQuestion(this.props.route.params.handsonID, callback);
   }
 
   getType = (type, ID) => {
@@ -62,13 +65,13 @@ export class AnswerScreen extends React.Component {
             var newSimpleChoiceAnswer = this.state.SimpleChoiceAnswer;
             for (var i = 0; i < newSimpleChoiceAnswer.length; i++) {
               if (newSimpleChoiceAnswer[i].ID === ID) {
-                newSimpleChoiceAnswer[i].option = option;
+                newSimpleChoiceAnswer[i].option = [option];
                 flag = true;
                 break;
               }
             }
             if (!flag) {
-              newSimpleChoiceAnswer.push({ID: ID, option: option});
+              newSimpleChoiceAnswer.push({ID: ID, option: [option]});
             }
             this.setState({SimpleChoiceAnswer: newSimpleChoiceAnswer});
             console.log('simple', this.state.SimpleChoiceAnswer);

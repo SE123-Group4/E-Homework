@@ -1,5 +1,6 @@
 import {postRequest} from '../Util/Ajax';
 import {COURSE_URL} from '../Constant/Url';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getStuCourses = (roleID, callback) => {
   var data = {id: roleID};
@@ -46,5 +47,36 @@ export const modifyCourse = (courseID, name, introduction, book, callback) => {
     introduction: introduction,
     book: book,
   };
-  postRequest(COURSE_URL + 'modify_course', data, callback);
+  postRequest(COURSE_URL + 'updateCourse', data, callback);
+};
+
+export const deleteCourse = (courseID, callback) => {
+  var data = {id: courseID};
+  postRequest(COURSE_URL + 'deleteCourse', data, callback);
+};
+
+export const addStudent = (studentIDs, courseID, callback) => {
+  var schoolID;
+  let _loadSchoolID = async () => {
+    try {
+      var role = await JSON.parse(AsyncStorage.getItem('principal')).role
+      schoolID = role.schoolID;
+    } catch (e) {}
+  };
+  _loadSchoolID();
+  var data = {studentIDs: studentIDs, courseID: courseID, schoolID: schoolID};
+  postRequest(COURSE_URL + 'addTakes', data, callback);
+};
+
+export const deleteStudent = (studentIDs, courseID, callback) => {
+  var schoolID;
+  let _loadSchoolID = async () => {
+    try {
+      var role = await JSON.parse(AsyncStorage.getItem('principal')).role
+      schoolID = role.schoolID;
+    } catch (e) {}
+  };
+  _loadSchoolID();
+  var data = {studentIDs: studentIDs, courseID: courseID, schoolID: schoolID};
+  postRequest(COURSE_URL + 'deleteTakes', data, callback);
 };

@@ -21,6 +21,7 @@ export class HomeworkInfo extends React.Component {
       teacher: '老师XXX',
       start: '2020-10-10 00:00:00',
       deadline: '2020-10-10 12:00:00',
+      courseName: '课程',
       //content: '这是作业内容',
       //answer: '这是参考答案',
       //comment: '这是整体点评',
@@ -37,6 +38,11 @@ export class HomeworkInfo extends React.Component {
           maxScore: res.data.maxScore,
           minScore: res.data.minScore,
           averageScore: res.data.averageScore,
+          teacher: res.data.teacher,
+          title: res.data.title,
+          start: res.data.start,
+          deadline: res.data.deadline,
+          courseName: res.data.courseName,
         });
       }
     };
@@ -48,7 +54,7 @@ export class HomeworkInfo extends React.Component {
       <Card>
         <CardItem>
           <Body>
-            <Text style={styles.Header}>{this.state.title}</Text>
+            <Text style={styles.Header}>{this.state.courseName}：{this.state.title}</Text>
             <Text style={styles.FootNoteGray}>
               {this.state.teacher}于{this.state.start}布置
             </Text>
