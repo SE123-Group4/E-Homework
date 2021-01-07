@@ -1,7 +1,9 @@
 package org.chp.hw.serviceimpl;
 
 import org.chp.hw.service.IMailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,7 +19,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 @Service
 public class IMailServiceImpl implements IMailService {
 
-    private JavaMailSender mailSender;
+    @Autowired
+    JavaMailSender mailSender;
 
     @Value("738761580@qq.com")
     private String from;
@@ -30,7 +33,9 @@ public class IMailServiceImpl implements IMailService {
         message.setSubject("云作业平台———发布作业通知");
         String text="您的老师布置了新的作业。作业科目："+courseName+" 作业题目："+title;
         message.setText(text);
+        System.out.println("BEFORE SEND");
         mailSender.send(message);
+        System.out.println("AFTER SEND");
         return 0;
     }
 
@@ -42,6 +47,7 @@ public class IMailServiceImpl implements IMailService {
         message.setSubject("云作业平台———批改作业通知");
         String text="您的作业已被批改，请登陆云作业平台查看详情。作业科目："+courseName+" 作业题目："+title;
         message.setText(text);
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.send(message);
         return 0;
     }
