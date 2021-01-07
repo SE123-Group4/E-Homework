@@ -1,5 +1,5 @@
 export const AUTH_URL = 'http://192.168.163.1:8804/';
-export const HOMEWORK_URL = 'http://localhost:8080/';
+export const HOMEWORK_URL = 'http://10.162.78.12:8080/';
 export const REGISTER_URL = 'http://192.168.163.1:8803/';
 export const COURSE_URL = 'http://192.168.163.1:8806/';
 export const access_token =

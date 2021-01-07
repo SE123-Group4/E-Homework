@@ -63,41 +63,11 @@ export class AssignHwScreen extends React.Component {
       assignTime: new Date(), //发布时间
       questionList: [], //题目
       courseInfo: [],
-      // courseInfo: [
-      //   {
-      //     ID: 1,
-      //     name: 'CSE',
-      //     groupList: [
-      //       {ID: 1, name: 'group1'},
-      //       {ID: 2, name: 'group2'},
-      //       {ID: 3, name: 'group3'},
-      //     ],
-      //     studentList: [
-      //       {ID: 1, name: 'student1'},
-      //       {ID: 2, name: 'student2'},
-      //       {ID: 3, name: 'student3'},
-      //     ],
-      //   },
-      //   {
-      //     ID: 2,
-      //     name: 'Compiler',
-      //     groupList: [
-      //       {ID: 4, name: 'group4'},
-      //       {ID: 5, name: 'group5'},
-      //       {ID: 6, name: 'group6'},
-      //     ],
-      //     studentList: [
-      //       {ID: 4, name: 'student4'},
-      //       {ID: 5, name: 'student5'},
-      //       {ID: 6, name: 'student6'},
-      //     ],
-      //   },
-      // ],
       ifCheckBoxShow: false,
       ifDeadlineTimePickerShow: false,
       ifAssignTimePickerShow: false,
       isDetailed: false, //是否编辑详情
-      ifSpinnerShow: false,
+      ifSpinnerShow: true,
       ifRichTextShow: false,
       richText: {content: '', image: ''},
     };
@@ -119,10 +89,10 @@ export class AssignHwScreen extends React.Component {
             courseId: res.data.hwInfo.courseId,
             submitIdList: res.data.hwInfo.submitIdList,
             totals: res.data.hwInfo.totals,
-            isDelayed: res.data.hwInfo.isDelayed,
-            isRepeated: res.data.hwInfo.isRepeated,
-            isTimed: res.data.hwInfo.isTimed,
-            isGrouped: res.data.hwInfo.isGrouped,
+            isDelayed: res.data.hwInfo.delayed,
+            isRepeated: res.data.hwInfo.repeated,
+            isTimed: res.data.hwInfo.timed,
+            isGrouped: res.data.hwInfo.grouped,
             resultAfter: res.data.hwInfo.resultAfter,
             questionList: res.data.hwInfo.questionList.map((item) => {
               let question = JSON.parse(JSON.stringify(item));
@@ -163,7 +133,6 @@ export class AssignHwScreen extends React.Component {
                   }
                   break;
               }
-              console.log(question);
               return question;
             }),
             ifSpinnerShow: false,
@@ -262,10 +231,10 @@ export class AssignHwScreen extends React.Component {
       courseId: this.state.courseId,
       submitIdList: this.state.submitIdList,
       totals: this.state.totals,
-      isDelayed: this.state.isDelayed,
-      isRepeated: this.state.isRepeated,
-      isTimed: this.state.isTimed,
-      isGrouped: this.state.isGrouped,
+      delayed: this.state.isDelayed,
+      repeated: this.state.isRepeated,
+      timed: this.state.isTimed,
+      grouped: this.state.isGrouped,
       resultAfter: this.state.resultAfter,
       deadlineDate: dateFormat(
         this.state.deadlineDate.toLocaleDateString() +
@@ -312,16 +281,16 @@ export class AssignHwScreen extends React.Component {
             };
             break;
         }
-        console.log(question);
         return question;
       }),
     };
     let data = {
-      hwInfo: hwInfo,
+      hwinfo: hwInfo,
     };
     let callback = (res) => {
       if (res.status === 200) {
-        this.props.navigation.pop();
+        this.setState({ifSpinnerShow: false});
+        this.props.navigation.navigate('TeaHome');
       } else {
         this.setState({ifSpinnerShow: false});
         if (action === 'ASSIGN') {
@@ -348,7 +317,14 @@ export class AssignHwScreen extends React.Component {
           }}
         />
         <Overlay isVisible={this.state.ifSpinnerShow}>
-          <Spinner color="#0093fe" />
+          <View
+            style={{
+              paddingVertical: 10,
+              paddingHorizontal: 25,
+              backgroundColor: '#fff',
+            }}>
+            <Spinner color="#0093fe" />
+          </View>
         </Overlay>
         <Container style={{height: 'auto'}}>
           <Header
