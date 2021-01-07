@@ -209,7 +209,12 @@ public class HwServiceImpl implements HwService {
                 }
                 util.setRefAnswer(question.getQuestionContent().getRefAnswer());
                 if(answer.getContent() != null)
-                    util.setStuAnswer(answer.getContent().getAnswer());
+                {
+                    ContentImage contentImage = new ContentImage();
+                    contentImage.setImage(answer.getContent().getImage());
+                    contentImage.setContent(answer.getContent().getAnswer());
+                    util.setStuAnswer(contentImage);
+                }
                 if(answer.getScore() != null){
                     util.setStuScore(answer.getScore());
                 }
