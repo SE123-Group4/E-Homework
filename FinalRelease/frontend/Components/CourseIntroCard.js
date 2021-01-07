@@ -28,7 +28,7 @@ export class CourseIntroCard extends React.Component {
     const callback = (data) => {
       this.setState({CourseDetails: data});
     };
-    getCourseByID(this.props.courseID, callback);
+    //getCourseByID(this.props.courseID, callback);
   }
 
   render() {

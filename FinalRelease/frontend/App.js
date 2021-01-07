@@ -42,9 +42,13 @@ import {FileScreen} from './Screens/FileScreen';
 import {StarScreen} from './Screens/StarScreen';
 import {WrongCollectScreen} from './Screens/WrongCollectScreen';
 import {DraftScreen} from './Screens/TeacherScreen/DraftScreen';
-import {QuestionScreen} from './Screens/StudentScreen/QuestionScreen';
+import {QuestionScreen} from './Screens/QuestionScreen';
 import {AnswerScreen} from './Screens/StudentScreen/AnswerScreen';
 import {CorrectHwScreen} from './Screens/TeacherScreen/CorrectHwScreen';
+import {ImageEdit} from './Components/ImageEdit';
+import {StartScreen} from './Screens/StartScreen';
+import CourseManageScreen from './Screens/TeacherScreen/CourseManageScreen';
+import ProfileManageScreen from './Screens/ProfileManageScreen';
 
 const Stack = createStackNavigator();
 
@@ -53,14 +57,15 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerMode: 'none'}}>
         {/*放在第一个为默认界面，初始应只有login, register, home，其他的界面在home或者相应的界面路由*/}
+        {/*<Stack.Screen*/}
+        {/*  name="ImageEdit"*/}
+        {/*  component={ImageEdit}*/}
+        {/*  options={{headerShown: false}}*/}
+        {/*/>*/}
+
         <Stack.Screen
-          name="AssignHw"
-          component={AssignHwScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Correct"
-          component={CorrectHwScreen}
+          name="Start"
+          component={StartScreen}
           options={{headerShown: false}}
         />
         <Stack.Screen
@@ -93,11 +98,21 @@ export default function App() {
           component={RegisterChoose}
           options={{headerShown: false}}
         />
-        {/*<Stack.Screen*/}
-        {/*  name="AssignHw"*/}
-        {/*  component={AssignHwScreen}*/}
-        {/*  options={{headerShown: false}}*/}
-        {/*/>*/}
+        <Stack.Screen
+          name="AssignHw"
+          component={AssignHwScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CorrectHW"
+          component={CorrectHwScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AnswerHW"
+          component={AnswerScreen}
+          options={{headerShown: false}}
+        />
         <Stack.Screen
           name="File"
           component={FileScreen}
@@ -134,8 +149,8 @@ export default function App() {
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="AnswerHW"
-          component={AnswerScreen}
+          name="ProfileManage"
+          component={ProfileManageScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

@@ -9,7 +9,8 @@ import {
   Left,
   Right,
 } from 'native-base';
-import {Dimensions, StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet, Image} from 'react-native';
+import {MyImage} from '../MyImage';
 let {width} = Dimensions.get('window');
 
 export class SimpleChoiceAnswer extends React.Component {
@@ -19,32 +20,41 @@ export class SimpleChoiceAnswer extends React.Component {
       simpleChoiceAnswer: {
         ID: 1,
         question: {
-          stem: {
-            content: '题目1单项选择题',
-            file: null,
-          },
+          stem: '题目1单项选择题',
+          image: null,
           options: [
-            {option: 'A', content: {content: '选项A', file: null}},
-            {option: 'B', content: {content: '选项B', file: null}},
-            {option: 'C', content: {content: '选项C', file: null}},
-            {option: 'D', content: {content: '选项D', file: null}},
+            {option: 'A', content: '选项A', image: null},
+            {option: 'B', content: '选项B', image: null},
+            {option: 'C', content: '选项C', image: null},
+            {option: 'D', content: '选项D', image: null},
           ],
         },
         totalScore: 10,
         stuScore: 10,
         type: 'ONE_CHOICE',
-        refAnswer: {option: 'A', content: {content: '选项A', file: null}},
-        stuAnswer: {option: 'A', content: {content: '选项A', file: null}},
+        refAnswer: {option: 'A', content: '选项A', image: null},
+        stuAnswer: {option: 'A', content: '选项A', image: null},
       },
     };
   }
 
   componentDidMount() {
-    console.log(this.props.answer.question.options);
+    //console.log(this.props.answer.question.options);
   }
 
   check = (option) => {
     return option === this.props.answer.stuAnswer.option;
+  };
+
+  getColor = (option) => {
+    if (option === this.props.answer.stuAnswer.option) {
+      if (option === this.props.answer.refAnswer.option) {
+        return 'green';
+      } else {
+        return 'red';
+      }
+    }
+    return 'blue';
   };
 
   renderChoices = () => {
@@ -52,11 +62,15 @@ export class SimpleChoiceAnswer extends React.Component {
       console.log(item);
       return (
         <ListItem>
-          <CheckBox checked={this.check(item.option)} />
+          <CheckBox
+            color={this.getColor(item.option)}
+            checked={this.check(item.option)}
+          />
           <Body>
             <Text>
               {item.option}. {item.content.content}
             </Text>
+            <MyImage source={item.image} width={width * 0.9} height={200} />
           </Body>
         </ListItem>
       );
@@ -64,22 +78,27 @@ export class SimpleChoiceAnswer extends React.Component {
   };
 
   render() {
+    console.log(this.props.answer.question.image);
     return (
       <Card style={styles.card}>
-        <CardItem>
-          <Text>csdvdfv</Text>
+        <CardItem bordered>
+          <Text>{this.props.answer.question.stem}</Text>
         </CardItem>
-        <CardItem header bordered>
-          <Text>{this.props.answer.question.stem.content}</Text>
+        <CardItem>
+          <MyImage
+            source={this.props.answer.question.image}
+            width={width * 0.9}
+            height={300}
+          />
         </CardItem>
         {this.renderChoices()}
         <CardItem footer>
           <Left>
-            <Text>{this.props.answer.refAnswer.option}</Text>
+            <Text>正确答案：{this.props.answer.refAnswer.option}</Text>
           </Left>
           <Right>
             <Text>
-              {this.props.answer.stuScore}/{this.props.answer.totalScore}
+              得分：{this.props.answer.stuScore}/{this.props.answer.totalScore}
             </Text>
           </Right>
         </CardItem>
@@ -90,6 +109,6 @@ export class SimpleChoiceAnswer extends React.Component {
 
 const styles = StyleSheet.create({
   card: {
-    width: width * 0.9,
+    width: width,
   },
 });

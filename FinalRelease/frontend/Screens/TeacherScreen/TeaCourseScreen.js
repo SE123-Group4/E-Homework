@@ -5,7 +5,7 @@ import {CourseIntroCard} from '../../Components/CourseIntroCard';
 import {CourseFuncBtn} from '../../Components/CourseFuncBtn';
 import {Search} from '../../Components/Search';
 import {ScrollView} from 'react-native';
-import {Container} from 'native-base';
+import {Container, Content} from 'native-base';
 import {TeaHomeworkList} from '../../Components/TeaHomeworkList';
 
 export class TeaCourseScreen extends React.Component {
@@ -17,10 +17,18 @@ export class TeaCourseScreen extends React.Component {
   render() {
     return (
       <Container>
-        <CourseIntroCard courseID={this.props.route.params.courseID} />
-        <CourseFuncBtn navigation={this.props.navigation} />
-        <Search />
-        <TeaHomeworkList courseID={this.props.route.params.courseID} />
+        <Content>
+          <CourseIntroCard courseID={this.props.route.params.courseID} />
+          <CourseFuncBtn
+            navigation={this.props.navigation}
+            courseID={this.props.route.params.courseID}
+          />
+          <Search />
+          <TeaHomeworkList
+            courseID={this.props.route.params.courseID}
+            navigation={this.props.navigation}
+          />
+        </Content>
       </Container>
     );
   }

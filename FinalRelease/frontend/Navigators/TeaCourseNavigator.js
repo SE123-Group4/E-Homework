@@ -4,6 +4,8 @@ import {TeaCoursesScreen} from '../Screens/TeacherScreen/TeaCoursesScreen';
 import {TeaCourseScreen} from '../Screens/TeacherScreen/TeaCourseScreen';
 import {AddCourseScreen} from '../Screens/TeacherScreen/AddCourseScreen';
 import {ImportStuScreen} from '../Screens/TeacherScreen/ImportStuScreen';
+import {StatisticScreen} from '../Screens/TeacherScreen/StatisticScreen';
+import CourseManageScreen from '../Screens/TeacherScreen/CourseManageScreen';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +35,16 @@ export class TeaCourseNavigator extends React.Component {
         <Stack.Screen
           name="ImportStu"
           component={ImportStuScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Statistic"
+          component={StatisticScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="CourseManage"
+          component={CourseManageScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

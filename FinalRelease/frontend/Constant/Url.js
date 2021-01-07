@@ -10,3 +10,4 @@ export const IMAGE_URL =
 export const IMAGE2WORD_URL =
   'https://aip.baidubce.com/rest/2.0/ocr/v1/general_basic?access_token=' +
   access_token;
+export const SEARCH_URL = 'http://120.0.0.1:8807/';

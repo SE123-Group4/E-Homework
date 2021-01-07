@@ -150,10 +150,10 @@ export class StuCourseList extends React.Component {
 
   render() {
     return (
-      <View>
+      <Content>
         {this.renderButtons()}
         <View style={styles.CardList}>{this.renderCourses()}</View>
-      </View>
+      </Content>
     );
   }
 }
