@@ -113,6 +113,15 @@ export class TeaHomeworkList extends React.Component {
   };
 
   renderHomework = () => {
+    if (this.state.homework.length === 0) {
+      return (
+        <Card>
+          <CardItem>
+            <Text>暂无作业</Text>
+          </CardItem>
+        </Card>
+      );
+    }
     return this.state.homework.map((item, index) => {
       return (
         <Card>

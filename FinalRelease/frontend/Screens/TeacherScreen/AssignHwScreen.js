@@ -37,16 +37,16 @@ import {postRequest} from '../../Util/Ajax';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export class AssignHwScreen extends React.Component {
-  static propTypes = {
-    hwId: PropTypes.number,
-  };
-  static defaultProps = {
-    hwId: 0,
-  };
+  // static propTypes = {
+  //   hwId: PropTypes.number,
+  // };
+  // static defaultProps = {
+  //   hwId: 0,
+  // };
   constructor(props) {
     super(props);
     this.state = {
-      ID: props.hwId, //homeworkID
+      ID: props.route.params.hwId, //homeworkID
       state: undefined, //homeworkState(ASSIGNED/DRAFT/ABORTED)
       title: '', //标题
       courseId: undefined, //选中的课程
@@ -75,7 +75,7 @@ export class AssignHwScreen extends React.Component {
   componentDidMount() {
     let callback = (res) => {
       if (res.status === 200) {
-        if (this.props.hwId === 0) {
+        if (this.props.route.params.hwId === 0) {
           this.setState({
             courseInfo: res.data.courseInfoList,
             courseId: res.data.courseInfoList[0].ID,
@@ -144,7 +144,7 @@ export class AssignHwScreen extends React.Component {
     let _loadID = async () => {
       try {
         teaID = JSON.parse(await AsyncStorage.getItem('principal')).roleID;
-        let data = 'ID=' + this.props.hwId + '&TeaID=' + teaID;
+        let data = 'ID=' + this.props.route.params.hwId + '&TeaID=' + teaID;
         getAssignHomework(data, callback);
       } catch (e) {}
     };
@@ -291,6 +291,7 @@ export class AssignHwScreen extends React.Component {
     let callback = (res) => {
       if (res.status === 200) {
         this.setState({ifSpinnerShow: false});
+        this.props.route.params.refresh();
         this.props.navigation.navigate('TeaHome');
       } else {
         this.setState({ifSpinnerShow: false});

@@ -39,7 +39,9 @@ export class HWFuncBtn extends React.Component {
             vertical
             style={styles.button}
             onPress={() => {
-              console.log('修改作业');
+              this.props.navigation.navigate('AssignHw', {
+                hwId: this.props.homeworkID,
+              });
             }}>
             <Icon type="FontAwesome" name="adjust" style={styles.buttonIcon} />
             <Text style={{color: 'gray'}}>修改作业</Text>

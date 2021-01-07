@@ -85,6 +85,7 @@ export class TeaHomeScreen extends React.Component {
                   overlayContainerStyle={{backgroundColor: 'white'}}
                   onPress={() => {
                     this.props.navigation.navigate('AssignHw', {
+                      hwId: 0,
                       refresh: () => this.componentDidMount(),
                     });
                   }}

@@ -116,7 +116,7 @@ export class CommitInfo extends React.Component {
             </Text>
           </Body>
           <Right>
-            <Text style={styles.Grade}>{this.props.info.total}</Text>
+            <Text style={styles.Grade}>{this.props.info.state}</Text>
           </Right>
         </CardItem>
         {/*<CardItem>*/}
