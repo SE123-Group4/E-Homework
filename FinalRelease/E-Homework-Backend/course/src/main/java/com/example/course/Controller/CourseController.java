@@ -109,7 +109,7 @@ public class CourseController {
     }
 
     @RequestMapping(path = "/deleteTake")
-    public ReturnMsg deleteTakesById(@RequestBody Map<String,Integer> params){
+    public ReturnMsg deleteTakesById(@RequestBody JSONObject params){
         int courseID = Integer.parseInt(params.get("courseID").toString());
         int schoolID = Integer.parseInt(params.get("schoolID").toString());
         JSONArray students= params.getJSONArray("students");
