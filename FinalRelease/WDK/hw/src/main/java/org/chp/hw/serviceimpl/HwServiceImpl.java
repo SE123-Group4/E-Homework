@@ -188,8 +188,10 @@ public class HwServiceImpl implements HwService {
             handson.setIsGrouped(homework.isIsgrouped());
             handson.setState(HdStateEnum.UNSUBMITTED);
             handsonDao.saveHd(handson);
+            System.out.println(i);
             Optional<Userrole> userroleOptional = userRoleDao.findByRoleAndRoleID(1, i);
             if(userroleOptional.isPresent()){
+                System.out.println("EMAIL");
                 iMailService.sendAssignMail(userDao.findById(userroleOptional.get().getUserID()).get().getEmail(),
                         homework.getCourse().getName(), homework.getTitle());
             }
@@ -247,7 +249,7 @@ public class HwServiceImpl implements HwService {
                 answerUtils.add(util);
             }
             ret.setData(answerUtils);
-            ret.setMsg("responce message");
+            ret.setMsg("successful response");
             ret.setStatus(200);
         }
         return ret;
@@ -643,6 +645,7 @@ public class HwServiceImpl implements HwService {
         Teacher teacher = teacherOptional.get();
         List<Course> courseList = teacher.getCourseList();
         List<HomeworkUtil> homeworkUtilList = new ArrayList<>();
+        List<Handson> to_modify = new ArrayList<>();
         for(Course course: courseList){
             List<Homework> coursehomeworkList = course.getHomeworkList();
             for(Homework item : coursehomeworkList){
@@ -664,12 +667,21 @@ public class HwServiceImpl implements HwService {
                 if(sdf.parse(item.getDeadline()).before(date)){
                     flag = true;
                 }
+                if(handsonList == null){
+                    homeworkUtil.setCorrect(0);
+                    homeworkUtil.setFinished(0);
+                    homeworkUtil.setUnfinished(0);
+                    homeworkUtil.setLate(0);
+
+                    homeworkUtilList.add(homeworkUtil);
+                    continue;
+                }
                 for(Handson handson : handsonList){
                     if(handson.getState() == HdStateEnum.UNSUBMITTED){
                         if(flag){
-                            handson.setState(HdStateEnum.LATE);
-                            //handsonDao.saveHd(handson);
+                            to_modify.add(handson);
                             l++;
+                            continue;
                         }
                         else {
                             u++;
@@ -695,8 +707,41 @@ public class HwServiceImpl implements HwService {
             ret.setData(homeworkUtilList);
             ret.setMsg("sucessful response");
         }
+        for(int i=0; i < to_modify.size(); i++){
+            to_modify.get(i).setState(HdStateEnum.LATE);
+            handsonDao.saveWithoutAnswer(to_modify.get(i));
+        }
         ret.setStatus(200);
         ret.setData(homeworkUtilList);
+        return ret;
+    }
+
+    public response getHandsonList(int hwID){
+        response ret = new response();
+        ret.setStatus(400);
+        Optional<Homework> homeworkOptional = homeWorkDao.getByHwID(hwID);
+        if(!homeworkOptional.isPresent()){
+            ret.setMsg("invalid homework ID");
+            return ret;
+        }
+        Homework homework = homeworkOptional.get();
+        List<Handson> handsonList = homework.getHandsonList();
+        List<HandsonUtil> handsonUtilList = new ArrayList<>();
+
+        for(Handson handson : handsonList){
+            HandsonUtil handsonUtil = new HandsonUtil();
+            handsonUtil.setID(handson.getId());
+            countTotalScore(handson);
+            handsonUtil.setTotal(handson.getTotalScore());
+            handsonUtil.setStuNumber(Integer.parseInt(handson.getSubmitter().getStuNumber()));
+            handsonUtil.setName(handson.getSubmitter().getName());
+            handsonUtil.setState(handson.getState().toString());
+
+            handsonUtilList.add(handsonUtil);
+        }
+        ret.setData(handsonUtilList);
+        ret.setStatus(200);
+        ret.setMsg("sucessful response");
         return ret;
     }
 }
