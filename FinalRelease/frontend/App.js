@@ -54,6 +54,11 @@ export default function App() {
       <Stack.Navigator screenOptions={{headerMode: 'none'}}>
         {/*放在第一个为默认界面，初始应只有login, register, home，其他的界面在home或者相应的界面路由*/}
         <Stack.Screen
+          name="AssignHw"
+          component={AssignHwScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           name="Correct"
           component={CorrectHwScreen}
           options={{headerShown: false}}
@@ -88,11 +93,11 @@ export default function App() {
           component={RegisterChoose}
           options={{headerShown: false}}
         />
-        <Stack.Screen
-          name="AssignHw"
-          component={AssignHwScreen}
-          options={{headerShown: false}}
-        />
+        {/*<Stack.Screen*/}
+        {/*  name="AssignHw"*/}
+        {/*  component={AssignHwScreen}*/}
+        {/*  options={{headerShown: false}}*/}
+        {/*/>*/}
         <Stack.Screen
           name="File"
           component={FileScreen}
