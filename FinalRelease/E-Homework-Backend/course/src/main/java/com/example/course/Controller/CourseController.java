@@ -109,10 +109,15 @@ public class CourseController {
     }
 
     @RequestMapping(path = "/deleteTake")
-    public ReturnMsg deleteTakesById(@RequestBody Map<String,Integer> params){
-        int student =params.get("student");
-        int courseID=params.get("course");
-        return courseService.deleteTakesById(student,courseID);
+    public ReturnMsg deleteTakesById(@RequestBody JSONObject params){
+        int courseID = Integer.parseInt(params.get("courseID").toString());
+        int schoolID = Integer.parseInt(params.get("schoolID").toString());
+        JSONArray students= params.getJSONArray("students");
+        List<String> student_id = new ArrayList<>();
+        for (Object student : students) {
+            student_id.add(JSONObject.parseObject(student.toString(), String.class));
+        }
+        return courseService.deleteTakesById(schoolID,student_id,courseID);
     }
 
     @RequestMapping(path = "/getStudentsByCourse")

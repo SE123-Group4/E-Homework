@@ -88,10 +88,12 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public ReturnMsg insertTakes(int schoolID,List<String> students,int courseID){
         ReturnMsg returnMsg=new ReturnMsg();
+        Course course=courseDao.getByID(courseID);
         for (String student : students) {
             Integer sID = studentDao.getByStuNumberAndSchoolID(student, schoolID);
             takesDao.insertTakes(sID, courseID);
         }
+        courseDao.updateCourseTakes(courseID,students.size()+course.getTakes());
         returnMsg.setMsg(Msg1);
         returnMsg.setStatus(200);
         return returnMsg;
@@ -115,10 +117,16 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public ReturnMsg  deleteTakesById(int student,int courseID){
+    public ReturnMsg  deleteTakesById(int schoolID,List<String> students,int courseID){
         ReturnMsg returnMsg=new ReturnMsg();
-        int i=takesDao.deleteTakesById(student, courseID);
-        if(i==1){
+        int i=0;
+        Course course=courseDao.getByID(courseID);
+        for(String student:students){
+            int sID=studentDao.getByStuNumberAndSchoolID(student,schoolID);
+            i+=takesDao.deleteTakesById(sID, courseID);
+        }
+        if(i>0){
+            courseDao.updateCourseTakes(courseID,course.getTakes()-i);
             returnMsg.setMsg(Msg1);
             returnMsg.setStatus(200);
         }else {

@@ -1,0 +1,205 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CourseController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">org.cloudhomworkplatform.cphcourse.Controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CourseController (org.cloudhomworkplatform.cphcourse.Controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CourseController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.3%
+  </span>
+  <span class="absValue">
+    (12/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.8%
+  </span>
+  <span class="absValue">
+    (46/ 48)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package org.cloudhomworkplatform.cphcourse.Controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import org.cloudhomworkplatform.cphcourse.Entity.Course;
+<i>4</i>&nbsp;import org.cloudhomworkplatform.cphcourse.ReturnInfo.ReturnCourse;
+<i>5</i>&nbsp;import org.cloudhomworkplatform.cphcourse.ReturnInfo.ReturnMsg;
+<i>6</i>&nbsp;import org.cloudhomworkplatform.cphcourse.ReturnInfo.ReturnStudent;
+<i>7</i>&nbsp;import org.cloudhomworkplatform.cphcourse.Service.CourseService;
+<i>8</i>&nbsp;import org.cloudhomworkplatform.cphcourse.Service.ImportExcelService;
+<i>9</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>10</i>&nbsp;import com.alibaba.fastjson.JSONArray;
+<i>11</i>&nbsp;import com.alibaba.fastjson.JSONObject;
+<i>12</i>&nbsp;import org.springframework.web.bind.annotation.*;
+<i>13</i>&nbsp;import org.springframework.web.multipart.MultipartFile;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;import java.sql.Timestamp;
+<i>16</i>&nbsp;import java.util.ArrayList;
+<i>17</i>&nbsp;import java.util.List;
+<i>18</i>&nbsp;import java.util.Map;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;@RestController
+<i>21</i>&nbsp;@CrossOrigin(origins = &quot;*&quot;,maxAge = 3600)
+<b class="fc"><i>22</i>&nbsp;public class CourseController {</b>
+<i>23</i>&nbsp;    @Autowired
+<i>24</i>&nbsp;    private CourseService courseService;
+<i>25</i>&nbsp;    @Autowired
+<i>26</i>&nbsp;    private ImportExcelService importExcelService;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    @RequestMapping(path = &quot;/teachercourses&quot;)
+<i>29</i>&nbsp;    public List&lt;Course&gt; getCoursesByTeacherId(@RequestBody Map&lt;String,Integer&gt; params){
+<b class="fc"><i>30</i>&nbsp;        int id= params.get(&quot;id&quot;);</b>
+<b class="fc"><i>31</i>&nbsp;        return courseService.getCoursesByTeacherId(id);</b>
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    @RequestMapping(path = &quot;/studentcourses&quot;)
+<i>35</i>&nbsp;    public List&lt;Course&gt; getCoursesByStudentId(@RequestBody Map&lt;String,Integer&gt; params){
+<b class="fc"><i>36</i>&nbsp;        int id= params.get(&quot;id&quot;);</b>
+<b class="fc"><i>37</i>&nbsp;        return courseService.getCoursesByStudentId(id);</b>
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    @RequestMapping(path = &quot;/course&quot;)
+<i>41</i>&nbsp;    public ReturnCourse getCourseById(@RequestBody Map&lt;String,Integer&gt; params){
+<b class="fc"><i>42</i>&nbsp;        int id= params.get(&quot;id&quot;);</b>
+<b class="fc"><i>43</i>&nbsp;        return courseService.getCourseById(id);</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    @RequestMapping(path = &quot;/addCourse&quot;)
+<i>47</i>&nbsp;    public ReturnMsg addCourse(@RequestBody Map&lt;String,String&gt; params){
+<b class="fc"><i>48</i>&nbsp;        int teacher = Integer.parseInt(params.get(&quot;teacher&quot;));</b>
+<b class="fc"><i>49</i>&nbsp;        String introduction=params.get(&quot;introduction&quot;);</b>
+<b class="fc"><i>50</i>&nbsp;        String name=params.get(&quot;name&quot;);</b>
+<b class="fc"><i>51</i>&nbsp;        String book=params.get(&quot;book&quot;);</b>
+<b class="fc"><i>52</i>&nbsp;        Timestamp startTime=Timestamp.valueOf(params.get(&quot;startTime&quot;));</b>
+<b class="fc"><i>53</i>&nbsp;        Timestamp endTime=Timestamp.valueOf(params.get(&quot;endTime&quot;));</b>
+<b class="fc"><i>54</i>&nbsp;        int state = Integer.parseInt(params.get(&quot;state&quot;));</b>
+<b class="fc"><i>55</i>&nbsp;        return courseService.insertCourse(teacher,introduction,name,book,startTime,endTime,state);</b>
+<i>56</i>&nbsp;    }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    @RequestMapping(path = &quot;/addTakes&quot;)
+<i>59</i>&nbsp;    public ReturnMsg insertTakes(@RequestBody JSONObject params){
+<b class="fc"><i>60</i>&nbsp;        int courseID = Integer.parseInt(params.get(&quot;courseID&quot;).toString());</b>
+<b class="fc"><i>61</i>&nbsp;        int schoolID = Integer.parseInt(params.get(&quot;schoolID&quot;).toString());</b>
+<b class="fc"><i>62</i>&nbsp;        JSONArray students= params.getJSONArray(&quot;students&quot;);</b>
+<b class="fc"><i>63</i>&nbsp;        List&lt;String&gt; student_id = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>64</i>&nbsp;        for (Object student : students) {</b>
+<b class="fc"><i>65</i>&nbsp;            student_id.add(JSONObject.parseObject(student.toString(), String.class));</b>
+<b class="fc"><i>66</i>&nbsp;        }</b>
+<b class="fc"><i>67</i>&nbsp;        return courseService.insertTakes(schoolID,student_id,courseID);</b>
+<i>68</i>&nbsp;    }
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    @RequestMapping(path = &quot;/addTakesByExcel&quot;)
+<i>71</i>&nbsp;    public ReturnMsg insertTakesByExcel(@RequestParam(&quot;file&quot;) MultipartFile file,@RequestParam(&quot;school&quot;) int schoolID,@RequestParam(&quot;course&quot;) int courseID) throws Exception {
+<b class="nc"><i>72</i>&nbsp;        List&lt;String&gt; student_id = importExcelService.importExcelWithSimple(file);</b>
+<b class="nc"><i>73</i>&nbsp;        return courseService.insertTakes(schoolID,student_id,courseID);</b>
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    @RequestMapping(path = &quot;/deleteTake&quot;)
+<i>77</i>&nbsp;    public ReturnMsg deleteTakesById(@RequestBody Map&lt;String,Integer&gt; params){
+<b class="fc"><i>78</i>&nbsp;        int student =params.get(&quot;student&quot;);</b>
+<b class="fc"><i>79</i>&nbsp;        int courseID=params.get(&quot;course&quot;);</b>
+<b class="fc"><i>80</i>&nbsp;        return courseService.deleteTakesById(student,courseID);</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    @RequestMapping(path = &quot;/insertGroup&quot;)
+<i>84</i>&nbsp;    public ReturnMsg insertGroups(@RequestBody JSONObject params){
+<b class="fc"><i>85</i>&nbsp;        int courseID = Integer.parseInt(params.get(&quot;courseID&quot;).toString());</b>
+<b class="fc"><i>86</i>&nbsp;        String name = params.get(&quot;name&quot;).toString();</b>
+<b class="fc"><i>87</i>&nbsp;        JSONArray members= params.getJSONArray(&quot;members&quot;);</b>
+<b class="fc"><i>88</i>&nbsp;        List&lt;Integer&gt; student_id = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>89</i>&nbsp;        for (Object member : members) {</b>
+<b class="fc"><i>90</i>&nbsp;            student_id.add(JSONObject.parseObject(member.toString(), Integer.class));</b>
+<b class="fc"><i>91</i>&nbsp;        }</b>
+<b class="fc"><i>92</i>&nbsp;        return courseService.insertGroup(courseID,name,student_id);</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    @RequestMapping(path = &quot;/deleteCourse&quot;)
+<i>96</i>&nbsp;    public ReturnMsg deleteCourseById(@RequestBody Map&lt;String,Integer&gt; params){
+<b class="fc"><i>97</i>&nbsp;        int id=params.get(&quot;id&quot;);</b>
+<b class="fc"><i>98</i>&nbsp;        return courseService.deleteCourseById(id);</b>
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    @RequestMapping(path = &quot;/updateCourse&quot;)
+<i>102</i>&nbsp;    ReturnMsg updateCourseById(@RequestBody Map&lt;String,String&gt; params){
+<b class="fc"><i>103</i>&nbsp;        String name=params.get(&quot;name&quot;);</b>
+<b class="fc"><i>104</i>&nbsp;        String introduction=params.get(&quot;introduction&quot;);</b>
+<b class="fc"><i>105</i>&nbsp;        String book=params.get(&quot;book&quot;);</b>
+<b class="fc"><i>106</i>&nbsp;        int id=Integer.parseInt(params.get(&quot;id&quot;));</b>
+<b class="fc"><i>107</i>&nbsp;        return courseService.updateCourseById(name,introduction,book,id);</b>
+<i>108</i>&nbsp;    }
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;    @RequestMapping(path = &quot;/getStudentsByCourse&quot;)
+<i>111</i>&nbsp;    List&lt;ReturnStudent&gt; getStudentsById(@RequestBody Map&lt;String,Integer&gt; params){
+<b class="fc"><i>112</i>&nbsp;        Integer id=params.get(&quot;id&quot;);</b>
+<b class="fc"><i>113</i>&nbsp;        return courseService.getStudentsById(id);</b>
+<i>114</i>&nbsp;    }
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;    @RequestMapping(path = &quot;/searchStudent&quot;)
+<i>117</i>&nbsp;    List&lt;ReturnStudent&gt; getByIdAndName(@RequestBody Map&lt;String,String&gt; params){
+<b class="fc"><i>118</i>&nbsp;        int cid=Integer.parseInt(params.get(&quot;cid&quot;));</b>
+<b class="fc"><i>119</i>&nbsp;        String name=params.get(&quot;search&quot;);</b>
+<b class="fc"><i>120</i>&nbsp;        return courseService.getByIdAndName(cid,name);</b>
+<i>121</i>&nbsp;    }
+<i>122</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-01-07 14:29</div>
+</div>
+</body>
+</html>

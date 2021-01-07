@@ -14,6 +14,8 @@ public interface CourseDao {
 
     int setState(int id,int s);
 
+    int updateCourseTakes(int id,int takes);
+
     int deleteCourseById(int id);
 
     int updateCourseById(String name,String introduction,String book,int id);
