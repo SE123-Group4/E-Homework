@@ -42,9 +42,9 @@ export class StuHomeScreen extends React.Component {
     console.log(this.props);
     let _loadUserInfo = async () => {
       try {
-        var userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'));
-        console.log('userInfo: ', userInfo);
-        this.setState({userInfo: userInfo});
+        var principal = JSON.parse(await AsyncStorage.getItem('principal'));
+        //console.log('userInfo: ', principal);
+        this.setState({userInfo: principal.role});
       } catch (e) {}
     };
     _loadUserInfo();
@@ -73,10 +73,10 @@ export class StuHomeScreen extends React.Component {
               <Right>
                 <Text
                   style={{fontSize: 30, color: 'white', fontWeight: 'bold'}}>
-                  {this.state.userInfo.name}
+                  {/*{this.state.userInfo.name}*/}
                 </Text>
                 <Text style={{fontSize: 20, color: 'white'}}>
-                  {this.state.userInfo.classname}
+                  {/*{this.state.userInfo.classname}*/}
                 </Text>
               </Right>
             </CardItem>

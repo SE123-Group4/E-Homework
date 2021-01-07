@@ -37,8 +37,8 @@ export class TeaHomeScreen extends React.Component {
   componentDidMount() {
     let _loadUserInfo = async () => {
       try {
-        var userInfo = JSON.parse(await AsyncStorage.getItem('userInfo'));
-        this.setState({userInfo: userInfo});
+        var principal = JSON.parse(await AsyncStorage.getItem('principal'));
+        this.setState({userInfo: principal.role});
       } catch (e) {}
     };
     _loadUserInfo();
@@ -70,10 +70,10 @@ export class TeaHomeScreen extends React.Component {
               <Right>
                 <Text
                   style={{fontSize: 30, color: 'white', fontWeight: 'bold'}}>
-                  {this.state.userInfo.name}
+                  {/*{this.state.userInfo.name}*/}
                 </Text>
                 <Text style={{fontSize: 20, color: 'white'}}>
-                  {this.state.userInfo.teaNumber}
+                  {/*{this.state.userInfo.teaNumber}*/}
                 </Text>
               </Right>
             </CardItem>

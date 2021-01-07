@@ -26,9 +26,9 @@ export class CommitList extends React.Component {
     return (
       <ScrollView>
         <Search />
-        <CommitInfo type={1} />
-        <CommitInfo type={1} />
-        <CommitInfo type={1} />
+        <CommitInfo type={1} navigation={this.props.navigation} />
+        <CommitInfo type={0} navigation={this.props.navigation} />
+        <CommitInfo type={1} navigation={this.props.navigation} />
       </ScrollView>
     );
   };

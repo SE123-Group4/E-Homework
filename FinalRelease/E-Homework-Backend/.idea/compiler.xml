@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="gateway" />
+        <module name="search" />
         <module name="homework" />
         <module name="E-Homework-Backend" />
         <module name="auth" />
@@ -29,6 +30,7 @@
       <module name="gateway" options="-parameters" />
       <module name="homework" options="-parameters" />
       <module name="register" options="-parameters" />
+      <module name="search" options="-parameters" />
     </option>
   </component>
 </project>

@@ -133,6 +133,7 @@ export class CommitInfo extends React.Component {
           button
           onPress={() => {
             console.log('答题卡');
+            this.props.navigation.navigate('CorrectHW');
           }}>
           <Left>
             <Icon type="FontAwesome" name="book" style={{color: '#0093fe'}} />

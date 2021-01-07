@@ -17,94 +17,102 @@ import {
 } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export function TeaProfileScreen({navigation}) {
-  return (
-    <View style={{flex: 1}}>
-      <Container>
-        <Card>
-          <CardItem>
-            <Icon name="user-circle" size={80} color="#242123" />
+export class TeaProfileScreen extends React.Component {
+  constructor() {
+    super();
+  }
 
-            <Right>
-              <Text h4>name</Text>
-              <Text />
+  render() {
+    return (
+      <View style={{flex: 1}}>
+        <Container>
+          <Card>
+            <CardItem
+              button
+              onPress={() => this.props.navigation.navigate('ProfileManage')}>
+              <Icon name="user-circle" size={80} color="#242123" />
 
-              <Text h5>teacherID</Text>
-            </Right>
-          </CardItem>
-        </Card>
-        <Card>
-          <CardItem style={styles.profileIconStyle}>
-            <Button
-              vertical
-              transparent
-              onPress={() => {
-                navigation.navigate('File');
-              }}>
-              <Icon name="folder-open" size={30} style={{color: '#0093fe'}} />
-              <Text style={{color: 'gray', fontSize: 15}}>文件</Text>
-            </Button>
-            <Button
-              vertical
-              transparent
-              onPress={() => {
-                navigation.navigate('Star');
-              }}>
-              <Icon name="star" size={30} style={{color: '#0093fe'}} />
-              <Text style={{color: 'gray', fontSize: 15}}>收藏</Text>
-            </Button>
-            <Button
-              vertical
-              transparent
-              onPress={() => {
-                navigation.navigate('Draft');
-              }}>
-              <Icon name="pencil" size={30} style={{color: '#0093fe'}} />
-              <Text style={{color: 'gray', fontSize: 15}}>草稿</Text>
-            </Button>
-            <Button
-              vertical
-              transparent
-              onPress={() => {
-                navigation.navigate('Question');
-              }}>
-              <Icon name="paper-plane" size={30} style={{color: '#0093fe'}} />
-              <Text style={{color: 'gray', fontSize: 15}}>常见问题</Text>
-            </Button>
-          </CardItem>
-        </Card>
-        <Card>
-          <CardItem>
-            <Left>
-              <Text style={{color: '#0073e9', fontSize: 15}} h5>
-                版本更新
-              </Text>
-            </Left>
-            <Icon name="angle-right" size={20} color="#52C0FE" />
-          </CardItem>
-        </Card>
-        <Card>
-          <CardItem>
-            <Left>
-              <Text style={{color: '#0073e9', fontSize: 15}} h5>
-                联系我们
-              </Text>
-            </Left>
-            <Icon name="angle-right" size={20} color="#52C0FE" />
-          </CardItem>
-        </Card>
-        <View style={styles.logoutStyle}>
-          <Button danger style={styles.logoutBtnStyle} full rounded>
-            <Text style={{color: '#f5f1f0', fontSize: 15}}>退出登录</Text>
-          </Button>
-        </View>
-      </Container>
-    </View>
+              <Right>
+                <Text h4>name</Text>
+                <Text />
 
-    /*<Button
-         title="Solid Button"
-      />*/
-  );
+                <Text h5>teacherID</Text>
+              </Right>
+            </CardItem>
+          </Card>
+          <Card>
+            <CardItem style={styles.profileIconStyle}>
+              <Button
+                vertical
+                transparent
+                onPress={() => {
+                  this.props.navigation.navigate('File');
+                }}>
+                <Icon name="folder-open" size={30} style={{color: '#0093fe'}} />
+                <Text style={{color: 'gray', fontSize: 15}}>文件</Text>
+              </Button>
+              <Button
+                vertical
+                transparent
+                onPress={() => {
+                  this.props.navigation.navigate('Star');
+                }}>
+                <Icon name="star" size={30} style={{color: '#0093fe'}} />
+                <Text style={{color: 'gray', fontSize: 15}}>收藏</Text>
+              </Button>
+              <Button
+                vertical
+                transparent
+                onPress={() => {
+                  this.props.navigation.navigate('Draft');
+                }}>
+                <Icon name="pencil" size={30} style={{color: '#0093fe'}} />
+                <Text style={{color: 'gray', fontSize: 15}}>草稿</Text>
+              </Button>
+              <Button
+                vertical
+                transparent
+                onPress={() => {
+                  this.props.navigation.navigate('Question');
+                }}>
+                <Icon name="paper-plane" size={30} style={{color: '#0093fe'}} />
+                <Text style={{color: 'gray', fontSize: 15}}>常见问题</Text>
+              </Button>
+            </CardItem>
+          </Card>
+          <Card>
+            <CardItem>
+              <Left>
+                <Text style={{color: '#0073e9', fontSize: 15}} h5>
+                  版本更新
+                </Text>
+              </Left>
+              <Icon name="angle-right" size={20} color="#52C0FE" />
+            </CardItem>
+          </Card>
+          <Card>
+            <CardItem>
+              <Left>
+                <Text style={{color: '#0073e9', fontSize: 15}} h5>
+                  联系我们
+                </Text>
+              </Left>
+              <Icon name="angle-right" size={20} color="#52C0FE" />
+            </CardItem>
+          </Card>
+          <View style={styles.logoutStyle}>
+            <Button danger style={styles.logoutBtnStyle} full rounded>
+              <Text style={{color: '#f5f1f0', fontSize: 15}}>退出登录</Text>
+            </Button>
+          </View>
+        </Container>
+      </View>
+
+      /*<Button
+             title="Solid Button"
+          />*/
+    );
+  }
 }
 const styles = StyleSheet.create({
   container: {
