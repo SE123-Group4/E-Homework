@@ -29,36 +29,12 @@ export class TeaCourseList extends React.Component {
       selectedIndex: 0,
       courses: [
         {
-          name: '课程 1',
+          name: '课程',
           id: 1,
-          introduction: '这是简介1',
-          startTime: '2020-9-26',
-          takes: 100,
+          introduction: '简介',
+          startTime: '-',
+          takes: '-',
           state: 3,
-        },
-        {
-          name: '课程 2',
-          id: 2,
-          introduction: '这是简介2',
-          startTime: '2020-9-26',
-          takes: 100,
-          state: 3,
-        },
-        {
-          name: '课程 3',
-          id: 3,
-          introduction: '这是简介3',
-          startTime: '2020-9-26',
-          takes: 100,
-          state: 4,
-        },
-        {
-          name: '课程 4',
-          id: 4,
-          introduction: '这是简介4',
-          startTime: '2020-9-26',
-          takes: 100,
-          state: 4,
         },
       ],
     };
@@ -75,7 +51,7 @@ export class TeaCourseList extends React.Component {
     };
     const _loadCourses = async () => {
       try {
-        var roleID = JSON.parse(await AsyncStorage.getItem('userInfo')).id;
+        var roleID = JSON.parse(await AsyncStorage.getItem('principal')).roleID;
         console.log(roleID);
         getTeaCourses(roleID, callback);
       } catch (e) {}
@@ -116,6 +92,9 @@ export class TeaCourseList extends React.Component {
                   console.log('sd');
                   this.props.navigation.navigate('TeaCourse', {
                     courseID: item.id,
+                    refresh: () => {
+                      this.componentDidMount();
+                    },
                   });
                 }}>
                 <Text>{item.introduction}</Text>
@@ -162,6 +141,17 @@ export class TeaCourseList extends React.Component {
     console.log('list', this.props);
     return (
       <Content>
+        <Button
+          style={styles.AddButton}
+          full
+          rounded
+          onPress={() => {
+            this.props.navigation.navigate('AddCourse', {
+              refresh: () => this.componentDidMount(),
+            });
+          }}>
+          <Icon type="FontAwesome" name="plus" />
+        </Button>
         <Tabs>
           <Tab
             heading="进行中"
@@ -183,6 +173,14 @@ export class TeaCourseList extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  AddButton: {
+    width: 390,
+    height: 60,
+    left: 13,
+    top: 10,
+    marginBottom: 20,
+    backgroundColor: '#0093fe',
+  },
   ButtonGroup: {
     height: 25,
     top: 20,

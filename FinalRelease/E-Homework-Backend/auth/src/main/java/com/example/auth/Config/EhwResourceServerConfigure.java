@@ -24,8 +24,7 @@ public class EhwResourceServerConfigure extends ResourceServerConfigurerAdapter 
                 .and()
                 .authorizeRequests()
                 .antMatchers("/actuator/**").permitAll()
-                .antMatchers("/**").authenticated()
-                .and().logout().addLogoutHandler( new EhwLogoutHandler());
+                .antMatchers("/**").authenticated();
     }
 
     @Override

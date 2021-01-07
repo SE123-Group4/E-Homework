@@ -42,7 +42,7 @@ export const addCourse = (
 
 export const modifyCourse = (courseID, name, introduction, book, callback) => {
   var data = {
-    courseID: courseID,
+    id: courseID,
     name: name,
     introduction: introduction,
     book: book,
@@ -59,24 +59,36 @@ export const addStudent = (studentIDs, courseID, callback) => {
   var schoolID;
   let _loadSchoolID = async () => {
     try {
-      var role = await JSON.parse(AsyncStorage.getItem('principal')).role
+      var role = JSON.parse(await AsyncStorage.getItem('principal')).role;
+      //console.log('role', role);
       schoolID = role.schoolID;
+      var data = {students: studentIDs, courseID: courseID, schoolID: schoolID};
+      console.log('add student', data);
+      postRequest(COURSE_URL + 'addTakes', data, callback);
     } catch (e) {}
   };
   _loadSchoolID();
-  var data = {studentIDs: studentIDs, courseID: courseID, schoolID: schoolID};
-  postRequest(COURSE_URL + 'addTakes', data, callback);
 };
 
 export const deleteStudent = (studentIDs, courseID, callback) => {
-  var schoolID;
   let _loadSchoolID = async () => {
     try {
-      var role = await JSON.parse(AsyncStorage.getItem('principal')).role
-      schoolID = role.schoolID;
+      var role = JSON.parse(await AsyncStorage.getItem('principal')).role;
+      var schoolID = role.schoolID;
+      var data = {students: studentIDs, courseID: courseID, schoolID: schoolID};
+      console.log('delete student', data);
+      postRequest(COURSE_URL + 'deleteTake', data, callback);
     } catch (e) {}
   };
   _loadSchoolID();
-  var data = {studentIDs: studentIDs, courseID: courseID, schoolID: schoolID};
-  postRequest(COURSE_URL + 'deleteTakes', data, callback);
+};
+
+export const searchStudent = (courseID, keyword, callback) => {
+  var data = {cid: courseID, search: keyword};
+  postRequest(COURSE_URL + 'searchStudent', data, callback);
+};
+
+export const getStudentsByCourse = (courseID, callback) => {
+  var data = {courseID: courseID};
+  postRequest(COURSE_URL + 'getStudentsByCourse', data, callback);
 };

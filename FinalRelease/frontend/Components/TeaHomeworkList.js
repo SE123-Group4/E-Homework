@@ -85,9 +85,9 @@ export class TeaHomeworkList extends React.Component {
       }
     };
     if (this.props.courseID === null || this.props.courseID === undefined) {
-      //getTeaHomework(callback);
+      getTeaHomework(callback);
     } else {
-      //getCourseHomework(this.props.courseID, 'ROLE_TEACHER', callback);
+      getCourseHomework(this.props.courseID, 'ROLE_TEACHER', callback);
     }
   }
 

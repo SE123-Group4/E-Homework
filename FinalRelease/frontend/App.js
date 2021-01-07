@@ -50,6 +50,7 @@ import {StartScreen} from './Screens/StartScreen';
 import CourseManageScreen from './Screens/TeacherScreen/CourseManageScreen';
 import ProfileManageScreen from './Screens/ProfileManageScreen';
 import {MyImage} from './Components/MyImage';
+import {UserManualScreen} from './Screens/UserManualScreen';
 
 const Stack = createStackNavigator();
 
@@ -58,11 +59,6 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerMode: 'none'}}>
         {/*放在第一个为默认界面，初始应只有login, register, home，其他的界面在home或者相应的界面路由*/}
-        {/*<Stack.Screen*/}
-        {/*  name="ImageEdit"*/}
-        {/*  component={MyImage}*/}
-        {/*  options={{headerShown: false}}*/}
-        {/*/>*/}
 
         <Stack.Screen
           name="Login"
@@ -152,6 +148,11 @@ export default function App() {
         <Stack.Screen
           name="ProfileManage"
           component={ProfileManageScreen}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Manual"
+          component={UserManualScreen}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

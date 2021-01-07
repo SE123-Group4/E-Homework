@@ -32,8 +32,8 @@ export class SimpleChoiceAnswer extends React.Component {
         totalScore: 10,
         stuScore: 10,
         type: 'ONE_CHOICE',
-        refAnswer: {option: 'A', content: '选项A', image: null},
-        stuAnswer: {option: 'A', content: '选项A', image: null},
+        refAnswer: {content: 'A', image: null},
+        stuAnswer: {content: 'A', image: null},
       },
     };
   }
@@ -43,12 +43,12 @@ export class SimpleChoiceAnswer extends React.Component {
   }
 
   check = (option) => {
-    return option === this.props.answer.stuAnswer.option;
+    return option === this.props.answer.stuAnswer.content;
   };
 
   getColor = (option) => {
-    if (option === this.props.answer.stuAnswer.option) {
-      if (option === this.props.answer.refAnswer.option) {
+    if (option === this.props.answer.stuAnswer.content) {
+      if (option === this.props.answer.refAnswer.content) {
         return 'green';
       } else {
         return 'red';
@@ -68,7 +68,7 @@ export class SimpleChoiceAnswer extends React.Component {
           />
           <Body>
             <Text>
-              {item.option}. {item.content.content}
+              {item.option}. {item.content}
             </Text>
             <MyImage source={item.image} width={width * 0.9} height={200} />
           </Body>
@@ -94,7 +94,7 @@ export class SimpleChoiceAnswer extends React.Component {
         {this.renderChoices()}
         <CardItem footer>
           <Left>
-            <Text>正确答案：{this.props.answer.refAnswer.option}</Text>
+            <Text>正确答案：{this.props.answer.refAnswer.content}</Text>
           </Left>
           <Right>
             <Text>

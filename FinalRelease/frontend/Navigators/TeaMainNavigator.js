@@ -49,7 +49,7 @@ export class TeaMainNavigator extends React.Component {
           onPress={() => {
             this.setState({selectedTab: 'Profile'});
           }}>
-          <TeaProfileScreen navigation={this.props.navigation} />
+          <TeaProfileScreen navigation={this.props.navigation} refresh={this.props.route.params.refresh} />
         </TabNavigatorItem>
       </TabNavigator>
     );

@@ -6,7 +6,7 @@ export const getUser = (callback) => {
   getRequest(url.AUTH_URL + 'user', callback);
 };
 
-export const logout = (callback) => {
+export const Logout = (callback) => {
   let _deleteToken = async () => {
     try {
       await AsyncStorage.removeItem('token');

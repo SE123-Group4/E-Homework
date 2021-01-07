@@ -3,8 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {HOMEWORK_URL, SEARCH_URL} from '../Constant/Url';
 import {getRequest} from '../Util/Ajax';
 
-export const getStuAnswer = (homeworkAssignID, callback) => {
-  var data = {homeworkAssignID: homeworkAssignID};
+export const getStuAnswer = (handsonID, callback) => {
+  var data = {handsonID: handsonID};
   postRequest(HOMEWORK_URL + 'student_answer', data, callback);
 };
 
@@ -19,13 +19,6 @@ export const commitAnswer = (answer, handsonID, callback) => {
 };
 
 export const getStuQuestion = (handsonID, callback) => {
-  // var stuID;
-  // let _loatID = async () => {
-  //   try {
-  //     stuID = await AsyncStorage.getItem('principal').roleID;
-  //   } catch (e) {}
-  // };
-  // _loatID();
   var data = {handsonID: handsonID};
   postRequest(HOMEWORK_URL + 'questions', data, callback);
 };
@@ -36,43 +29,41 @@ export const getStatistics = (homeworkID, callback) => {
 };
 
 export const getStuHomework = (callback) => {
-  var stuID;
   let _loatID = async () => {
     try {
-      stuID = await JSON.parse(AsyncStorage.getItem('principal')).roleID;
+      var stuID = JSON.parse(await AsyncStorage.getItem('principal')).roleID;
+      var data = {stuID: stuID};
+      postRequest(HOMEWORK_URL + 'stu_homework_list', data, callback);
     } catch (e) {}
   };
   _loatID();
-  var data = {stuID: stuID};
-  postRequest(HOMEWORK_URL + 'stu_homework_list', data, callback);
 };
 
 export const getTeaHomework = (callback) => {
-  var teaID;
-  let _loatID = async () => {
+  let _loadID = async () => {
     try {
-      teaID = await JSON.parse(AsyncStorage.getItem('principal')).roleID;
+      var teaID = await JSON.parse(AsyncStorage.getItem('principal')).roleID;
+      var data = {teaID: teaID};
+      postRequest(HOMEWORK_URL + 'tea_homework_list', data, callback);
     } catch (e) {}
   };
-  _loatID();
-  var data = {teaID: teaID};
-  postRequest(HOMEWORK_URL + 'tea_homework_list', data, callback);
+  _loadID();
 };
 
 export const getCourseHomework = (courseID, role, callback) => {
-  if (role === 'ROLE_STUDENT') {
-    var stuID;
-    let _loatID = async () => {
-      try {
-        stuID = await JSON.parse(AsyncStorage.getItem('principal')).roleID;
-      } catch (e) {}
-    };
-    _loatID();
-    var data = {courseID: courseID, role: role, stuID: stuID};
-  } else {
-    var data = {courseID: courseID, role: role};
-  }
-  postRequest(HOMEWORK_URL + 'course_homework_list', data, callback);
+  let _loatID = async () => {
+    try {
+      var data, stuID;
+      stuID = JSON.parse(await AsyncStorage.getItem('principal')).roleID;
+      if (role === 'ROLE_STUDENT') {
+        data = {courseID: courseID, role: role, stuID: stuID};
+      } else {
+        data = {courseID: courseID, role: role};
+      }
+      postRequest(HOMEWORK_URL + 'course_homework_list', data, callback);
+    } catch (e) {}
+  };
+  _loatID();
 };
 
 export const search = (searchValue, callback) => {
@@ -86,19 +77,19 @@ export const search = (searchValue, callback) => {
         var principal;
         let _loadID = async () => {
           try {
-            principal = await JSON.parse(AsyncStorage.getItem('principal'));
+            principal = JSON.parse(await AsyncStorage.getItem('principal'));
+            var requestData = {
+              homeworkIDs: res.data,
+              stuID: principal.roleID,
+            };
+            postRequest(
+              HOMEWORK_URL + '/get_homework_by_id',
+              requestData,
+              callback,
+            );
           } catch (e) {}
         };
         _loadID();
-        var requestData = {
-          homeworkIDs: res.data,
-          stuID: principal.roleID,
-        };
-        postRequest(
-          HOMEWORK_URL + '/get_homework_by_id',
-          requestData,
-          callback,
-        );
       }
     }
   };

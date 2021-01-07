@@ -16,17 +16,36 @@ import {
   Body,
 } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {logout} from "../../Service/LoginService";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Logout} from "../../Service/LoginService";
+
 let {width, height} = Dimensions.get('window');
 
 export class TeaProfileScreen extends React.Component {
   constructor() {
     super();
+    this.state = {
+      userInfo: {
+        name: '用户名',
+        teaNumber: '000000',
+      },
+    };
+  }
+
+  componentDidMount() {
+    let _loatInfo = async () => {
+      try {
+        var role = JSON.parse(await AsyncStorage.getItem('principal')).role;
+        this.setState({userInfo: role});
+      } catch (e) {}
+    };
+    _loatInfo();
   }
 
   logout = () => {
     const callback = (res) => {
       if (res === 200) {
+        this.props.refresh();
         this.props.navigation.navigate('Login');
         // const resetAction = StackActions.reset({
         //   index: 0,
@@ -37,7 +56,7 @@ export class TeaProfileScreen extends React.Component {
         // this.props.navigation.dispatch(resetAction);
       }
     };
-    logout(callback);
+    Logout(callback);
   };
 
   render() {
@@ -51,75 +70,80 @@ export class TeaProfileScreen extends React.Component {
               <Icon name="user-circle" size={80} color="#242123" />
 
               <Right>
-                <Text h4>name</Text>
+                <Text h4>{this.state.userInfo.name}</Text>
                 <Text />
 
-                <Text h5>teacherID</Text>
+                <Text h5>工号：{this.state.userInfo.teaNumber}</Text>
               </Right>
             </CardItem>
           </Card>
+          {/*<Card>*/}
+          {/*  <CardItem style={styles.profileIconStyle}>*/}
+          {/*    <Button*/}
+          {/*      vertical*/}
+          {/*      transparent*/}
+          {/*      onPress={() => {*/}
+          {/*        this.props.navigation.navigate('File');*/}
+          {/*      }}>*/}
+          {/*      <Icon name="folder-open" size={30} style={{color: '#0093fe'}} />*/}
+          {/*      <Text style={{color: 'gray', fontSize: 15}}>文件</Text>*/}
+          {/*    </Button>*/}
+          {/*    <Button*/}
+          {/*      vertical*/}
+          {/*      transparent*/}
+          {/*      onPress={() => {*/}
+          {/*        this.props.navigation.navigate('Star');*/}
+          {/*      }}>*/}
+          {/*      <Icon name="star" size={30} style={{color: '#0093fe'}} />*/}
+          {/*      <Text style={{color: 'gray', fontSize: 15}}>收藏</Text>*/}
+          {/*    </Button>*/}
+          {/*    <Button*/}
+          {/*      vertical*/}
+          {/*      transparent*/}
+          {/*      onPress={() => {*/}
+          {/*        this.props.navigation.navigate('Draft');*/}
+          {/*      }}>*/}
+          {/*      <Icon name="pencil" size={30} style={{color: '#0093fe'}} />*/}
+          {/*      <Text style={{color: 'gray', fontSize: 15}}>草稿</Text>*/}
+          {/*    </Button>*/}
+          {/*    <Button*/}
+          {/*      vertical*/}
+          {/*      transparent*/}
+          {/*      onPress={() => {*/}
+          {/*        this.props.navigation.navigate('Question');*/}
+          {/*      }}>*/}
+          {/*      <Icon name="paper-plane" size={30} style={{color: '#0093fe'}} />*/}
+          {/*      <Text style={{color: 'gray', fontSize: 15}}>常见问题</Text>*/}
+          {/*    </Button>*/}
+          {/*  </CardItem>*/}
+          {/*</Card>*/}
           <Card>
-            <CardItem style={styles.profileIconStyle}>
-              <Button
-                vertical
-                transparent
-                onPress={() => {
-                  this.props.navigation.navigate('File');
-                }}>
-                <Icon name="folder-open" size={30} style={{color: '#0093fe'}} />
-                <Text style={{color: 'gray', fontSize: 15}}>文件</Text>
-              </Button>
-              <Button
-                vertical
-                transparent
-                onPress={() => {
-                  this.props.navigation.navigate('Star');
-                }}>
-                <Icon name="star" size={30} style={{color: '#0093fe'}} />
-                <Text style={{color: 'gray', fontSize: 15}}>收藏</Text>
-              </Button>
-              <Button
-                vertical
-                transparent
-                onPress={() => {
-                  this.props.navigation.navigate('Draft');
-                }}>
-                <Icon name="pencil" size={30} style={{color: '#0093fe'}} />
-                <Text style={{color: 'gray', fontSize: 15}}>草稿</Text>
-              </Button>
-              <Button
-                vertical
-                transparent
-                onPress={() => {
-                  this.props.navigation.navigate('Question');
-                }}>
-                <Icon name="paper-plane" size={30} style={{color: '#0093fe'}} />
-                <Text style={{color: 'gray', fontSize: 15}}>常见问题</Text>
-              </Button>
-            </CardItem>
-          </Card>
-          <Card>
-            <CardItem>
+            <CardItem button onPress={() => this.props.navigation.navigate('Manual')}>
               <Left>
                 <Text style={{color: '#0073e9', fontSize: 15}} h5>
-                  版本更新
+                  用户手册
                 </Text>
               </Left>
               <Icon name="angle-right" size={20} color="#52C0FE" />
             </CardItem>
           </Card>
-          <Card>
-            <CardItem>
-              <Left>
-                <Text style={{color: '#0073e9', fontSize: 15}} h5>
-                  联系我们
-                </Text>
-              </Left>
-              <Icon name="angle-right" size={20} color="#52C0FE" />
-            </CardItem>
-          </Card>
+          {/*<Card>*/}
+          {/*  <CardItem>*/}
+          {/*    <Left>*/}
+          {/*      <Text style={{color: '#0073e9', fontSize: 15}} h5>*/}
+          {/*        联系我们*/}
+          {/*      </Text>*/}
+          {/*    </Left>*/}
+          {/*    <Icon name="angle-right" size={20} color="#52C0FE" />*/}
+          {/*  </CardItem>*/}
+          {/*</Card>*/}
           <View style={styles.logoutStyle}>
-            <Button danger style={styles.logoutBtnStyle} full rounded onPress={() => this.logout()}>
+            <Button
+              danger
+              style={styles.logoutBtnStyle}
+              full
+              rounded
+              onPress={() => this.logout()}>
               <Text style={{color: '#f5f1f0', fontSize: 15}}>退出登录</Text>
             </Button>
           </View>

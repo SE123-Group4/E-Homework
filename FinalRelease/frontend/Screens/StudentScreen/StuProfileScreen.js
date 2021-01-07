@@ -18,7 +18,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {NavigationActions, StackActions} from 'react-navigation';
 //import {StackActions} from '@react-navigation';
-import {logout} from '../../Service/LoginService';
+import {Logout} from '../../Service/LoginService';
 
 export class StuProfileScreen extends React.Component {
   constructor() {
@@ -28,6 +28,7 @@ export class StuProfileScreen extends React.Component {
   logout = () => {
     const callback = (res) => {
       if (res === 200) {
+        this.props.refresh();
         this.props.navigation.navigate('Login');
         // const resetAction = StackActions.reset({
         //   index: 0,
@@ -38,7 +39,7 @@ export class StuProfileScreen extends React.Component {
         // this.props.navigation.dispatch(resetAction);
       }
     };
-    logout(callback);
+    Logout(callback);
   };
 
   render() {
@@ -61,66 +62,66 @@ export class StuProfileScreen extends React.Component {
               </Right>
             </CardItem>
           </Card>
+          {/*<Card>*/}
+          {/*  <CardItem style={styles.profileIconStyle}>*/}
+          {/*    <Button*/}
+          {/*      vertical*/}
+          {/*      transparent*/}
+          {/*      onPress={() => {*/}
+          {/*        this.props.navigation.navigate('File');*/}
+          {/*      }}>*/}
+          {/*      <Icon name="folder-open" size={30} color="#0093fe" />*/}
+          {/*      <Text style={{color: 'gray', fontSize: 15}}>文件</Text>*/}
+          {/*    </Button>*/}
+          {/*    <Button*/}
+          {/*      vertical*/}
+          {/*      transparent*/}
+          {/*      onPress={() => {*/}
+          {/*        this.props.navigation.navigate('Star');*/}
+          {/*      }}>*/}
+          {/*      <Icon name="star" size={30} color="#0093fe" />*/}
+          {/*      <Text style={{color: 'gray', fontSize: 15}}>收藏</Text>*/}
+          {/*    </Button>*/}
+          {/*    <Button*/}
+          {/*      vertical*/}
+          {/*      transparent*/}
+          {/*      onPress={() => {*/}
+          {/*        this.props.navigation.navigate('WrongCollect');*/}
+          {/*      }}>*/}
+          {/*      <Icon name="graduation-cap" size={30} color="#0093fe" />*/}
+          {/*      <Text style={{color: 'gray', fontSize: 15}}>错题集</Text>*/}
+          {/*    </Button>*/}
+          {/*    <Button*/}
+          {/*      vertical*/}
+          {/*      transparent*/}
+          {/*      onPress={() => {*/}
+          {/*        this.props.navigation.navigate('Question');*/}
+          {/*      }}>*/}
+          {/*      <Icon name="paper-plane" size={30} color="#0093fe" />*/}
+          {/*      <Text style={{color: 'gray', fontSize: 15}}>常见问题</Text>*/}
+          {/*    </Button>*/}
+          {/*  </CardItem>*/}
+          {/*</Card>*/}
           <Card>
-            <CardItem style={styles.profileIconStyle}>
-              <Button
-                vertical
-                transparent
-                onPress={() => {
-                  this.props.navigation.navigate('File');
-                }}>
-                <Icon name="folder-open" size={30} color="#0093fe" />
-                <Text style={{color: 'gray', fontSize: 15}}>文件</Text>
-              </Button>
-              <Button
-                vertical
-                transparent
-                onPress={() => {
-                  this.props.navigation.navigate('Star');
-                }}>
-                <Icon name="star" size={30} color="#0093fe" />
-                <Text style={{color: 'gray', fontSize: 15}}>收藏</Text>
-              </Button>
-              <Button
-                vertical
-                transparent
-                onPress={() => {
-                  this.props.navigation.navigate('WrongCollect');
-                }}>
-                <Icon name="graduation-cap" size={30} color="#0093fe" />
-                <Text style={{color: 'gray', fontSize: 15}}>错题集</Text>
-              </Button>
-              <Button
-                vertical
-                transparent
-                onPress={() => {
-                  this.props.navigation.navigate('Question');
-                }}>
-                <Icon name="paper-plane" size={30} color="#0093fe" />
-                <Text style={{color: 'gray', fontSize: 15}}>常见问题</Text>
-              </Button>
-            </CardItem>
-          </Card>
-          <Card>
-            <CardItem>
+            <CardItem button onPress={() => this.props.navigation.navigate('Manual')}>
               <Left>
                 <Text style={{color: '#0073e9', fontSize: 15}} h5>
-                  版本更新
+                  用户手册
                 </Text>
               </Left>
               <Icon name="angle-right" size={20} color="#52C0FE" />
             </CardItem>
           </Card>
-          <Card>
-            <CardItem>
-              <Left>
-                <Text style={{color: '#0073e9', fontSize: 15}} h5>
-                  联系我们
-                </Text>
-              </Left>
-              <Icon name="angle-right" size={20} color="#52C0FE" />
-            </CardItem>
-          </Card>
+          {/*<Card>*/}
+          {/*  <CardItem>*/}
+          {/*    <Left>*/}
+          {/*      <Text style={{color: '#0073e9', fontSize: 15}} h5>*/}
+          {/*        联系我们*/}
+          {/*      </Text>*/}
+          {/*    </Left>*/}
+          {/*    <Icon name="angle-right" size={20} color="#52C0FE" />*/}
+          {/*  </CardItem>*/}
+          {/*</Card>*/}
           <View style={styles.logoutStyle}>
             <Button
               danger

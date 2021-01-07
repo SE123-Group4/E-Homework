@@ -40,12 +40,14 @@ export class AddCourseScreen extends React.Component {
     const callback = (data) => {
       if (data.status === 200) {
         Alert.alert('添加课程成功');
+        this.props.route.params.refresh();
         this.props.navigation.navigate('TeaCourses');
       }
     };
     let _loadTeacher = async () => {
       try {
-        var teacher = JSON.parse(await AsyncStorage.getItem('userInfo')).id;
+        var teacher = JSON.parse(await AsyncStorage.getItem('principal'))
+          .roleID;
         console.log(teacher);
         addCourse(
           teacher,
@@ -54,7 +56,7 @@ export class AddCourseScreen extends React.Component {
           this.state.book,
           this.state.startTime,
           this.state.endTime,
-          1,
+          3,
           callback,
         );
       } catch (e) {}

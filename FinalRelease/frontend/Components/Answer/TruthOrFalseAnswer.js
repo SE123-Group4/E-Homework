@@ -26,8 +26,8 @@ export class TruthOrFalseAnswer extends React.Component {
         totalScore: 10,
         stuScore: 0,
         type: 'TRUTH_OR_FALSE',
-        refAnswer: true,
-        stuAnswer: false,
+        refAnswer: {content: 'true', image: null},
+        stuAnswer: {content: 'true', image: null},
       },
     };
   }
@@ -37,7 +37,7 @@ export class TruthOrFalseAnswer extends React.Component {
   }
 
   getColor = (flag) => {
-    if (this.props.answer.refAnswer === flag) {
+    if (this.props.answer.refAnswer.content === flag) {
       return 'green';
     } else {
       return 'red';
@@ -48,15 +48,15 @@ export class TruthOrFalseAnswer extends React.Component {
     return (
       <ListItem>
         <CheckBox
-          color={this.getColor(true)}
-          checked={this.props.answer.stuAnswer === true}
+          color={this.getColor('true')}
+          checked={this.props.answer.stuAnswer.content === 'true'}
         />
         <Body>
           <Text>√</Text>
         </Body>
         <CheckBox
-          color={this.getColor(false)}
-          checked={this.props.answer.stuAnswer === false}
+          color={this.getColor('false')}
+          checked={this.props.answer.stuAnswer.content === 'false'}
         />
         <Body>
           <Text>×</Text>

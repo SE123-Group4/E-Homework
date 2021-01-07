@@ -16,6 +16,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 let {width} = Dimensions.get('window');
 import {loginAjax} from '../Util/Ajax';
 import {getUser} from '../Service/LoginService';
+import {isEmail} from '../Util/testUtil';
 
 export class LoginScreen extends React.Component {
   constructor(props) {
@@ -32,11 +33,22 @@ export class LoginScreen extends React.Component {
     this.props.navigation.navigate('Start');
   }
 
+  init = () => {
+    console.log('init');
+    this.setState({account: '', password: '', token: ''});
+  };
+
   _onLoginSuccess = (auth, role) => {
     if (auth === 'ROLE_TEACHER') {
-      this.props.navigation.navigate('TeaHome', {userInfo: role});
+      this.props.navigation.navigate('TeaHome', {
+        userInfo: role,
+        refresh: () => this.init(),
+      });
     } else if (auth === 'ROLE_STUDENT') {
-      this.props.navigation.navigate('StuHome', {userInfo: role});
+      this.props.navigation.navigate('StuHome', {
+        userInfo: role,
+        refresh: () => this.init(),
+      });
     }
   };
   _clickLoginBtn = () => {
@@ -46,6 +58,10 @@ export class LoginScreen extends React.Component {
       Alert.alert('账号或密码不能为空');
       return;
     }
+    // if (!isEmail(this.state.account)) {
+    //   Alert.alert('邮箱格式不正确');
+    //   return;
+    // }
     const UserCallback = (data) => {
       console.log('user callback');
       let _storeUser = async () => {
@@ -71,7 +87,7 @@ export class LoginScreen extends React.Component {
 
     const TokenCallback = (data) => {
       console.log(data.access_token);
-      if (data.error === '400') {
+      if (data.error === 400 || data.error === 'invalid_grant') {
         Alert.alert('登录失败');
       } else if (data.access_token != null) {
         let _storeToken = async () => {
@@ -125,6 +141,7 @@ export class LoginScreen extends React.Component {
                 });
               }}
               placeholder="邮箱"
+              defaultValue={this.state.account}
             />
           </Item>
           <Item
@@ -146,6 +163,7 @@ export class LoginScreen extends React.Component {
                 });
               }}
               placeholder="密码"
+              defaultValue={this.state.password}
             />
           </Item>
           {/*<Form>*/}
@@ -160,11 +178,11 @@ export class LoginScreen extends React.Component {
           {/*</Form>*/}
           <Button
             buttonStyle={styles.loginBtnStyle_1}
-            // onPress={() => this._clickLoginBtn()}
+            onPress={() => this._clickLoginBtn()}
             //路由用
-            onPress={() => {
-              this.props.navigation.navigate('TeaHome');
-            }}
+            // onPress={() => {
+            //   this.props.navigation.navigate('TeaHome');
+            // }}
             icon={<Icon name="share" size={30} color="white" />}
           />
           <View style={styles.settingStyle}>

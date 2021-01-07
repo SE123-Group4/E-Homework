@@ -35,29 +35,41 @@ export default class CourseManageScreen extends React.Component {
 
   componentDidMount() {
     const callback = (res) => {
-      if (res.status === 200) {
-        this.setState({courseInfo: res.data});
+      if (res !== null) {
+        // var courseInfo = {
+        //   name: res.name,
+        //   teacher: res.teacher,
+        //   introduction: res.introduction,
+        //   book: res.book,
+        // };
+        this.setState({
+          name: res.name,
+          teacher: res.teacher,
+          introduction: res.introduction,
+          book: res.book,
+        });
       }
     };
-    //getCourseByID(this.props.route.params.courseID, callback);
+    getCourseByID(this.props.route.params.courseID, callback);
   }
 
   commitModify = () => {
     const callback = (res) => {
       if (res.status === 200) {
         Alert.alert('修改成功');
+        this.props.route.params.refresh();
         this.props.navigation.navigate('TeaCourse', {
           courseID: this.props.route.params.courseID,
         });
       }
     };
-    // modifyCourse(
-    //   this.props.route.params.courseID,
-    //   this.state.name,
-    //   this.state.introduction,
-    //   this.state.book,
-    //   callback,
-    // );
+    modifyCourse(
+      this.props.route.params.courseID,
+      this.state.name,
+      this.state.introduction,
+      this.state.book,
+      callback,
+    );
   };
 
   render() {
@@ -76,7 +88,7 @@ export default class CourseManageScreen extends React.Component {
               </Label>
               <Input
                 style={styles.input}
-                value={this.state.name}
+                defaultValue={this.state.name}
                 onChangeText={(text) => this.setState({name: text})}
               />
             </CardItem>
@@ -88,10 +100,11 @@ export default class CourseManageScreen extends React.Component {
               </Label>
             </CardItem>
             <CardItem>
-              <Textarea style={styles.introduction}
+              <Textarea
+                style={styles.introduction}
                 rowSpan={5}
                 allowFontScaling
-                value={this.state.introduction}
+                defaultValue={this.state.introduction}
                 onChangeText={(text) => this.setState({introduction: text})}
                 bordered={false}
                 underline
@@ -103,8 +116,9 @@ export default class CourseManageScreen extends React.Component {
               <Label>
                 <Text style={styles.labelText}>推荐书籍：</Text>
               </Label>
-              <Input style={styles.introduction}
-                value={this.state.book}
+              <Input
+                style={styles.introduction}
+                defaultValue={this.state.book}
                 onChangeText={(text) => this.setState({book: text})}
               />
             </CardItem>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Alert} from 'react-native';
 import {Icon, Button, Text, CardItem, Card} from 'native-base';
-import {deleteCourse} from "../Service/CourseService";
+import {deleteCourse} from '../Service/CourseService';
 
 export class CourseFuncBtn extends React.Component {
   constructor() {
@@ -15,11 +15,12 @@ export class CourseFuncBtn extends React.Component {
     const callback = (res) => {
       if (res.status === 200) {
         Alert.alert('删除成功');
-        this.props.navigation.pop();
+        this.props.listRefresh();
+        this.props.navigation.navigate('TeaCourses');
       }
     };
     callback({status: 200});
-    //deleteCourse(this.props.courseID, callback);
+    deleteCourse(this.props.courseID, callback);
   };
 
   render() {
@@ -46,9 +47,10 @@ export class CourseFuncBtn extends React.Component {
             onPress={() => {
               this.props.navigation.navigate('CourseManage', {
                 courseID: this.props.courseID,
+                refresh: this.props.infoRefresh,
               });
             }}>
-            <Icon type="FontAwesome" name="users" style={styles.buttonIcon} />
+            <Icon type="FontAwesome" name="fa-info" style={styles.buttonIcon} />
             <Text style={styles.text}>修改信息</Text>
           </Button>
           <Button
@@ -57,11 +59,11 @@ export class CourseFuncBtn extends React.Component {
             vertical
             style={styles.button}
             onPress={() => {
-              console.log('Statistic');
-              this.props.navigation.navigate('Statistic');
+              console.log('check students');
+              this.props.navigation.navigate('CheckStu');
             }}>
-            <Icon type="FontAwesome" name="check" style={styles.buttonIcon} />
-            <Text style={styles.text}>作业统计</Text>
+            <Icon type="FontAwesome" name="users" style={styles.buttonIcon} />
+            <Text style={styles.text}>查看学生</Text>
           </Button>
           <Button
             icon
@@ -70,7 +72,10 @@ export class CourseFuncBtn extends React.Component {
             style={styles.button}
             onPress={() => {
               console.log('add');
-              this.props.navigation.navigate('ImportStu');
+              this.props.navigation.navigate('ImportStu', {
+                courseID: this.props.courseID,
+                refresh: this.props.listRefresh,
+              });
             }}>
             <Icon
               type="FontAwesome"

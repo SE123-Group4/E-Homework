@@ -56,7 +56,7 @@ export class StuMainNavigator extends React.Component {
           onPress={() => {
             this.setState({selectedTab: 'Profile'});
           }}>
-          <StuProfileScreen navigation={this.props.navigation} />
+          <StuProfileScreen navigation={this.props.navigation} refresh={this.props.route.params.refresh} />
         </TabNavigatorItem>
       </TabNavigator>
     );

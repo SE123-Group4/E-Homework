@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   header: {
-    fontSize: 23,
+    fontSize: 20,
     color: '#0093fe',
   },
   card: {
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   labelText: {
-    fontSize: 20,
+    fontSize: 17,
   },
   input: {
     width: width * 0.6,

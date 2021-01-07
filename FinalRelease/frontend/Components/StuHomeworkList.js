@@ -25,35 +25,35 @@ export class StuHomeworkList extends React.Component {
           title: '作业 1',
           post: '2020-09-28',
           ddl: '2020-10-10',
-          state: 1,
+          state: 'UNSUBMITTED',
         },
         {
           ID: 2,
           title: '作业 2',
           post: '2020-09-28',
           ddl: '2020-10-14',
-          state: 0,
+          state: 'SUBMITTED',
         },
         {
           ID: 3,
           title: '作业 3',
           post: '2020-09-28',
           ddl: '2020-10-17',
-          state: 2,
+          state: 'LATE',
         },
         {
           ID: 4,
           title: '作业 4',
           post: '2020-09-28',
           ddl: '2020-12-10',
-          state: 0,
+          state: 'CORRECTED',
         },
         {
           ID: 5,
           title: '作业 5',
           post: '2020-09-28',
           ddl: '2021-10-10',
-          state: 0,
+          state: 'SUBMITTED',
         },
       ],
       searchValue: '',
@@ -79,24 +79,31 @@ export class StuHomeworkList extends React.Component {
   }
 
   getState = (state) => {
-    if (state === 0) {
+    if (state === 'UNSUBMITTED') {
       return (
         <Button rounded light>
           <Text style={{color: 'white'}}>未提交</Text>
         </Button>
       );
     }
-    if (state === 1) {
+    if (state === 'SUBMITTED') {
       return (
         <Button rounded success>
           <Text>已提交</Text>
         </Button>
       );
     }
-    if (state === 2) {
+    if (state === 'LATE') {
       return (
         <Button rounded warning>
           <Text>补交</Text>
+        </Button>
+      );
+    }
+    if (state === 'CORRECTED') {
+      return (
+        <Button rounded info>
+          <Text>已批改</Text>
         </Button>
       );
     }
@@ -139,9 +146,10 @@ export class StuHomeworkList extends React.Component {
             <CardItem
               button
               onPress={() => {
-                if (item.state !== 0) {
+                if (item.state !== 'UNSUBMITTED') {
                   this.props.navigation.navigate('StuHW', {
                     handsonID: item.ID,
+                    //state: item.state,
                   });
                 } else {
                   this.props.navigation.navigate('AnswerHW', {

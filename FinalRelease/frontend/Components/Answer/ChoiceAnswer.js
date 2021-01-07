@@ -32,14 +32,14 @@ export class ChoiceAnswer extends React.Component {
         totalScore: 10,
         stuScore: 0,
         type: 'MULTIPLE_CHOICE',
-        refAnswer: [
-          {option: 'A', content: '选项A', image: null},
-          {option: 'B', content: '选项B', image: null},
-        ],
-        stuAnswer: [
-          {option: 'B', content: '选项B', image: null},
-          {option: 'C', content: '选项C', image: null},
-        ],
+        refAnswer: {
+          content: 'A,B',
+          image: null,
+        },
+        stuAnswer: {
+          content: 'C,B',
+          image: null,
+        },
       },
     };
   }
@@ -52,9 +52,12 @@ export class ChoiceAnswer extends React.Component {
 
   check = (option) => {
     var flag = false;
-    for (var i = 0; i < this.props.answer.stuAnswer.length; i++) {
+    var stuArray = this.props.answer.stuAnswer.content.split(',');
+    console.log('stuArray', stuArray);
+    //stuArray = stuArray.sort((a, b) => a > b);
+    for (var i = 0; i < stuArray.length; i++) {
       //console.log(this.props.answer.stuAnswer[i].option, option);
-      if (this.props.answer.stuAnswer[i].option === option) {
+      if (stuArray[i] === option) {
         flag = true;
       }
     }
@@ -72,7 +75,7 @@ export class ChoiceAnswer extends React.Component {
           />
           <Body>
             <Text>
-              {item.option}. {item.content.content}
+              {item.option}. {item.content}
             </Text>
             <MyImage source={item.image} width={width * 0.9} height={200} />
           </Body>
@@ -83,19 +86,22 @@ export class ChoiceAnswer extends React.Component {
 
   getRefAnswer = () => {
     //console.log('multi ref', this.props.answer.refAnswer);
-    var s = '';
-    for (var i = 0; i < this.props.answer.refAnswer.length; i++) {
-      s += this.props.answer.refAnswer[i].option;
-      s += ' ';
-    }
-    return s;
+    var ref = this.props.answer.refAnswer.content.split(',');
+    ref = ref.sort((a, b) => a > b);
+    // var s = '';
+    // for (var i = 0; i < this.props.answer.refAnswer.content.length; i++) {
+    //   s += this.props.answer.refAnswer[i].option;
+    //   s += ' ';
+    // }
+    return ref;
   };
 
   getColor = (option) => {
     var flag = false;
     if (this.check(option)) {
-      for (var i = 0; i < this.props.answer.refAnswer.length; i++) {
-        if (option === this.props.answer.refAnswer[i].option) {
+      var refArray = this.props.answer.refAnswer.content.split(',');
+      for (var i = 0; i < refArray.length; i++) {
+        if (option === refArray[i]) {
           flag = true;
         }
       }

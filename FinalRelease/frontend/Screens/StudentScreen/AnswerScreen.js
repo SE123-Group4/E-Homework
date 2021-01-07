@@ -31,7 +31,6 @@ export class AnswerScreen extends React.Component {
         {ID: 1, title: '问题 1', type: 'ONE_CHOICE'},
         {ID: 2, title: '问题 2', type: 'MULTIPLE_CHOICE'},
         {ID: 3, title: '问题 3', type: 'TRUE_OR_FALSE'},
-        {ID: 4, title: '问题 4', type: 'FILL_IN_THE_BLANK'},
         {ID: 5, title: '问题 5', type: 'SUBJECTIVE'},
       ],
       handsonID: null,
@@ -123,9 +122,6 @@ export class AnswerScreen extends React.Component {
         />
       );
     }
-    if (type === 'FILL_IN_THE_BLANK') {
-      return <FillInBlankQuestion />;
-    }
     if (type === 'SUBJECTIVE') {
       // console.log(this.state.ifRichTextShow);
       // console.log(this.state.richText);
@@ -163,14 +159,14 @@ export class AnswerScreen extends React.Component {
     return this.state.questions.map((item) => {
       return (
         <Card>
-          <CardItem header>
-            <Left>
-              <Text style={{fontSize: 20, fontWeight: 'bold'}}>
-                {' '}
-                {item.title}
-              </Text>
-            </Left>
-          </CardItem>
+          {/*<CardItem header>*/}
+          {/*  <Left>*/}
+          {/*    <Text style={{fontSize: 20, fontWeight: 'bold'}}>*/}
+          {/*      {' '}*/}
+          {/*      {item.title}*/}
+          {/*    </Text>*/}
+          {/*  </Left>*/}
+          {/*</CardItem>*/}
           <CardItem>{this.getType(item.type, item.ID)}</CardItem>
         </Card>
       );

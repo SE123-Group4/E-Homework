@@ -15,7 +15,7 @@ import {
 import {commitCorrection, getStuAnswer} from '../../Service/HomeworkService';
 import {SimpleChoiceAnswer} from '../../Components/Answer/SimpleChoiceAnswer';
 import {ChoiceAnswer} from '../../Components/Answer/ChoiceAnswer';
-import {SubjectiveAnswer} from '../../Components/Answer/SubjectiveAnswer';
+import {SubjectiveCorrection} from '../../Components/Answer/SubjectiveCorrection';
 import {TruthOrFalseAnswer} from '../../Components/Answer/TruthOrFalseAnswer';
 
 export class CorrectHwScreen extends React.Component {
@@ -39,8 +39,14 @@ export class CorrectHwScreen extends React.Component {
           totalScore: 10,
           stuScore: 10,
           type: 'ONE_CHOICE',
-          refAnswer: {option: 'A', content: '选项A', image: null},
-          stuAnswer: {option: 'A', content: '选项A', image: null},
+          refAnswer: {
+            content: 'A',
+            image: null,
+          },
+          stuAnswer: {
+            content: 'A',
+            image: null,
+          },
         },
         {
           ID: 2,
@@ -57,14 +63,14 @@ export class CorrectHwScreen extends React.Component {
           totalScore: 10,
           stuScore: 0,
           type: 'MULTIPLE_CHOICE',
-          refAnswer: [
-            {option: 'A', content: '选项A', image: null},
-            {option: 'B', content: '选项B', image: null},
-          ],
-          stuAnswer: [
-            {option: 'B', content: '选项B', image: null},
-            {option: 'C', content: '选项C', image: null},
-          ],
+          refAnswer: {
+            content: 'A,B',
+            image: null,
+          },
+          stuAnswer: {
+            content: 'C,B',
+            image: null,
+          },
         },
         {
           ID: 3,
@@ -75,8 +81,14 @@ export class CorrectHwScreen extends React.Component {
           totalScore: 10,
           stuScore: 0,
           type: 'TRUE_OR_FALSE',
-          refAnswer: true,
-          stuAnswer: false,
+          refAnswer: {
+            content: 'true',
+            image: null,
+          },
+          stuAnswer: {
+            content: 'false',
+            image: null,
+          },
         },
         {
           ID: 4,
@@ -121,7 +133,7 @@ export class CorrectHwScreen extends React.Component {
         return <TruthOrFalseAnswer answer={answer} />;
       case 'SUBJECTIVE':
         return (
-          <SubjectiveAnswer
+          <SubjectiveCorrection
             answer={answer}
             setStuScore={(stuScore) => {
               // console.log('screen get score: ', stuScore);

@@ -68,12 +68,17 @@ export class ImportStuScreen extends React.Component {
     const callback = (res) => {
       if (res.status === 200) {
         Alert.alert('添加成功！');
+        this.props.route.params.refresh();
         this.setState({index: [0], studentIDs: []});
       } else if (res.status === 400) {
         Alert.alert('有不存在的学号');
       }
     };
-    //addStudent(this.state.studentIDs, this.props.courseID, callback);
+    addStudent(
+      this.state.studentIDs,
+      this.props.route.params.courseID,
+      callback,
+    );
   };
 
   deleteStudents = () => {
@@ -81,12 +86,17 @@ export class ImportStuScreen extends React.Component {
     const callback = (res) => {
       if (res.status === 200) {
         Alert.alert('删除成功！');
+        this.props.route.params.refresh();
         this.setState({index: [0], studentIDs: []});
       } else if (res.status === 400) {
         Alert.alert('有不存在的学号！');
       }
     };
-    //deleteStudent(this.state.studentIDs, this.props.courseID, callback);
+    deleteStudent(
+      this.state.studentIDs,
+      this.props.route.params.courseID,
+      callback,
+    );
   };
 
   commit = () => {

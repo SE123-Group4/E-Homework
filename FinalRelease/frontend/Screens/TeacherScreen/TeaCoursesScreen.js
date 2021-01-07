@@ -14,15 +14,15 @@ export class TeaCoursesScreen extends React.Component {
   render() {
     return (
       <Container>
-        <Button
-          style={styles.AddButton}
-          full
-          rounded
-          onPress={() => {
-            this.props.navigation.navigate('AddCourse');
-          }}>
-          <Icon type="FontAwesome" name="plus" />
-        </Button>
+        {/*<Button*/}
+        {/*  style={styles.AddButton}*/}
+        {/*  full*/}
+        {/*  rounded*/}
+        {/*  onPress={() => {*/}
+        {/*    this.props.navigation.navigate('AddCourse');*/}
+        {/*  }}>*/}
+        {/*  <Icon type="FontAwesome" name="plus" />*/}
+        {/*</Button>*/}
         <TeaCourseList navigation={this.props.navigation} />
       </Container>
     );
