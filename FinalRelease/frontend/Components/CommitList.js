@@ -13,50 +13,101 @@ import {
   Tabs,
   Text,
 } from 'native-base';
+import {getHandsons} from '../Service/HomeworkService';
 
 export class CommitList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      commitList: [],
       unCommit: ['学生1', '学生2', '学生3'],
     };
   }
 
+  componentDidMount() {
+    const callback = (res) => {
+      if (res.status === 200) {
+        console.log('get handson list', res.data);
+        this.setState({commitList: res.data});
+      }
+    };
+    getHandsons(this.props.homeworkID, callback);
+  }
+
   renderCommit = () => {
-    return (
-      <ScrollView>
-        <Search />
-        <CommitInfo type={1} navigation={this.props.navigation} />
-        <CommitInfo type={0} navigation={this.props.navigation} />
-        <CommitInfo type={1} navigation={this.props.navigation} />
-      </ScrollView>
-    );
+    if (this.state.commitList.length === 0) {
+      return (
+        <Card>
+          <CardItem>
+            <Text>暂无提交</Text>
+          </CardItem>
+        </Card>
+      );
+    } else {
+      return this.state.commitList.map((item) => {
+        if (item.state !== 'UNSUBMITTED') {
+          return <CommitInfo info={item} navigation={this.props.navigation} />;
+        }
+      });
+    }
+    // return (
+    //   <ScrollView>
+    //     <Search />
+    //     <CommitInfo type={1} navigation={this.props.navigation} />
+    //     <CommitInfo type={0} navigation={this.props.navigation} />
+    //     <CommitInfo type={1} navigation={this.props.navigation} />
+    //   </ScrollView>
   };
 
   renderUnCommit = () => {
-    return this.state.unCommit.map((item, index) => {
-      return (
-        <CardItem>
-          <Body>
-            <Text style={styles.Header}>{item}</Text>
-          </Body>
-          <Right>
-            <Button
-              icon
-              transparent
-              onPress={() => {
-                console.log('打电话');
-              }}>
-              <Icon
-                type="FontAwesome"
-                name="phone"
-                style={{color: '#0093fe'}}
-              />
-            </Button>
-          </Right>
-        </CardItem>
-      );
+    return this.state.commitList.map((item) => {
+      if (item.state === 'UNSUBMITTED') {
+        return (
+          <CardItem>
+            <Body>
+              <Text style={styles.Header}>{item.name} {item.stuNumber}</Text>
+            </Body>
+            <Right>
+              <Button
+                icon
+                transparent
+                onPress={() => {
+                  console.log('打电话');
+                }}>
+                <Icon
+                  type="FontAwesome"
+                  name="phone"
+                  style={{color: '#0093fe'}}
+                />
+              </Button>
+            </Right>
+          </CardItem>
+        );
+      }
     });
+    // return this.state.unCommit.map((item, index) => {
+    //   return (
+    //     <CardItem>
+    //       <Body>
+    //         <Text style={styles.Header}>{item}</Text>
+    //       </Body>
+    //       <Right>
+    //         <Button
+    //           icon
+    //           transparent
+    //           onPress={() => {
+    //             console.log('打电话');
+    //           }}>
+    //           <Icon
+    //             type="FontAwesome"
+    //             name="phone"
+    //             style={{color: '#0093fe'}}
+    //           />
+    //         </Button>
+    //       </Right>
+    //     </CardItem>
+    //   );
+    // });
   };
 
   render() {

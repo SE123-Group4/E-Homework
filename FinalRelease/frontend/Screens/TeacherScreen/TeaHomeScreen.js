@@ -16,6 +16,7 @@ import {Avatar} from 'react-native-elements';
 import {ScrollView, View} from 'react-native';
 import {SearchFilter} from '../../Components/SearchFilter';
 import {TeaHomeworkList} from '../../Components/TeaHomeworkList';
+import {getCourseHomework, getTeaHomework} from '../../Service/HomeworkService';
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,7 @@ export class TeaHomeScreen extends React.Component {
         name: '五条悟',
         teaNumber: '大三(4)班',
       },
+      homeworkList: [],
     };
   }
   /*_onPressButton = () => {
@@ -42,6 +44,27 @@ export class TeaHomeScreen extends React.Component {
       } catch (e) {}
     };
     _loadUserInfo();
+    // const sort = (a, b) => {
+    //   return a.post < b.post;
+    // };
+    // var hw = this.state.homework;
+    // this.setState({homework: hw.sort(sort)});
+    const callback = (res) => {
+      if (res.status === 200) {
+        var homeWork = res.data;
+        const sort = (a, b) => {
+          return a.post < b.post;
+        };
+        homeWork = homeWork.sort(sort);
+        console.log('hw list', homeWork);
+        this.setState({homeworkList: homeWork});
+      }
+    };
+    //if (this.props.courseID === null || this.props.courseID === undefined) {
+    getTeaHomework(callback);
+    //} else {
+    // getCourseHomework(this.props.courseID, 'ROLE_TEACHER', callback);
+    //}
   }
 
   render() {
@@ -61,7 +84,9 @@ export class TeaHomeScreen extends React.Component {
                   }}
                   overlayContainerStyle={{backgroundColor: 'white'}}
                   onPress={() => {
-                    this.props.navigation.navigate('AssignHw');
+                    this.props.navigation.navigate('AssignHw', {
+                      refresh: () => this.componentDidMount(),
+                    });
                   }}
                   activeOpacity={0.7}
                   containerStyle={{marginTop: 6, marginLeft: 25}}
@@ -79,7 +104,10 @@ export class TeaHomeScreen extends React.Component {
             </CardItem>
           </Card>
           {/*<SearchFilter />*/}
-          <TeaHomeworkList navigation={this.props.navigation} />
+          <TeaHomeworkList
+            navigation={this.props.navigation}
+            homeworkList={this.state.homeworkList}
+          />
         </Content>
       </Container>
     );

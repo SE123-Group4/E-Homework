@@ -13,7 +13,7 @@ import {
   Text,
 } from 'native-base';
 import {SearchBar} from 'react-native-elements';
-import {getCourseHomework} from '../Service/HomeworkService';
+import {getCourseHomework, getStuHomework} from '../Service/HomeworkService';
 
 export class StuHomeworkList extends React.Component {
   constructor() {
@@ -72,9 +72,9 @@ export class StuHomeworkList extends React.Component {
       }
     };
     if (this.props.courseID === null || this.props.courseID === undefined) {
-      //getStuHomework(callback);
+      getStuHomework(callback);
     } else {
-      //getCourseHomework(this.props.courseID, 'ROLE_STUDENT', callback);
+      getCourseHomework(this.props.courseID, 'ROLE_STUDENT', callback);
     }
   }
 

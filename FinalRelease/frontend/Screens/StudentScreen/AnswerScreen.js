@@ -52,7 +52,7 @@ export class AnswerScreen extends React.Component {
         });
       }
     };
-    //getStuQuestion(this.props.route.params.handsonID, callback);
+    getStuQuestion(this.props.route.params.handsonID, callback);
   }
 
   getType = (type, ID) => {

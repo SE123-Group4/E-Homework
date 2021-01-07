@@ -46,7 +46,7 @@ export class HomeworkInfo extends React.Component {
         });
       }
     };
-    //getStatistics(this.props.homeworkID, statisticCallback);
+    getStatistics(this.props.homeworkID, statisticCallback);
   }
 
   render() {
@@ -54,7 +54,9 @@ export class HomeworkInfo extends React.Component {
       <Card>
         <CardItem>
           <Body>
-            <Text style={styles.Header}>{this.state.courseName}：{this.state.title}</Text>
+            <Text style={styles.Header}>
+              {this.state.courseName}：{this.state.title}
+            </Text>
             <Text style={styles.FootNoteGray}>
               {this.state.teacher}于{this.state.start}布置
             </Text>
@@ -90,15 +92,21 @@ export class HomeworkInfo extends React.Component {
         <CardItem style={{justifyContent: 'space-between'}}>
           <Label>
             <Text>最高分：</Text>
-            <Text style={{color: 'green'}}>{this.state.maxScore}</Text>
+            <Text style={{color: 'green'}}>
+              {this.state.maxScore === null ? '-' : this.state.maxScore}
+            </Text>
           </Label>
           <Label>
             <Text>平均分：</Text>
-            <Text style={{color: '#0093fe'}}>{this.state.averageScore}</Text>
+            <Text style={{color: '#0093fe'}}>
+              {this.state.averageScore === null ? '-' : this.state.averageScore}
+            </Text>
           </Label>
           <Label>
             <Text>最低分：</Text>
-            <Text style={{color: 'red'}}>{this.state.minScore}</Text>
+            <Text style={{color: 'red'}}>
+              {this.state.minScore === null ? '-' : this.state.minScore}
+            </Text>
           </Label>
         </CardItem>
         {/*<CardItem>*/}

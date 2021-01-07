@@ -174,12 +174,13 @@ export class AssignHwScreen extends React.Component {
     var teaID;
     let _loadID = async () => {
       try {
-        teaID = await JSON.parse(AsyncStorage.getItem('principal')).roleID;
+        teaID = JSON.parse(await AsyncStorage.getItem('principal')).roleID;
+        let data = 'ID=' + this.props.hwId + '&TeaID=' + teaID;
+        getAssignHomework(data, callback);
       } catch (e) {}
     };
     _loadID();
-    let data = 'ID=' + this.props.hwId + '&TeaID=' + teaID;
-    getAssignHomework(data, callback);
+
     // postRequest(
     //   'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=f40AXeAkq6xFKFapddRZ0bL9&client_secret=Xlp8SqNbnAcjRproEaIo6Dco5euhYyFV',
     //   {},
@@ -317,7 +318,7 @@ export class AssignHwScreen extends React.Component {
       }),
     };
     let data = {
-      hwInfo: hwInfo,
+      hwinfo: hwInfo,
     };
     let callback = (res) => {
       if (res.status === 200) {

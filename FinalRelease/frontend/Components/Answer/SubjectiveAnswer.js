@@ -27,7 +27,7 @@ export class SubjectiveAnswer extends React.Component {
           content: '学生的主观题回答',
           image: null,
         },
-        comment: '老师的评论',
+        comment: {content: '老师的评论', image: null},
       },
     };
   }
@@ -81,7 +81,11 @@ export class SubjectiveAnswer extends React.Component {
           <Left>
             <Label>
               <Text style={styles.label}>
-                得分：{this.props.answer.stuScore}/{this.props.answer.totalScore}
+                得分：
+                {this.props.answer.stuScore === null
+                  ? '-'
+                  : this.props.answer.stuScore}
+                /{this.props.answer.totalScore}
               </Text>
             </Label>
           </Left>
@@ -90,7 +94,11 @@ export class SubjectiveAnswer extends React.Component {
           <Label>
             <Text style={styles.label}>老师评价：</Text>
           </Label>
-          <Text>{this.props.answer.comment}</Text>
+          <Text>
+            {this.props.answer.comment.content === null
+              ? '-'
+              : this.props.answer.comment.content}
+          </Text>
         </CardItem>
       </Card>
     );
@@ -109,5 +117,5 @@ const styles = StyleSheet.create({
   },
   label: {
     color: '#0093fe',
-  }
+  },
 });

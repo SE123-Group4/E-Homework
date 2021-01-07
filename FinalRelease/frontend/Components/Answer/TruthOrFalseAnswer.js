@@ -70,7 +70,6 @@ export class TruthOrFalseAnswer extends React.Component {
       <Card style={styles.card}>
         <CardItem bordered>
           <Text>{this.props.answer.question.stem}</Text>
-
         </CardItem>
         <CardItem>
           <MyImage
@@ -86,7 +85,11 @@ export class TruthOrFalseAnswer extends React.Component {
           </Left>
           <Right>
             <Text>
-              得分：{this.props.answer.stuScore}/{this.props.answer.totalScore}
+              得分：
+              {this.props.answer.stuScore === null
+                ? '-'
+                : this.props.answer.stuScore}
+              /{this.props.answer.totalScore}
             </Text>
           </Right>
         </CardItem>

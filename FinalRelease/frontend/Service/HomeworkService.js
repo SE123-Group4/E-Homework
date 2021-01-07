@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getStuAnswer = (handsonID, callback) => {
   var data = {handsonID: handsonID};
+  console.log('getStuAnswer', data);
   postRequest(HOMEWORK_URL + 'student_answer', data, callback);
 };
 
@@ -46,8 +47,9 @@ export const getStuHomework = (callback) => {
 export const getTeaHomework = (callback) => {
   let _loadID = async () => {
     try {
-      var teaID = await JSON.parse(AsyncStorage.getItem('principal')).roleID;
+      var teaID = JSON.parse(await AsyncStorage.getItem('principal')).roleID;
       var data = {teaID: teaID};
+      console.log('getTeahW', data);
       postRequest(HOMEWORK_URL + 'tea_homework_list', data, callback);
     } catch (e) {}
   };
@@ -68,6 +70,12 @@ export const getCourseHomework = (courseID, role, callback) => {
     } catch (e) {}
   };
   _loatID();
+};
+
+export const getHandsons = (homeworkID, callback) => {
+  var data = {homeworkID: homeworkID};
+  console.log('get handson', data);
+  postRequest(HOMEWORK_URL + 'get_handson', data, callback);
 };
 
 export const search = (searchValue, callback) => {
@@ -101,10 +109,12 @@ export const search = (searchValue, callback) => {
 };
 
 export const getAssignHomework = (data, callback) => {
+  console.log('get assign homework', data);
   getRequest(HOMEWORK_URL + 'getAssignHomework?' + data, callback);
 };
 
 export const postAssignHomework = (data, callback) => {
+  console.log('post assignment', data);
   postRequest(HOMEWORK_URL + 'AssignHomework', data, callback);
 };
 

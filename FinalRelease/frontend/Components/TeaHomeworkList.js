@@ -69,26 +69,28 @@ export class TeaHomeworkList extends React.Component {
   }
 
   componentDidMount() {
-    const sort = (a, b) => {
-      return a.post < b.post;
-    };
-    var hw = this.state.homework;
-    this.setState({homework: hw.sort(sort)});
-    const callback = (res) => {
-      if (res.status === 200) {
-        var homeWork = res.data;
-        const sort = (a, b) => {
-          return a.post < b.post;
-        };
-        homeWork = homeWork.sort(sort);
-        this.setState({homework: homeWork});
-      }
-    };
-    if (this.props.courseID === null || this.props.courseID === undefined) {
-      getTeaHomework(callback);
-    } else {
-      getCourseHomework(this.props.courseID, 'ROLE_TEACHER', callback);
-    }
+    this.setState({homework: this.props.homeworkList});
+    // const sort = (a, b) => {
+    //   return a.post < b.post;
+    // };
+    // var hw = this.state.homework;
+    // this.setState({homework: hw.sort(sort)});
+    // const callback = (res) => {
+    //   if (res.status === 200) {
+    //     var homeWork = res.data;
+    //     const sort = (a, b) => {
+    //       return a.post < b.post;
+    //     };
+    //     homeWork = homeWork.sort(sort);
+    //     console.log('hw list', homeWork);
+    //     this.setState({homework: homeWork});
+    //   }
+    // };
+    // if (this.props.courseID === null || this.props.courseID === undefined) {
+    //   getTeaHomework(callback);
+    // } else {
+    //   getCourseHomework(this.props.courseID, 'ROLE_TEACHER', callback);
+    // }
   }
 
   renderCorrections = (corrections) => {

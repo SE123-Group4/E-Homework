@@ -110,7 +110,9 @@ export class CorrectHwScreen extends React.Component {
           },
         },
       ],
-      subCorrection: [{ID: 4, stuScore: 5, comment: 'comment 4'}],
+      subCorrection: [
+        {ID: 4, stuScore: 5, comment: {content: 'comment', image: null}},
+      ],
     };
   }
 
@@ -120,7 +122,7 @@ export class CorrectHwScreen extends React.Component {
         this.setState({answer: res.data});
       }
     };
-    //getStuAnswer(this.props.homeworkAssignID, callback);
+    getStuAnswer(this.props.route.params.handsonID, callback);
   }
 
   classify = (answer) => {
@@ -158,13 +160,16 @@ export class CorrectHwScreen extends React.Component {
               var newComment = this.state.subCorrection;
               for (var i = 0; i < newComment.length; i++) {
                 if (newComment[i].ID === answer.ID) {
-                  newComment[i].comment = comment;
+                  newComment[i].comment = {content: comment, image: null};
                   flag = true;
                   break;
                 }
               }
               if (!flag) {
-                newComment.push({ID: answer.ID, comment: comment});
+                newComment.push({
+                  ID: answer.ID,
+                  comment: {content: comment, image: null},
+                });
               }
               this.setState({subCorrection: newComment});
               //console.log('comment: ', this.state.subCorrection);
@@ -186,7 +191,7 @@ export class CorrectHwScreen extends React.Component {
         Alert.alert('批改已提交');
       }
     };
-    //commitCorrection(this.state.subCorrection);
+    commitCorrection(this.state.subCorrection);
   };
 
   render() {

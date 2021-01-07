@@ -113,7 +113,7 @@ export class StuHWScreen extends React.Component {
         this.setState({answer: res.data});
       }
     };
-    //getStuAnswer(this.props.route.params.handsonID, callback);
+    getStuAnswer(this.props.route.params.handsonID, callback);
     //}
   }
 
@@ -141,9 +141,7 @@ export class StuHWScreen extends React.Component {
       <Container>
         <HomeworkInfo homeworkID={this.props.route.params.homeworkID} />
         {/*<CommitInfo type={0} navigation={this.props.navigation} />*/}
-        <Content>
-          {this.renderAnswers()}
-        </Content>
+        <Content>{this.renderAnswers()}</Content>
       </Container>
     );
   }

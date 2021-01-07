@@ -15,7 +15,7 @@ export class TeaHWScreen extends React.Component {
       <ScrollView>
         <HomeworkInfo homeworkID={this.props.route.params.homeworkID} />
         <HWFuncBtn />
-        <CommitList navigation={this.props.navigation} />
+        <CommitList navigation={this.props.navigation} homeworkID={this.props.route.params.homeworkID} />
       </ScrollView>
     );
   }
