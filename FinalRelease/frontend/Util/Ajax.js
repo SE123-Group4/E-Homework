@@ -77,3 +77,28 @@ export const postRequest = (request_url, data, callback) => {
   };
   _retrieveData();
 };
+
+export const postImageRequest = (request_url, data, callback) => {
+  const _retrieveData = async () => {
+    try {
+      fetch(request_url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: 'image=' + data,
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((resData) => {
+          console.log(resData);
+          callback(resData);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } catch (e) {}
+  };
+  _retrieveData();
+};

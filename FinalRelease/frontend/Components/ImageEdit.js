@@ -1,5 +1,5 @@
 import React from 'react';
-import CanvasDraw from 'react-canvas-draw';
+
 import {Text} from 'native-base';
 import {View} from 'react-native';
 

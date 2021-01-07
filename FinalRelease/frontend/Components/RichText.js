@@ -8,17 +8,25 @@ import {
   Textarea,
   Button,
   Icon,
+  Spinner,
 } from 'native-base';
 import {Image, Overlay} from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
+import {postImage, image2word} from '../Service/HomeworkService';
 
 export class RichText extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      ifSpinnerShow: false,
+    };
   }
   render() {
     return (
       <Overlay isVisible={this.props.ifRichTextShow} fullScreen>
+        <Overlay isVisible={this.state.ifSpinnerShow}>
+          <Spinner color="#0093fe" />
+        </Overlay>
         <Container>
           <Content
             contentContainerStyle={{
@@ -29,11 +37,11 @@ export class RichText extends React.Component {
               rowSpan={8}
               bordered
               style={{width: '100%', fontSize: 18, color: 'black'}}
-              value={this.props.richText.text}
+              value={this.props.richText.content}
               placeholder="请输入文本内容"
               onChangeText={(value) => {
                 let richText = this.props.richText;
-                richText.text = value;
+                richText.content = value;
                 this.props.setRichText(richText);
               }}
             />
@@ -45,20 +53,19 @@ export class RichText extends React.Component {
                 width: '100%',
                 marginTop: 10,
               }}>
-              {this.props.richText.fileList.map((item, index) => {
-                return (
-                  <Image
-                    key={index}
-                    style={{resizeMode: 'contain', height: 100, width: 100}}
-                    source={{uri: 'data:image/jpg;base64,' + item}}
-                    onPress={() => {
-                      let richText = this.props.richText;
-                      richText.fileList.splice(index, 1);
-                      this.props.setRichText(richText);
-                    }}
-                  />
-                );
-              })}
+              {!!this.props.richText.image && (
+                <Image
+                  style={{resizeMode: 'contain', height: 375, width: 375}}
+                  source={{
+                    uri: 'data:image/jpg;base64,' + this.props.richText.image,
+                  }}
+                  onPress={() => {
+                    let richText = this.props.richText;
+                    richText.image = '';
+                    this.props.setRichText(richText);
+                  }}
+                />
+              )}
             </Content>
             <Card style={{width: '100%', marginTop: 10}}>
               <CardItem bordered>
@@ -83,9 +90,17 @@ export class RichText extends React.Component {
                       };
                       ImagePicker.showImagePicker(options, (response) => {
                         if (response.data) {
-                          let richText = this.props.richText;
-                          richText.fileList.push(response.data);
-                          this.props.setRichText(richText);
+                          let callback = (res) => {
+                            let richText = this.props.richText;
+                            richText.image = res.image;
+                            this.props.setRichText(richText);
+                            this.setState({ifSpinnerShow: false});
+                          };
+                          this.setState({ifSpinnerShow: true});
+                          postImage(
+                            encodeURIComponent(response.data),
+                            callback,
+                          );
                         }
                       });
                     }}>
@@ -139,7 +154,33 @@ export class RichText extends React.Component {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}
-                    onPress={() => {}}>
+                    onPress={() => {
+                      const options = {
+                        quality: 1.0,
+                        maxWidth: 500,
+                        maxHeight: 500,
+                        includeBase64: true,
+                      };
+                      ImagePicker.showImagePicker(options, (response) => {
+                        if (response.data) {
+                          let callback = (res) => {
+                            let richText = this.props.richText;
+                            richText.content =
+                              richText.content +
+                              res.words_result.reduce((totals, item) => {
+                                return totals + item.words + '\n';
+                              }, '');
+                            this.props.setRichText(richText);
+                            this.setState({ifSpinnerShow: false});
+                          };
+                          this.setState({ifSpinnerShow: true});
+                          image2word(
+                            encodeURIComponent(response.data),
+                            callback,
+                          );
+                        }
+                      });
+                    }}>
                     <Icon
                       name="font"
                       type="FontAwesome5"
@@ -160,7 +201,7 @@ export class RichText extends React.Component {
               }}
               onPress={() => {
                 this.props.setShow(false);
-                this.props.setRichText({text: '', fileList: []});
+                this.props.setRichText({content: '', image: ''});
               }}>
               <Text
                 style={{

@@ -32,6 +32,9 @@ import {
   getAssignHomework,
   postAssignHomework,
 } from '../../Service/HomeworkService';
+import {dateFormat} from '../../Util/DateUtil';
+import {postRequest} from '../../Util/Ajax';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export class AssignHwScreen extends React.Component {
   static propTypes = {
@@ -94,9 +97,9 @@ export class AssignHwScreen extends React.Component {
       ifDeadlineTimePickerShow: false,
       ifAssignTimePickerShow: false,
       isDetailed: false, //是否编辑详情
-      ifSpinnerShow: true,
+      ifSpinnerShow: false,
       ifRichTextShow: false,
-      richText: {text: '', fileList: []},
+      richText: {content: '', image: ''},
     };
   }
   componentDidMount() {
@@ -104,16 +107,16 @@ export class AssignHwScreen extends React.Component {
       if (res.status === 200) {
         if (this.props.hwId === 0) {
           this.setState({
-            courseInfo: res.data.courseInfo,
-            courseId: res.data.courseInfo[0].ID,
+            courseInfo: res.data.courseInfoList,
+            courseId: res.data.courseInfoList[0].ID,
             ifSpinnerShow: false,
           });
         } else {
           this.setState({
-            courseInfo: res.data.courseInfo,
+            courseInfo: res.data.courseInfoList,
             state: res.data.hwInfo.state,
             title: res.data.hwInfo.title,
-            courseId: res.data.hwInfo.courseID,
+            courseId: res.data.hwInfo.courseId,
             submitIdList: res.data.hwInfo.submitIdList,
             totals: res.data.hwInfo.totals,
             isDelayed: res.data.hwInfo.isDelayed,
@@ -121,29 +124,46 @@ export class AssignHwScreen extends React.Component {
             isTimed: res.data.hwInfo.isTimed,
             isGrouped: res.data.hwInfo.isGrouped,
             resultAfter: res.data.hwInfo.resultAfter,
-            questionList: res.data.hwInfo.qInfoList.map((item) => {
+            questionList: res.data.hwInfo.questionList.map((item) => {
               let question = JSON.parse(JSON.stringify(item));
               switch (question.type) {
                 case 'MULTIPLE_CHOICE':
-                  if (question.refAnswer.text === '') {
+                  question.question = {
+                    stem: {content: question.stem, image: question.image},
+                    options: question.options,
+                  };
+                  if (question.refAnswer.content === '') {
                     question.refAnswer = [];
                   } else {
-                    question.refAnswer = question.refAnswer.text.split(',');
+                    question.refAnswer = question.refAnswer.content.split(',');
                   }
                   break;
                 case 'SUBJECTIVE':
+                  question.question = {
+                    stem: {content: question.stem, image: question.image},
+                  };
                   break;
                 case 'ONE_CHOICE':
-                  question.refAnswer = question.refAnswer.text;
+                  question.question = {
+                    stem: {content: question.stem, image: question.image},
+                    options: question.options,
+                  };
+                  question.refAnswer = question.refAnswer.content;
                   break;
                 case 'TRUE_OR_FALSE':
-                  if (question.refAnswer.text === 'true') {
+                  question.question = {
+                    stem: {content: question.stem, image: question.image},
+                    T: {content: '', image: ''},
+                    F: {content: '', image: ''},
+                  };
+                  if (question.refAnswer.content === 'true') {
                     question.refAnswer = true;
                   } else {
                     question.refAnswer = false;
                   }
                   break;
               }
+              console.log(question);
               return question;
             }),
             ifSpinnerShow: false,
@@ -151,7 +171,22 @@ export class AssignHwScreen extends React.Component {
         }
       }
     };
-    getAssignHomework(this.props.hwId, callback);
+    var teaID;
+    let _loadID = async () => {
+      try {
+        teaID = await JSON.parse(AsyncStorage.getItem('principal')).roleID;
+      } catch (e) {}
+    };
+    _loadID();
+    let data = 'ID=' + this.props.hwId + '&TeaID=' + teaID;
+    getAssignHomework(data, callback);
+    // postRequest(
+    //   'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=f40AXeAkq6xFKFapddRZ0bL9&client_secret=Xlp8SqNbnAcjRproEaIo6Dco5euhYyFV',
+    //   {},
+    //   (res) => {
+    //     console.log(res.access_token);
+    //   },
+    // );
   }
   post = (action) => {
     if (!this.state.title) {
@@ -224,7 +259,7 @@ export class AssignHwScreen extends React.Component {
       ID: this.state.ID,
       state: this.state.state,
       title: this.state.title,
-      courseID: this.state.courseId,
+      courseId: this.state.courseId,
       submitIdList: this.state.submitIdList,
       totals: this.state.totals,
       isDelayed: this.state.isDelayed,
@@ -232,39 +267,61 @@ export class AssignHwScreen extends React.Component {
       isTimed: this.state.isTimed,
       isGrouped: this.state.isGrouped,
       resultAfter: this.state.resultAfter,
-      deadlineDate: this.state.deadlineDate.toLocaleDateString(),
-      deadlineTime: this.state.deadlineTime.toLocaleTimeString(),
-      assignDate: this.state.assignDate.toLocaleDateString(),
-      assignTime: this.state.assignTime.toLocaleTimeString(),
-      qInfoList: this.state.questionList.map((item) => {
+      deadlineDate: dateFormat(
+        this.state.deadlineDate.toLocaleDateString() +
+          ' ' +
+          this.state.deadlineTime.toLocaleTimeString(),
+      ),
+      assignDate: dateFormat(
+        this.state.assignDate.toLocaleDateString() +
+          ' ' +
+          this.state.assignTime.toLocaleTimeString(),
+      ),
+      questionList: this.state.questionList.map((item) => {
         let question = JSON.parse(JSON.stringify(item));
         switch (question.type) {
           case 'MULTIPLE_CHOICE':
+            question.stem = question.question.stem.content;
+            question.image = question.question.stem.image;
+            question.options = question.question.options;
             question.refAnswer.sort();
             question.refAnswer = {
-              text: question.refAnswer.join(),
-              fileList: [],
+              content: question.refAnswer.join(),
+              image: '',
             };
             break;
           case 'SUBJECTIVE':
+            question.stem = question.question.stem.content;
+            question.image = question.question.stem.image;
             break;
-          default:
+          case 'ONE_CHOICE':
+            question.stem = question.question.stem.content;
+            question.image = question.question.stem.image;
+            question.options = question.question.options;
             question.refAnswer = {
-              text: '' + question.refAnswer,
-              fileList: [],
+              content: '' + question.refAnswer,
+              image: '',
+            };
+            break;
+          case 'TRUE_OR_FALSE':
+            question.stem = question.question.stem.content;
+            question.image = question.question.stem.image;
+            question.refAnswer = {
+              content: '' + question.refAnswer,
+              image: '',
             };
             break;
         }
+        console.log(question);
         return question;
       }),
     };
     let data = {
-      action: action,
       hwInfo: hwInfo,
     };
     let callback = (res) => {
       if (res.status === 200) {
-        // 回到主页or作业详情页面
+        this.props.navigation.pop();
       } else {
         this.setState({ifSpinnerShow: false});
         if (action === 'ASSIGN') {
@@ -624,7 +681,7 @@ export class AssignHwScreen extends React.Component {
                                     'A'.charCodeAt() +
                                       item.question.options.length,
                                   ),
-                                  content: {text: '', fileList: []},
+                                  content: {content: '', image: ''},
                                 };
                                 thisQuestion.question.options.push(thisOption);
                                 questionList.splice(index, 1, thisQuestion);
@@ -810,17 +867,17 @@ export class AssignHwScreen extends React.Component {
                         let questionList = this.state.questionList;
                         let thisQuestion = {
                           question: {
-                            stem: {text: '', fileList: []},
+                            stem: {content: '', image: ''},
                             options: [
-                              {option: 'A', content: {text: '', fileList: []}},
-                              {option: 'B', content: {text: '', fileList: []}},
-                              {option: 'C', content: {text: '', fileList: []}},
-                              {option: 'D', content: {text: '', fileList: []}},
+                              {option: 'A', content: {content: '', image: ''}},
+                              {option: 'B', content: {content: '', image: ''}},
+                              {option: 'C', content: {content: '', image: ''}},
+                              {option: 'D', content: {content: '', image: ''}},
                             ],
                           },
                           score: undefined,
                           refAnswer: 'A',
-                          analysis: {text: '', fileList: []},
+                          analysis: {content: '', image: ''},
                           type: 'ONE_CHOICE',
                         };
                         questionList.push(thisQuestion);
@@ -848,17 +905,17 @@ export class AssignHwScreen extends React.Component {
                         let questionList = this.state.questionList;
                         let thisQuestion = {
                           question: {
-                            stem: {text: '', fileList: []},
+                            stem: {content: '', image: ''},
                             options: [
-                              {option: 'A', content: {text: '', fileList: []}},
-                              {option: 'B', content: {text: '', fileList: []}},
-                              {option: 'C', content: {text: '', fileList: []}},
-                              {option: 'D', content: {text: '', fileList: []}},
+                              {option: 'A', content: {content: '', image: ''}},
+                              {option: 'B', content: {content: '', image: ''}},
+                              {option: 'C', content: {content: '', image: ''}},
+                              {option: 'D', content: {content: '', image: ''}},
                             ],
                           },
                           score: undefined,
                           refAnswer: [],
-                          analysis: {text: '', fileList: []},
+                          analysis: {content: '', image: ''},
                           type: 'MULTIPLE_CHOICE',
                         };
                         questionList.push(thisQuestion);
@@ -886,13 +943,13 @@ export class AssignHwScreen extends React.Component {
                         let questionList = this.state.questionList;
                         let thisQuestion = {
                           question: {
-                            stem: {text: '', fileList: []},
-                            T: {text: '', fileList: []},
-                            F: {text: '', fileList: []},
+                            stem: {content: '', image: ''},
+                            T: {content: '', image: ''},
+                            F: {content: '', image: ''},
                           },
                           score: undefined,
                           refAnswer: true,
-                          analysis: {text: '', fileList: []},
+                          analysis: {content: '', image: ''},
                           type: 'TRUE_OR_FALSE',
                         };
                         questionList.push(thisQuestion);
@@ -952,11 +1009,11 @@ export class AssignHwScreen extends React.Component {
                         let questionList = this.state.questionList;
                         let thisQuestion = {
                           question: {
-                            stem: {text: '', fileList: []},
+                            stem: {content: '', image: ''},
                           },
                           score: undefined,
-                          refAnswer: {text: '', fileList: []},
-                          analysis: {text: '', fileList: []},
+                          refAnswer: {content: '', image: ''},
+                          analysis: {content: '', image: ''},
                           type: 'SUBJECTIVE',
                         };
                         questionList.push(thisQuestion);

@@ -1,7 +1,11 @@
-import {postRequest} from '../Util/Ajax';
+import {postRequest, getRequest, postImageRequest} from '../Util/Ajax';
+import {
+  HOMEWORK_URL,
+  SEARCH_URL,
+  IMAGE_URL,
+  IMAGE2WORD_URL,
+} from '../Constant/Url';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {HOMEWORK_URL, SEARCH_URL} from '../Constant/Url';
-import {getRequest} from '../Util/Ajax';
 
 export const getStuAnswer = (handsonID, callback) => {
   var data = {handsonID: handsonID};
@@ -96,10 +100,18 @@ export const search = (searchValue, callback) => {
   postRequest(SEARCH_URL + 'search', data, searchCallback);
 };
 
-export const getAssignHomework = (homeworkID, callback) => {
-  getRequest(HOMEWORK_URL + 'AssignHomework?hwId=' + homeworkID, callback);
+export const getAssignHomework = (data, callback) => {
+  getRequest(HOMEWORK_URL + 'getAssignHomework?' + data, callback);
 };
 
 export const postAssignHomework = (data, callback) => {
   postRequest(HOMEWORK_URL + 'AssignHomework', data, callback);
+};
+
+export const postImage = (data, callback) => {
+  postImageRequest(IMAGE_URL, data, callback);
+};
+
+export const image2word = (data, callback) => {
+  postImageRequest(IMAGE2WORD_URL, data, callback);
 };

@@ -89,6 +89,6 @@ export const searchStudent = (courseID, keyword, callback) => {
 };
 
 export const getStudentsByCourse = (courseID, callback) => {
-  var data = {courseID: courseID};
+  var data = {id: courseID};
   postRequest(COURSE_URL + 'getStudentsByCourse', data, callback);
 };
