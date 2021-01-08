@@ -1,11 +1,10 @@
 package org.chp.hw.serviceimpl;
 
 import org.chp.hw.HwApplicationTests;
+import org.chp.hw.entity.OptionItem;
 import org.chp.hw.service.HwService;
 import org.chp.hw.service.IMailService;
-import org.chp.hw.util.HwInfo;
-import org.chp.hw.util.QuestionListTuple;
-import org.chp.hw.util.response;
+import org.chp.hw.util.*;
 import org.junit.Test;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.runner.RunWith;
@@ -19,6 +18,7 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -198,4 +198,82 @@ public class HwServiceTest extends HwApplicationTests {
         int i=iMailService.sendAssignMail("738761580@qq.com","course","title");
         assertEquals(0,i);
     }
+
+    @Test
+    public void checkCorrect(){
+        List<CorrectUtil> correctUtils=new ArrayList<>();
+        CorrectUtil correctUtil=new CorrectUtil();
+        correctUtil.setID(10);
+        correctUtil.setStuScore(5);
+        CommentUtil commentUtil=new CommentUtil();
+        commentUtil.setContent("comment");
+        correctUtil.setComment(commentUtil);
+        correctUtils.add(correctUtil);
+        response response=hwService.correct(correctUtils);
+        assertEquals(400,response.getStatus());
+    }
+
+    @Test
+    public void checkCorrect2(){
+        List<CorrectUtil> correctUtils=new ArrayList<>();
+        CorrectUtil correctUtil=new CorrectUtil();
+        correctUtil.setID(4);
+        correctUtil.setStuScore(5);
+        CommentUtil commentUtil=new CommentUtil();
+        commentUtil.setContent("comment");
+        correctUtil.setComment(commentUtil);
+        correctUtils.add(correctUtil);
+        response response=hwService.correct(correctUtils);
+        assertEquals(200,response.getStatus());
+    }
+
+    @Test
+    public void postAnswer(){
+        PostAnswerUtilPack postAnswerUtilPack=new PostAnswerUtilPack();
+        postAnswerUtilPack.setHandsonID(15);
+        PostAnswerUtil postAnswerUtil=new PostAnswerUtil();
+        PostAnswerItem postAnswerItem=new PostAnswerItem();
+        List<PostAnswerItem> postAnswerItems=new ArrayList<>();
+        postAnswerItem.setID(2);
+        postAnswerItem.setOption("[{\"option\": \"C\", \"content\": \"TO THE C\", \"image\": null}]");
+        postAnswerItems.add(postAnswerItem);
+        postAnswerUtil.setSimpleChoiceAnswer(postAnswerItems);
+        List<PostAnswerItem> postAnswerItems1=new ArrayList<>();
+        postAnswerItem.setID(5);
+        postAnswerItem.setOption("[{\"option\": \"C\", \"content\": \"TO THE C\", \"image\": null}]");
+        postAnswerItems1.add(postAnswerItem);
+        postAnswerUtil.setChoiceAnswer(postAnswerItems1);
+        List<PostAnswerItem> postAnswerItems2=new ArrayList<>();
+        postAnswerItem.setID(6);
+        postAnswerItem.setOption("[{\"ID\":20, \"content\":\"MARK\" }]");
+        postAnswerItems2.add(postAnswerItem);
+        postAnswerUtil.setSubjectiveAnswer(postAnswerItems2);
+        List<PostAnswerItem> postAnswerItems3=new ArrayList<>();
+        postAnswerItem.setID(4);
+        postAnswerItem.setOption("[{\"ID\": 19, \"option\":true}]");
+        postAnswerItems3.add(postAnswerItem);
+        postAnswerUtil.setTorFAnswer(postAnswerItems3);
+        postAnswerUtilPack.setAnswer(postAnswerUtil);
+        response response=hwService.postAnswer(postAnswerUtilPack);
+        assertEquals(200,response.getStatus());
+    }
+
+    @Test
+    public void getHandsonList() throws ParseException {
+        response response=hwService.getHandsonList(3);
+        assertEquals(200,response.getStatus());
+    }
+
+    @Test
+    public void getHandsonList2() throws ParseException {
+        response response=hwService.getHandsonList(100);
+        assertEquals(400,response.getStatus());
+    }
+
+    @Test
+    public void sendCorrectMail(){
+        int i=iMailService.sendCorrectMail("riken01@sjtu.edu.cn","course","title");
+        assertEquals(0,i);
+    }
+
 }

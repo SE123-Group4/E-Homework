@@ -47,7 +47,6 @@ public class IMailServiceImpl implements IMailService {
         message.setSubject("云作业平台———批改作业通知");
         String text="您的作业已被批改，请登陆云作业平台查看详情。作业科目："+courseName+" 作业题目："+title;
         message.setText(text);
-        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.send(message);
         return 0;
     }

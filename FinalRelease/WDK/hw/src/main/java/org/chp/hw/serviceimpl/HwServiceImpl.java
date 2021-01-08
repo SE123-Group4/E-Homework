@@ -453,7 +453,7 @@ public class HwServiceImpl implements HwService {
                     answer.setHandson(handson);
                     AnswerContent answerContent = new AnswerContent();
                     answerContent.setType("TRUE_OR_FALSE");
-                    if((Boolean) item.getOption()){
+                    if(Boolean.parseBoolean(item.getOption().toString())){
                         answerContent.setAnswer("true");
                     }
                     else{
@@ -733,7 +733,7 @@ public class HwServiceImpl implements HwService {
             handsonUtil.setID(handson.getId());
             countTotalScore(handson);
             handsonUtil.setTotal(handson.getTotalScore());
-            handsonUtil.setStuNumber(Integer.parseInt(handson.getSubmitter().getStuNumber()));
+            handsonUtil.setStuNumber(handson.getSubmitter().getId());
             handsonUtil.setName(handson.getSubmitter().getName());
             handsonUtil.setState(handson.getState().toString());
 
