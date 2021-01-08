@@ -36,7 +36,7 @@ public interface UsersRepository extends JpaRepository<Users,Integer> {
     @Transactional
     @Modifying
     @Query(value = "update Users set state=:state where ID=:ID")
-    void updateState(int ID, String state);
+    void updateState(int ID, int state);
 
     @Transactional
     @Modifying

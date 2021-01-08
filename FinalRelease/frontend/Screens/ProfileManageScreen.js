@@ -75,14 +75,14 @@ export default class ProfileManageScreen extends React.Component {
             });
           }
         };
-        // modifyPassword(
-        //   this.state.account,
-        //   this.state.newPassword,
-        //   modifyCallback,
-        // );
+        modifyPassword(
+          this.state.account,
+          this.state.newPassword,
+          modifyCallback,
+        );
       }
     };
-    //loginAjax(this.state.account, this.state.oldPassword, callback);
+    loginAjax(this.state.account, this.state.oldPassword, checkCallback);
   };
 
   renderNum = () => {

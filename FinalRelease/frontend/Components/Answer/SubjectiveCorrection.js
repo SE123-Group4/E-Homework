@@ -44,11 +44,11 @@ export class SubjectiveCorrection extends React.Component {
     return (
       <Card style={styles.card}>
         <CardItem bordered>
-          <Text>{this.props.answer.question.stem}</Text>
+          <Text>{this.props.answer.stem}</Text>
         </CardItem>
         <CardItem>
           <MyImage
-            sourse={this.props.answer.question.image}
+            sourse={this.props.answer.image}
             width={width * 0.9}
             height={200}
           />

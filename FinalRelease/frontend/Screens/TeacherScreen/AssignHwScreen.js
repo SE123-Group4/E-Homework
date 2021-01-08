@@ -67,7 +67,7 @@ export class AssignHwScreen extends React.Component {
       ifDeadlineTimePickerShow: false,
       ifAssignTimePickerShow: false,
       isDetailed: false, //是否编辑详情
-      ifSpinnerShow: true,
+      ifSpinnerShow: false,
       ifRichTextShow: false,
       richText: {content: '', image: ''},
     };
@@ -148,7 +148,7 @@ export class AssignHwScreen extends React.Component {
         getAssignHomework(data, callback);
       } catch (e) {}
     };
-    _loadID();
+    // _loadID();
 
     // postRequest(
     //   'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id=f40AXeAkq6xFKFapddRZ0bL9&client_secret=Xlp8SqNbnAcjRproEaIo6Dco5euhYyFV',

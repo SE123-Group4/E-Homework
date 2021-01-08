@@ -63,7 +63,7 @@ export class RichText extends React.Component {
               }}>
               {!!this.props.richText.image && (
                 <Image
-                  style={{resizeMode: 'contain', height: 375, width: 375}}
+                  style={{resizeMode: 'contain', height: 200, width: 200}}
                   source={{
                     uri: 'data:image/jpg;base64,' + this.props.richText.image,
                   }}

@@ -12,12 +12,12 @@ public class UserroleDaoImpl implements UserroleDao {
     private UserroleRepository userroleRepository;
 
     @Override
-    public int insertUserRole(int role,int uID,int rID){
+    public int insertUserRole(String role,int uID,int rID){
         return userroleRepository.insertUserRole(role, uID, rID);
     }
 
     @Override
-    public Userrole getByRoleAndRoleID(int role, int roleID){
+    public Userrole getByRoleAndRoleID(String role, int roleID){
         return userroleRepository.getByRoleAndRoleID(role, roleID);
     }
 }

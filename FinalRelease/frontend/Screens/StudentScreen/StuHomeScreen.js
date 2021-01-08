@@ -48,7 +48,6 @@ export class StuHomeScreen extends React.Component {
       } catch (e) {}
     };
     _loadUserInfo();
-
   }
 
   render() {
@@ -63,7 +62,7 @@ export class StuHomeScreen extends React.Component {
                 <Button iconLeft rounded style={{backgroundColor: 'white'}}>
                   <Icon name="calendar" style={{color: '#0786E0'}} />
                   <Text style={{fontSize: 30, color: '#0786E0'}}>
-                    {month}月{date}日
+                    1月8日
                   </Text>
                 </Button>
               </Left>

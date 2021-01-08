@@ -69,11 +69,11 @@ export class TruthOrFalseAnswer extends React.Component {
     return (
       <Card style={styles.card}>
         <CardItem bordered>
-          <Text>{this.props.answer.question.stem}</Text>
+          <Text>{this.props.answer.stem}</Text>
         </CardItem>
         <CardItem>
           <MyImage
-            source={this.props.answer.question.image}
+            source={this.props.answer.image}
             width={width * 0.9}
             height={200}
           />

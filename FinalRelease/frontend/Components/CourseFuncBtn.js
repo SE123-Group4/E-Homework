@@ -47,7 +47,7 @@ export class CourseFuncBtn extends React.Component {
             onPress={() => {
               this.props.navigation.navigate('CourseManage', {
                 courseID: this.props.courseID,
-                refresh: this.props.infoRefresh,
+                refresh: () => this.props.infoRefresh,
               });
             }}>
             <Icon type="FontAwesome" name="info" style={styles.buttonIcon} />
@@ -76,7 +76,7 @@ export class CourseFuncBtn extends React.Component {
               console.log('add');
               this.props.navigation.navigate('ImportStu', {
                 courseID: this.props.courseID,
-                refresh: this.props.listRefresh,
+                refresh: () => this.props.listRefresh,
               });
             }}>
             <Icon

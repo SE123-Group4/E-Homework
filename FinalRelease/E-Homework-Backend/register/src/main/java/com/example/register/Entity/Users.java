@@ -8,12 +8,12 @@ import javax.persistence.Table;
 
 @Entity
 @Data
-@Table(name = "users", schema = "homework")
+@Table(name = "users", schema = "chp")
 public class Users {
     @Id
     private int ID;
     private String email;
     private String phone;
     private String password;
-    private String state;
+    private int state;
 }

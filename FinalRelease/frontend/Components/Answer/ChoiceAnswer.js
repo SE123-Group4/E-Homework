@@ -66,7 +66,7 @@ export class ChoiceAnswer extends React.Component {
   };
 
   renderChoices = () => {
-    return this.props.answer.question.options.map((item) => {
+    return this.props.answer.options.map((item) => {
       return (
         <ListItem>
           <CheckBox
@@ -119,11 +119,11 @@ export class ChoiceAnswer extends React.Component {
     return (
       <Card style={styles.card}>
         <CardItem bordered>
-          <Text>{this.props.answer.question.stem}</Text>
+          <Text>{this.props.answer.stem}</Text>
         </CardItem>
         <CardItem>
           <MyImage
-            source={this.props.answer.question.image}
+            source={this.props.answer.image}
             width={width * 0.9}
             height={200}
           />

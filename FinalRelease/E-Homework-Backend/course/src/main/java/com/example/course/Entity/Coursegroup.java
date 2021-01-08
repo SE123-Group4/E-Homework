@@ -10,7 +10,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
 @Entity
-@Table(name ="coursegroup",schema = "homework")
+@Table(name ="coursegroup",schema = "chp")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "ID")

@@ -10,8 +10,8 @@ public interface UserroleRepository extends JpaRepository<Userrole,Integer> {
     @Transactional
     @Modifying
     @Query(value="insert into userrole(role,userID,roleID) values (?,?,?)",nativeQuery=true)
-    int insertUserRole(int role,int uID,int rID);
+    int insertUserRole(String role,int uID,int rID);
 
     @Query("from Userrole where role=:role and roleID=:roleID")
-    Userrole getByRoleAndRoleID(int role,int roleID);
+    Userrole getByRoleAndRoleID(String role,int roleID);
 }

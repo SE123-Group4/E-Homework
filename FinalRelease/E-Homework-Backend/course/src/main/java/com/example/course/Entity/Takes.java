@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name ="takes",schema = "homework")
+@Table(name ="takes",schema = "chp")
 public class Takes{
     @EmbeddedId
     private TakesId ID;

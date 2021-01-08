@@ -1,8 +1,8 @@
-export const AUTH_URL = 'http://10.162.67.81:8802/auth/';
-export const HOMEWORK_URL = 'http://10.162.78.12:8080/';
-export const REGISTER_URL = 'http://10.162.67.81:8802/register/';
-export const COURSE_URL = 'http://10.162.67.81:8802/course/';
-export const SEARCH_URL = 'http://10.162.67.81:8802/search/';
+export const AUTH_URL = 'http://10.166.140.90:8802/auth/';
+export const HOMEWORK_URL = 'http://172.20.10.5:8080/';
+export const REGISTER_URL = 'http://10.166.140.90:8802/register/';
+export const COURSE_URL = 'http://10.166.140.90:8802/course/';
+export const SEARCH_URL = 'http://10.166.140.90:8802/search/';
 export const access_token =
   '24.8ba65b854e60fff1099f5af7049ab29f.2592000.1612596476.282335-23501984';
 export const IMAGE_URL =

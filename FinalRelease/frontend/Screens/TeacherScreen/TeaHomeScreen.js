@@ -107,7 +107,7 @@ export class TeaHomeScreen extends React.Component {
           {/*<SearchFilter />*/}
           <TeaHomeworkList
             navigation={this.props.navigation}
-            homeworkList={this.state.homeworkList}
+            homework={this.state.homeworkList}
           />
         </Content>
       </Container>

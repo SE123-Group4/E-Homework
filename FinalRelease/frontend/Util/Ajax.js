@@ -5,6 +5,47 @@ const TOKEN_URL =
   url.AUTH_URL +
   'oauth/token?grant_type=password&client_id=ehomeworkapp&client_secret=ehomeworkapp';
 
+export const naivePost = (naiveUrl, data, callback) => {
+  fetch(naiveUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      console.log(response);
+      return response.json();
+    })
+    .then((resData) => {
+      console.log(resData);
+      callback(resData);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const naiveGet = (naiveUrl, callback) => {
+  fetch(naiveUrl, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => {
+      console.log(response);
+      return response.json();
+    })
+    .then((resData) => {
+      console.log(resData);
+      callback(resData);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
 export const loginAjax = (username, password, callback) => {
   fetch(TOKEN_URL + '&username=' + username + '&password=' + password, {
     method: 'POST',

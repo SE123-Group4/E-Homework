@@ -15,7 +15,7 @@ public interface UsersDao {
 
     void updateUserByEmail(String email, String pwd);
 
-    void updateState(int ID, String state);
+    void updateState(int ID, int state);
 
     int setEmail(String e,int ID);
 

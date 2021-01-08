@@ -21,6 +21,10 @@ export default class SubjectiveQuestion extends Component {
     };
   }
 
+  componentDidMount() {
+    console.log(this.props);
+  }
+
   renderText = () => {
     console.log('question state: ', this.state.richText);
     if (this.state.richText.text !== '') {
@@ -35,12 +39,12 @@ export default class SubjectiveQuestion extends Component {
       <Card style={styles.card}>
         <CardItem header bordered>
           <Text style={{fontSize: 20, color: 'black'}}>
-            {this.state.question.stem}
+            {this.props.question.stem}
           </Text>
         </CardItem>
         <CardItem>
           <MyImage
-            source={this.state.question.image}
+            source={this.props.question.image}
             width={width * 0.8}
             height={200}
           />
@@ -57,8 +61,8 @@ export default class SubjectiveQuestion extends Component {
           }}
           setRichText={(value) => {
             console.log('setrichtext', value, 'state', this.state.richText);
-            this.props.setRichText(value);
-            this.setState({richTex: value});
+
+            this.setState({richText: value});this.props.setRichText(this.state.richText);
           }}
         />
         <Button

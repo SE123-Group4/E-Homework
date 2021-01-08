@@ -32,6 +32,10 @@ export default class ChoiceQuestion extends Component {
     };
   }
 
+  componentDidMount() {
+    console.log(this.props);
+  }
+
   check = (option) => {
     var flag = false;
     for (var i = 0; i < this.state.stuAnswers.length; i++) {
@@ -61,7 +65,7 @@ export default class ChoiceQuestion extends Component {
   };
 
   renderChoices = () => {
-    return this.state.question.options.map((item) => {
+    return this.props.question.options.map((item) => {
       return (
         <ListItem>
           <CheckBox
@@ -81,12 +85,12 @@ export default class ChoiceQuestion extends Component {
       <Card style={styles.card}>
         <CardItem header bordered>
           <Text style={{fontSize: 20, color: 'black'}}>
-            {this.state.question.stem}
+            {this.props.question.stem}
           </Text>
         </CardItem>
         <CardItem>
           <MyImage
-            source={this.state.question.image}
+            source={this.props.question.image}
             width={width * 0.9}
             height={200}
           />

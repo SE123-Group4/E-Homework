@@ -64,7 +64,7 @@ public class RegisterServiceImpl implements RegisterService {
         Optional<Users> users = usersDao.getByEmail(account);
         System.out.println("users");
         System.out.println(users);
-        if (users.isPresent() && users.get().getState().equals("NORMAL")) {
+        if (users.isPresent() && users.get().getState() == 1) {
             returnMessage.setStatus(402);
             returnMessage.setMsg(registerMsg2);
             return returnMessage;
@@ -80,6 +80,7 @@ public class RegisterServiceImpl implements RegisterService {
 //        }
 
         //假设注册者为学生
+        System.out.println(identity);
         if (identity==0){
             //判断学生是否在库中
             System.out.println("判断前");
@@ -94,7 +95,7 @@ public class RegisterServiceImpl implements RegisterService {
             else {
                 //判断该学生是否在userrole中注册过，若注册过，返回已注册
                 System.out.println("判断注册");
-                if(userroleDao.getByRoleAndRoleID(1,student.get().getID())!=null){
+                if(userroleDao.getByRoleAndRoleID("ROLE_STUDENT",student.get().getID())!=null){
                     returnMessage.setStatus(402);
                     returnMessage.setMsg(registerMsg2);
                 }
@@ -108,8 +109,8 @@ public class RegisterServiceImpl implements RegisterService {
 //                    }
                     //插入新userRole，返回成功
                     System.out.println("注册成功");
-                    usersDao.updateState(users.get().getID(), "NORMAL");
-                    userroleDao.insertUserRole(1,users.get().getID(),student.get().getID());
+                    usersDao.updateState(users.get().getID(), 1);
+                    userroleDao.insertUserRole("ROLE_STUDENT",users.get().getID(),student.get().getID());
                     returnMessage.setStatus(200);
                     returnMessage.setMsg(Msg1);
                 }
@@ -125,7 +126,7 @@ public class RegisterServiceImpl implements RegisterService {
                 returnMessage.setMsg(registerMsg0);
             }
             else {
-                if(userroleDao.getByRoleAndRoleID(2,teacher.get().getID())!=null){
+                if(userroleDao.getByRoleAndRoleID("ROLE_TEACHER",teacher.get().getID())!=null){
                     returnMessage.setStatus(402);
                     returnMessage.setMsg(registerMsg2);
                 }
@@ -135,8 +136,8 @@ public class RegisterServiceImpl implements RegisterService {
 //                        users=usersDao.getByEmail(account);
 //                    }
                     System.out.println("activate");
-                    usersDao.updateState(users.get().getID(), "NORMAL");
-                    userroleDao.insertUserRole(2, users.get().getID(), teacher.get().getID());
+                    usersDao.updateState(users.get().getID(), 1);
+                    userroleDao.insertUserRole("ROLE_TEACHER", users.get().getID(), teacher.get().getID());
                     returnMessage.setStatus(200);
                     returnMessage.setMsg(Msg1);
                 }

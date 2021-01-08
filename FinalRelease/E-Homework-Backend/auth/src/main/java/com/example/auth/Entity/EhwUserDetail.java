@@ -19,7 +19,7 @@ public class EhwUserDetail implements UserDetails {
     private final int ID;
     private final String username;
     private final String password;
-    private final String state;
+    private final int state;
     private final int roleID;
     private final Object role;
     private final Collection<? extends GrantedAuthority> authorities;
@@ -74,7 +74,7 @@ public class EhwUserDetail implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return state.equals("NORMAL");
+        return state == 1;
     }
 
     @Override

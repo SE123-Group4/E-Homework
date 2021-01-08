@@ -122,7 +122,7 @@ export class RegisterScreen_2 extends React.Component {
                 }}
                 value={this.state.user_number}
                 placeholder={
-                  this.props.route.params.role === 0 ? '学号' : '工号'
+                  this.props.route.params.role === 'ROLE_STUDENT' ? '学号' : '工号'
                 }
               />
             </Item>

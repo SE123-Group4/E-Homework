@@ -69,7 +69,7 @@ export class TeaHomeworkList extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({homework: this.props.homeworkList});
+    //this.setState({homework: this.props.homeworkList});
     // const sort = (a, b) => {
     //   return a.post < b.post;
     // };
@@ -96,11 +96,11 @@ export class TeaHomeworkList extends React.Component {
   renderCorrections = (corrections) => {
     if (corrections === null || corrections === undefined) {
       return;
-    } else if (corrections === 0) {
-      return <Text style={{color: 'green'}}>已批改</Text>;
-    } else {
-      return <Text style={{color: 'red'}}>未批改：{corrections}</Text>;
-    }
+    } //else if (corrections === 0) {
+    return <Text style={{color: 'green'}}>已批改：{corrections}份</Text>;
+    //} else {
+    //return <Text style={{color: 'red'}}>未批改：{corrections}</Text>;
+    //}
   };
 
   search = () => {
@@ -113,7 +113,7 @@ export class TeaHomeworkList extends React.Component {
   };
 
   renderHomework = () => {
-    if (this.state.homework.length === 0) {
+    if (this.props.homework.length === 0) {
       return (
         <Card>
           <CardItem>
@@ -122,7 +122,7 @@ export class TeaHomeworkList extends React.Component {
         </Card>
       );
     }
-    return this.state.homework.map((item, index) => {
+    return this.props.homework.map((item, index) => {
       return (
         <Card>
           <CardItem header>

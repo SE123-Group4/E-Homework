@@ -28,4 +28,29 @@ public class IMailServiceImpl implements IMailService {
         return num;
     }
 
+    @Override
+    public int sendAssignMail(String to, String courseName, String title){
+        SimpleMailMessage message=new SimpleMailMessage();
+        message.setFrom(from);
+        message.setTo(to);
+        message.setSubject("云作业平台———发布作业通知");
+        String text="您的老师布置了新的作业。作业科目："+courseName+" 作业题目："+title;
+        message.setText(text);
+        System.out.println("BEFORE SEND");
+        mailSender.send(message);
+        System.out.println("AFTER SEND");
+        return 0;
+    }
+
+    @Override
+    public int sendCorrectMail(String to, String courseName, String title){
+        SimpleMailMessage message=new SimpleMailMessage();
+        message.setFrom(from);
+        message.setTo(to);
+        message.setSubject("云作业平台———批改作业通知");
+        String text="您的作业已被批改，请登陆云作业平台查看详情。作业科目："+courseName+" 作业题目："+title;
+        message.setText(text);
+        mailSender.send(message);
+        return 0;
+    }
 }

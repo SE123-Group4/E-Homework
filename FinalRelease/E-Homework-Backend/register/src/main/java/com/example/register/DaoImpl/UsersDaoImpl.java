@@ -39,7 +39,7 @@ public class UsersDaoImpl implements UsersDao {
     }
 
     @Override
-    public void updateState(int ID, String state) {
+    public void updateState(int ID, int state) {
         usersRepository.updateState(ID, state);
     }
 

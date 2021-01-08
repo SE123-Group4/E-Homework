@@ -48,4 +48,20 @@ public class RegisterController {
         return registerService.setPassword(password,id);
     }
 
+    @RequestMapping(path = "/sendAssignMail")
+    public int sendAssignMail(@RequestBody Map<String, String> params) {
+        System.out.println(params);
+        String to = params.get("to");
+        String courseName = params.get("courseName");
+        String title = params.get("title");
+        return iMailService.sendAssignMail(to, courseName, title);
+    }
+
+    @RequestMapping(path = "/sendCorrectMail")
+    public int sendCorrectMail(@RequestBody Map<String, String> params) {
+        String to = params.get("to");
+        String courseName = params.get("courseName");
+        String title = params.get("title");
+        return iMailService.sendCorrectMail(to, courseName, title);
+    }
 }

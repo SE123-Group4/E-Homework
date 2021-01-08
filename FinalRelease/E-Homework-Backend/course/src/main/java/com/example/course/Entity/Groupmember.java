@@ -10,7 +10,7 @@ import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name ="groupmember",schema = "homework")
+@Table(name ="groupmember",schema = "chp")
 public class Groupmember {
     @EmbeddedId
     private GroupmemberId ID;

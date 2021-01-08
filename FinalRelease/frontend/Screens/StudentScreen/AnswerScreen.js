@@ -28,10 +28,34 @@ export class AnswerScreen extends React.Component {
     super();
     this.state = {
       questions: [
-        {ID: 1, title: '问题 1', type: 'ONE_CHOICE'},
-        {ID: 2, title: '问题 2', type: 'MULTIPLE_CHOICE'},
-        {ID: 3, title: '问题 3', type: 'TRUE_OR_FALSE'},
-        {ID: 5, title: '问题 5', type: 'SUBJECTIVE'},
+        {
+          ID: 1,
+          title: '问题 1',
+          stem: '',
+          type: 'ONE_CHOICE',
+          options: [
+            {
+              option: 'A',
+              content: 'TO THE A',
+              image: null,
+            },
+            {
+              option: 'B',
+              content: 'TO THE A',
+              image: null,
+            },
+            {
+              option: 'C',
+              content: 'TO THE A',
+              image: null,
+            },
+            {
+              option: 'D',
+              content: 'TO THE A',
+              image: null,
+            },
+          ],
+        },
       ],
       handsonID: null,
       ifRichTextShow: false,
@@ -44,10 +68,12 @@ export class AnswerScreen extends React.Component {
   }
 
   componentDidMount() {
+    console.log('answer screen init');
     const callback = (res) => {
       if (res.status === 200) {
+        console.log('get stu question res', res.data);
         this.setState({
-          quetions: res.data.questionList,
+          questions: res.data.question,
           handsonID: res.data.handsonID,
         });
       }
@@ -55,22 +81,24 @@ export class AnswerScreen extends React.Component {
     getStuQuestion(this.props.route.params.handsonID, callback);
   }
 
-  getType = (type, ID) => {
+  getType = (type, item) => {
+    console.log('item', item);
     if (type === 'ONE_CHOICE') {
       return (
         <SimpleChoiceQuestion
+          question={item}
           setSimpleChoiceAnswer={(option) => {
             var flag = false;
             var newSimpleChoiceAnswer = this.state.SimpleChoiceAnswer;
             for (var i = 0; i < newSimpleChoiceAnswer.length; i++) {
-              if (newSimpleChoiceAnswer[i].ID === ID) {
+              if (newSimpleChoiceAnswer[i].ID === item.ID) {
                 newSimpleChoiceAnswer[i].option = [option];
                 flag = true;
                 break;
               }
             }
             if (!flag) {
-              newSimpleChoiceAnswer.push({ID: ID, option: [option]});
+              newSimpleChoiceAnswer.push({ID: item.ID, option: [option]});
             }
             this.setState({SimpleChoiceAnswer: newSimpleChoiceAnswer});
             console.log('simple', this.state.SimpleChoiceAnswer);
@@ -81,18 +109,19 @@ export class AnswerScreen extends React.Component {
     if (type === 'MULTIPLE_CHOICE') {
       return (
         <ChoiceQuestion
+          question={item}
           setChoiceAnswer={(option) => {
             var flag = false;
             var newChoiceAnswer = this.state.ChoiceAnswer;
             for (var i = 0; i < newChoiceAnswer.length; i++) {
-              if (newChoiceAnswer[i].ID === ID) {
+              if (newChoiceAnswer[i].ID === item.ID) {
                 newChoiceAnswer[i].option = option;
                 flag = true;
                 break;
               }
             }
             if (!flag) {
-              newChoiceAnswer.push({ID: ID, option: option});
+              newChoiceAnswer.push({ID: item.ID, option: option});
             }
             this.setState({ChoiceAnswer: newChoiceAnswer});
             console.log('multi', this.state.ChoiceAnswer);
@@ -103,18 +132,19 @@ export class AnswerScreen extends React.Component {
     if (type === 'TRUE_OR_FALSE') {
       return (
         <TruthOrFalseQuestion
+          question={item}
           setTrueOrFalse={(option) => {
             var flag = false;
             var newTorFAnswer = this.state.TorFAnswer;
             for (var i = 0; i < newTorFAnswer.length; i++) {
-              if (newTorFAnswer[i].ID === ID) {
+              if (newTorFAnswer[i].ID === item.ID) {
                 newTorFAnswer[i].option = option;
                 flag = true;
                 break;
               }
             }
             if (!flag) {
-              newTorFAnswer.push({ID: ID, option: option});
+              newTorFAnswer.push({ID: item.ID, option: option});
             }
             this.setState({TorFAnswer: newTorFAnswer});
             console.log('TF', this.state.TorFAnswer);
@@ -127,14 +157,16 @@ export class AnswerScreen extends React.Component {
       // console.log(this.state.richText);
       return (
         <SubjectiveQuestion
+          question={item}
           ifRichTextShow={this.state.ifRichTextShow}
           richText={this.state.richText}
           setRichText={(richText) => {
             var flag = false;
+            this.setState({richText: richText})
             var newSubAnswer = this.state.SubAnswer;
             for (var i = 0; i < newSubAnswer.length; i++) {
-              if (newSubAnswer[i].ID === ID) {
-                newSubAnswer[i].content = richText.text;
+              if (newSubAnswer[i].ID === item.ID) {
+                newSubAnswer[i].content = richText.content;
                 newSubAnswer[i].image = richText.image;
                 flag = true;
                 break;
@@ -142,12 +174,12 @@ export class AnswerScreen extends React.Component {
             }
             if (!flag) {
               newSubAnswer.push({
-                ID: ID,
-                content: richText.text,
+                ID: item.ID,
+                content: richText.content,
                 image: richText.image,
               });
             }
-            this.setState({TorFAnswer: newSubAnswer});
+            this.setState({SubAnswer: newSubAnswer});
             console.log('sub', this.state.SubAnswer);
           }}
         />
@@ -167,7 +199,7 @@ export class AnswerScreen extends React.Component {
           {/*    </Text>*/}
           {/*  </Left>*/}
           {/*</CardItem>*/}
-          <CardItem>{this.getType(item.type, item.ID)}</CardItem>
+          <CardItem>{this.getType(item.type, item)}</CardItem>
         </Card>
       );
     });
@@ -177,6 +209,8 @@ export class AnswerScreen extends React.Component {
     const callback = (res) => {
       if (res.status === 200) {
         Alert.alert('提交成功');
+        this.props.route.params.refresh();
+        this.props.navigation.navigate('StuHome');
       }
     };
     var answers = {
@@ -185,7 +219,7 @@ export class AnswerScreen extends React.Component {
       TorFAnswer: this.state.TorFAnswer,
       SubAnswer: this.state.SubAnswer,
     };
-    //commitAnswer(answers, this.state.handsonID, callback);
+    commitAnswer(answers, this.state.handsonID, callback);
   };
 
   render() {

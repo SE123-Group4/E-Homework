@@ -9,6 +9,7 @@ import {Body, Card, CardItem, Container, Content, Text} from 'native-base';
 import {TeaHomeworkList} from '../../Components/TeaHomeworkList';
 import {SearchFilter} from '../../Components/SearchFilter';
 import {getCourseByID} from '../../Service/CourseService';
+import {getCourseHomework} from '../../Service/HomeworkService';
 
 export class TeaCourseScreen extends React.Component {
   constructor() {
@@ -21,15 +22,26 @@ export class TeaCourseScreen extends React.Component {
         introduction: '这是课程 1 的简介。',
         book: '参考书籍 1',
       },
+      homework: [],
     };
   }
 
   componentDidMount() {
     console.log('courseID: ', this.props.courseID);
-    const callback = (data) => {
+    const courseCallback = (data) => {
       this.setState({CourseDetails: data});
     };
-    getCourseByID(this.props.route.params.courseID, callback);
+    getCourseByID(this.props.route.params.courseID, courseCallback);
+    const homeworkCallback = (res) => {
+      if (res.status === 200) {
+        this.setState({homework: res.data});
+      }
+    };
+    getCourseHomework(
+      this.props.route.params.courseID,
+      'ROLE_TEACHER',
+      homeworkCallback,
+    );
   }
 
   render() {
@@ -53,13 +65,13 @@ export class TeaCourseScreen extends React.Component {
           </Card>
           <CourseFuncBtn
             navigation={this.props.navigation}
-            infoRefresh={() => this.init()}
+            infoRefresh={() => this.componentDidMount()}
             listRefresh={this.props.route.params.refresh}
             courseID={this.props.route.params.courseID}
           />
 
           <TeaHomeworkList
-            courseID={this.props.route.params.courseID}
+            homework={this.state.homework}
             navigation={this.props.navigation}
           />
         </Content>

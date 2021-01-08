@@ -9,27 +9,31 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getStuAnswer = (handsonID, callback) => {
   var data = {handsonID: handsonID};
-  console.log('getStuAnswer', data);
+  console.log('get stu answer', data);
   postRequest(HOMEWORK_URL + 'student_answer', data, callback);
 };
 
 export const commitCorrection = (correction, callback) => {
   var data = {correction: correction};
+  console.log('commit correction', data);
   postRequest(HOMEWORK_URL + 'correction', data, callback);
 };
 
 export const commitAnswer = (answer, handsonID, callback) => {
   var data = {answer: answer, handsonID: handsonID};
+  console.log('commit answer', data);
   postRequest(HOMEWORK_URL + 'answer', data, callback);
 };
 
 export const getStuQuestion = (handsonID, callback) => {
   var data = {handsonID: handsonID};
+  console.log('get stu q', data);
   postRequest(HOMEWORK_URL + 'questions', data, callback);
 };
 
 export const getStatistics = (homeworkID, callback) => {
   var data = {homeworkID: homeworkID};
+  console.log('get statistic', data);
   postRequest(HOMEWORK_URL + 'statistics', data, callback);
 };
 

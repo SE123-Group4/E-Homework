@@ -10,7 +10,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
 @Entity
-@Table(name ="userrole",schema = "homework")
+@Table(name ="userrole")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id")
@@ -25,7 +25,7 @@ public class Userrole {
      * administer:3
      */
     @Basic
-    private int role;
+    private String role;
 
     @Basic
     private int userID;

@@ -72,9 +72,9 @@ export class StuHomeworkList extends React.Component {
       }
     };
     if (this.props.courseID === null || this.props.courseID === undefined) {
-      getStuHomework(callback);
+    getStuHomework(callback);
     } else {
-      getCourseHomework(this.props.courseID, 'ROLE_STUDENT', callback);
+    getCourseHomework(this.props.courseID, 'ROLE_STUDENT', callback);
     }
   }
 
@@ -152,8 +152,11 @@ export class StuHomeworkList extends React.Component {
                     //state: item.state,
                   });
                 } else {
+                  //console.log('navigate to answer', item);
+                  //console.log('to answer', this.props);
                   this.props.navigation.navigate('AnswerHW', {
                     handsonID: item.ID,
+                    refresh: () => this.componentDidMount()
                   });
                 }
               }}>
